@@ -22,24 +22,21 @@ export class CaHomeLoggedComponent {
    
   
   aggiungiMarker(){
-    this.service.getWhatDoMarkers().subscribe(
-      (response: HttpResponse<any>) => {
-        this.objects = response.body || [];
+    this.service.getWhatDoMarkers().subscribe({
+      next: (response : any) => {this.objects = response.body || [];
   
         // aspetta che la mappa sia pronta prima di aggiungere i markers
         google.maps.event.addListenerOnce(GoogleMapComponent.map, 'tilesloaded', () => {
           // aggiungi i markers per ogni oggetto nella lista
           this.objects.forEach(element => {
-            console.log(element.nomeLuogo,element.latitudine,element.longitudine);
-            GoogleMapComponent.aggiungiMarker(element.titolo,element.latitudine,element.longitudine);
+            console.log(element.nomeLuogo,element.latitudine,element.longitudine,element.descrizione);
+            GoogleMapComponent.aggiungiMarker(element.nomeLuogo,element.latitudine,element.longitudine,element.descrizione);
           });
-        });
+        });},
+      error: (error) => console.error(error),
+      complete:() =>{ console.log("FINE")  ;
+     }
   
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
+  });}
   
 }

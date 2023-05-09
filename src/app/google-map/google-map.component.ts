@@ -14,8 +14,9 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 export class GoogleMapComponent implements OnInit{
   static map: google.maps.Map; 
-
-  constructor(){}
+  static markers:any[]=[];
+  constructor(){  
+  }
   ngOnInit(): void {
     let loader = new Loader({
       apiKey: 'AIzaSyD5GMdVpHOwzuDFHMp3BGketZxSJH3BCBM'
@@ -42,29 +43,31 @@ export class GoogleMapComponent implements OnInit{
             ]
           });
           const markerIcon = 'http://maps.google.com/mapfiles/kml/pal3/icon20.png';
-          const markerPositions = [{ lat: latitude, lng: longitude }, { lat: 51.5074, lng: -0.1278 }];
+          const markerPositions = [{ lat: latitude, lng: longitude }];
           markerPositions.forEach(position => {
-            const marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
               position,
               map: GoogleMapComponent.map,
               icon: markerIcon,
               title: 'Titolo del marker personalizzato',
             });
+            GoogleMapComponent.markers.push(marker);
+            
           });
         });
       }
     });
     
   }
-
-  public static aggiungiMarker(titolo:string,latitudine:number,longitudine:number): void {
+  public static removeAllMarker():void{this.markers.forEach((marker:any)=>{marker.map=null})}
+  public static aggiungiMarker(titolo:string,latitudine:number,longitudine:number,descrizione:string): void {
     
     const contentString = `
   <div class="card">
     <img src="https://via.placeholder.com/150" class="card-img-top">
     <div class="card-body">
       <h5 class="card-title">`+titolo+`</h5>
-      <p class="card-text">`+titolo+`</p>
+      <p class="card-text">`+descrizione+`</p>
     </div>
   </div>
 `;
@@ -87,7 +90,7 @@ export class GoogleMapComponent implements OnInit{
         // Crea la card
   const card = document.createElement('div');
   card.classList.add('card');
-  card.innerHTML = '<h4>Titolo della card</h4><p>Descrizione della card</p>';
+  card.innerHTML = '<h4>'+titolo+'</h4><p>'+descrizione+'</p>';
 
   // Aggiungi la card al contenitore
   const container = document.querySelector('.card-container');
