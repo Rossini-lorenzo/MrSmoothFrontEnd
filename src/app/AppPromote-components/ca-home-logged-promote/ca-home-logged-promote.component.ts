@@ -10,15 +10,19 @@ import { GoogleMapServiceService } from 'src/app/service/google-map-service.serv
 })
 export class CaHomeLoggedPromoteComponent {
 
-  constructor(private service:GoogleMapServiceService){}
+  constructor(private service:GoogleMapServiceService,private googleMapsComponent : GoogleMapComponent){}
 
   objects: any[] = []; // inizializza objects come un array vuoto
   
   ngOnInit() {
-    this.aggiungiMarker();
+    setTimeout(() => {
+      this.aggiungiMarker();
+    }, 500);
   }
   ngAfterViewInit() {
-    this.aggiungiMarker();
+    setTimeout(() => {
+      this.aggiungiMarker();
+    }, 500);
   }
    
   
@@ -27,11 +31,11 @@ export class CaHomeLoggedPromoteComponent {
       next: (response : any) => {this.objects = response.body || [];
   
         // aspetta che la mappa sia pronta prima di aggiungere i markers
-        google.maps.event.addListenerOnce(GoogleMapComponent.map, 'tilesloaded', () => {
+        google.maps.event.addListenerOnce(this.service.map as google.maps.Map, 'tilesloaded', () => {
           // aggiungi i markers per ogni oggetto nella lista
           this.objects.forEach(element => {
             console.log(element.nomeLuogo,element.latitudine,element.longitudine,element.descrizione);
-            GoogleMapComponent.aggiungiMarker(element.nomeLuogo,element.latitudine,element.longitudine,element.descrizione);
+            this.googleMapsComponent.aggiungiMarker(element);
           });
         });},
       error: (error) => console.error(error),

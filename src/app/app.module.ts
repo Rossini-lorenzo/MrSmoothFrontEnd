@@ -33,7 +33,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CaRegistrationPromoteComponent,
     CaNavbarLoggedPromoteComponent,
     CaHomeLoggedPromoteComponent,
-    CaGestisciAttivitaPromoteComponent
+    CaGestisciAttivitaPromoteComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSlideToggleModule,
     MatSliderModule 
   ],
-  providers: [],
+  providers: [GoogleMapComponent],
   bootstrap: [AppComponent],
   
 })
