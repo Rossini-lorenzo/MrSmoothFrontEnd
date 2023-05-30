@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AroundClientService } from '../../service/around-client.service';
 
@@ -9,6 +9,13 @@ import { AroundClientService } from '../../service/around-client.service';
 })
 export class CaNavbarComponent {
   constructor(private router: Router,private service:AroundClientService) { }
+
+  @Input() showLoginButton: boolean = true;
+  @Input() showCosaFareButton: boolean = true;
+  @Input() showSignInButton: boolean = true;
+  @Input() showIntornoAMeButton: boolean = true;
+  @Input() showHomeButton: boolean = false;
+
 
   onInit(){
     

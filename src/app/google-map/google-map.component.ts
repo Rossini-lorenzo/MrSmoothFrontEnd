@@ -23,96 +23,96 @@ ngOnInit() {
 
 
 let loader = new Loader({
-  apiKey: 'AIzaSyD5GMdVpHOwzuDFHMp3BGketZxSJH3BCBM'
+apiKey: 'AIzaSyD5GMdVpHOwzuDFHMp3BGketZxSJH3BCBM'
 });
 
 loader.load().then(() => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      this.googleMapService.map = new google.maps.Map(document.getElementById('map')!, {
-        center: { lat: latitude, lng: longitude },
-        zoom: 15,
-        disableDefaultUI: true,
-        styles: [
-          {
-            featureType: 'poi',
-            stylers: [{ visibility: 'off' }]
-          },
-          {
-            featureType: 'transit',
-            stylers: [{ visibility: 'off' }]
-          }
-        ]
-      });
-      
-      // omino con posizione corrente
-      const markerIcon = {
-        url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
-        scaledSize: new google.maps.Size(30, 30),
-      };
-      const markerPositions = [{ lat: latitude, lng: longitude }];
-      markerPositions.forEach(position => {
-        var marker = new google.maps.Marker({
-          position,
-          map: this.googleMapService.map,
-          icon: markerIcon,
-          title: 'Titolo del marker personalizzato',
-        });
-        this.googleMapService.markers.push(marker);
-        
-      });
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(position => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    this.googleMapService.map = new google.maps.Map(document.getElementById('map')!, {
+      center: { lat: latitude, lng: longitude },
+      zoom: 15,
+      disableDefaultUI: true,
+      styles: [
+        {
+          featureType: 'poi',
+          stylers: [{ visibility: 'off' }]
+        },
+        {
+          featureType: 'transit',
+          stylers: [{ visibility: 'off' }]
+        }
+      ]
     });
-  }
+    
+    // omino con posizione corrente
+    const markerIcon = {
+      url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
+      scaledSize: new google.maps.Size(30, 30),
+    };
+    const markerPositions = [{ lat: latitude, lng: longitude }];
+    markerPositions.forEach(position => {
+      var marker = new google.maps.Marker({
+        position,
+        map: this.googleMapService.map,
+        icon: markerIcon,
+        title: 'Titolo del marker personalizzato',
+      });
+      this.googleMapService.markers.push(marker);
+      
+    });
+  });
+}
 });
 
 }
 
 ngAfterInit(){
 let loader = new Loader({
-  apiKey: 'AIzaSyD5GMdVpHOwzuDFHMp3BGketZxSJH3BCBM'
+apiKey: 'AIzaSyD5GMdVpHOwzuDFHMp3BGketZxSJH3BCBM'
 });
 
 loader.load().then(() => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      this.googleMapService.map = new google.maps.Map(document.getElementById('map')!, {
-        center: { lat: latitude, lng: longitude },
-        zoom: 15,
-        disableDefaultUI: true,
-        styles: [
-          {
-            featureType: 'poi',
-            stylers: [{ visibility: 'off' }]
-          },
-          {
-            featureType: 'transit',
-            stylers: [{ visibility: 'off' }]
-          }
-        ]
-      });
-      
-      // omino con posizione corrente
-      const markerIcon = {
-        url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
-        scaledSize: new google.maps.Size(30, 30),
-      };
-      const markerPositions = [{ lat: latitude, lng: longitude }];
-      markerPositions.forEach(position => {
-        var marker = new google.maps.Marker({
-          position,
-          map: this.googleMapService.map,
-          icon: markerIcon,
-          title: 'Titolo del marker personalizzato',
-        });
-        this.googleMapService.markers.push(marker);
-        
-      });
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(position => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    this.googleMapService.map = new google.maps.Map(document.getElementById('map')!, {
+      center: { lat: latitude, lng: longitude },
+      zoom: 15,
+      disableDefaultUI: true,
+      styles: [
+        {
+          featureType: 'poi',
+          stylers: [{ visibility: 'off' }]
+        },
+        {
+          featureType: 'transit',
+          stylers: [{ visibility: 'off' }]
+        }
+      ]
     });
-  }
+    
+    // omino con posizione corrente
+    const markerIcon = {
+      url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
+      scaledSize: new google.maps.Size(30, 30),
+    };
+    const markerPositions = [{ lat: latitude, lng: longitude }];
+    markerPositions.forEach(position => {
+      var marker = new google.maps.Marker({
+        position,
+        map: this.googleMapService.map,
+        icon: markerIcon,
+        title: 'Titolo del marker personalizzato',
+      });
+      this.googleMapService.markers.push(marker);
+      
+    });
+  });
+}
 });
 
 }
@@ -124,8 +124,8 @@ const contentString = `
 <div class="card" style="max-width: 200px;">
 <img src="https://via.placeholder.com/150" class="card-img-top">
 <div class="card-body">
-  <h5 class="card-title">`+EventPlace.nomeLuogo+`</h5>
-  <p class="card-text">`+EventPlace.descrizione+`</p>
+<h5 class="card-title">`+EventPlace.nomeLuogo+`</h5>
+<p class="card-text">`+EventPlace.descrizione+`</p>
 </div>
 </div>
 `;
@@ -133,36 +133,36 @@ const contentString = `
 const newMarkerPosition = { lat: EventPlace.latitudine, lng: EventPlace.longitudine };
 const newMarkerIcon = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png';
 const newMarker = new google.maps.Marker({
-  position: newMarkerPosition,
-  icon: newMarkerIcon,
-  title: EventPlace.titolo,
-  map:  this.googleMapService.map // aggiunge il marker direttamente alla mappa
+position: newMarkerPosition,
+icon: newMarkerIcon,
+title: EventPlace.titolo,
+map:  this.googleMapService.map // aggiunge il marker direttamente alla mappa
 });
 this.googleMapService.markers.push(newMarker);
 const infoWindow = new google.maps.InfoWindow({
-  content: contentString
+content: contentString
 });
 
 
 // Quando chiudo l'info del marker
 infoWindow.addListener('domready', () => {
-  const closeButton = document.querySelector('.gm-ui-hover-effect');
-  if (closeButton) {
-    closeButton.addEventListener('click', () => {
-      infoWindow.close();
-      const container = document.querySelector('.card-container');
+const closeButton = document.querySelector('.gm-ui-hover-effect');
+if (closeButton) {
+  closeButton.addEventListener('click', () => {
+    infoWindow.close();
+    const container = document.querySelector('.card-container');
 if (container) {
 container.innerHTML = '';
 }
-    });
-  }
+  });
+}
 });
 
 
 // Quando clicco il marker 
 newMarker.addListener('click', () => {
-  infoWindow.open( this.googleMapService.map, newMarker);
-    // Crea la card
+infoWindow.open( this.googleMapService.map, newMarker);
+  // Crea la card
 const card = document.createElement('div');
 card.innerHTML = this.cardMarker(EventPlace);
 
@@ -180,32 +180,32 @@ container.appendChild(card);
 public  rimuoviMarkers(): void {
 // Rimuovi i marker dalla mappa
 for (let i = 0; i < this.googleMapService.markers.length; i++) {
-  this.googleMapService.markers[i].setMap(null);
+this.googleMapService.markers[i].setMap(null);
 }
 
 // Svuota l'array dei marker
 this.googleMapService.markers = [];
 
-  // omino con posizione corrente
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-  const markerIcon = {
-  url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
-  scaledSize: new google.maps.Size(30, 30),
+// omino con posizione corrente
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(position => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+const markerIcon = {
+url: 'http://maps.google.com/mapfiles/kml/shapes/man.png',
+scaledSize: new google.maps.Size(30, 30),
 };
 const markerPositions = [{ lat: latitude, lng: longitude }];
 markerPositions.forEach(position => {
-  var marker = new google.maps.Marker({
-    position,
-    map: this.googleMapService.map,
-    icon: markerIcon,
-    title: 'Titolo del marker personalizzato',
-  });
-  
-  this.googleMapService.markers.push(marker);
-  
+var marker = new google.maps.Marker({
+  position,
+  map: this.googleMapService.map,
+  icon: markerIcon,
+  title: 'Titolo del marker personalizzato',
+});
+
+this.googleMapService.markers.push(marker);
+
 });
 })}
 
@@ -216,37 +216,37 @@ public  cardMarker(EventPlace:any): string {
 return`
 <div class="card"  style="border-radius: 0px;" >
 <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" style="height:200px;border-top-left-radius: 0px;border-top-right-radius: 0px;" class="card-img-top"
-  alt="Hollywood Sign on The Hill" />
+alt="Hollywood Sign on The Hill" />
 <div class="card-body">
-  <h5 class="card-title"  style="text-align: center;background-color: #fef7e0;"><b> `+EventPlace.nomeLuogo+ `</b></h5>
-  <hr>
-  <div style="font-size: 0.9rem;">
-  <p class="card-text"   style="text-align: center;">
-  `+EventPlace.descrizione+ `
-  </p>
-  <hr>
-  
-<div class="row">
+<h5 class="card-title"  style="text-align: center;background-color: #fef7e0;"><b> `+EventPlace.nomeLuogo+ `</b></h5>
+<hr>
+<div style="font-size: 0.9rem;">
+<p class="card-text"   style="text-align: center;">
+`+EventPlace.descrizione+ `
+</p>
+<hr>
+
+<div class="row info" >
 <div class="col-md-4" style="text-align: left;">
-<div class="text-sm inline"><div><i class="fa fa-user" aria-hidden="true"></i> <b>Posti :</b> `+EventPlace.posti+ `</div></div>
+<div class="text-sm inline"><div><i class="fa fa-user" aria-hidden="true"></i> <b>Posti:</b> <span style="">`+EventPlace.posti+ `</span></div></div>
 </div>
 <div class="col-md-4" style="text-align: left;">
-<div class="text-sm inline"> <div><i class="fa fa-mars" aria-hidden="true"></i> <b>Target :</b></div></div>
+<div class="text-sm inline"> <div><i class="fa fa-mars" aria-hidden="true"></i> <b>Target:</b><span style="">`+EventPlace.target+ `</span></div></div>
 </div>
 <div class="col-md-4" style="text-align: left;">
-<div class="text-sm inline">  <div><i class="fa fa-calendar" aria-hidden="true"></i><b>  Eta' :</b></div></div>
+<div class="text-sm inline">  <div><i class="fa fa-calendar" aria-hidden="true"></i><b>  Eta':</b><span style="">`+EventPlace.eta+ `</span></div></div>
 </div>
 </div>
 
 <div class="row">
 <div class="col-md-4" style="text-align: left;">
-<div><i class="fa fa-eur" aria-hidden="true"></i> <b>Prezzo :</b></div>
+<div><i class="fa fa-eur" aria-hidden="true"></i> <b>Prezzo:</b><span style="">`+EventPlace.prezzo+ `</span></div>
 </div>
 <div class="col-md-4" style="text-align: left;">
-<div><i class="fa fa-shopping-bag" aria-hidden="true"></i><b> OutFit :</b></div>
+<div><i class="fa fa-shopping-bag" aria-hidden="true"></i><b> OutFit:</b><span style="">`+EventPlace.outfit+ `</span></div>
 </div>
 <div class="col-md-4" style="text-align: left;">
-<div><i class="fa fa-beer" aria-hidden="true"></i><b> Tipo :</b></div>
+<div><i class="fa fa-beer" aria-hidden="true"></i><b> Tipo:</b><span style="">`+EventPlace.tipo+ `</span></div>
 </div>
 </div>
 
@@ -255,13 +255,13 @@ return`
 <div class="row">
 <div class="col-md-12" style="text-align: center;">
 <div class="form-inline">
-  <label class="tick">
-    <span class="fas fa-star"></span>
-    <span class="fas fa-star"></span>
-    <span class="fas fa-star"></span>
-    <span class="fas fa-star"></span>
-    <span class="fas fa-star"></span>
-  </label>
+<label class="tick">
+  <span class="fas fa-star"></span>
+  <span class="fas fa-star"></span>
+  <span class="fas fa-star"></span>
+  <span class="fas fa-star"></span>
+  <span class="fas fa-star"></span>
+</label>
 </div>
 </div>
 </div>
@@ -272,24 +272,56 @@ return`
 <i class="fa fa-arrow-right" aria-hidden="true"></i>
 <b> Prossimi eventi : </b>
 <div class="card-slider" style="overflow-x: scroll; white-space: nowrap;">
-  <div class="card" style="display: inline-block; width: 150px; margin-right: 10px;border-radius:0px; margin-bottom: 10px;margin-top: 10px;">
-    <div class="card-body">
-      <h6 class="card-title">Apertura Opus</h6>
-      <p class="card-text">23-05-2023 </p>
+
+<div class="card" style="display: inline-block; width: 200px; margin-right: 10px;border-radius:0px; margin-bottom: 10px;margin-top: 10px;">
+<div class="card-body" style="display: flex; align-items: center;padding-top: 8px;padding-bottom: 0px;">
+  <div style="flex: 0 0 15px; margin-right: 10px;">
+    <img src="assets/ticket.png" alt="Ticket" class="me-2" style="height: 28px; width: 28px;background-color: #e8eaed;border-radius: 20px;" />
+  </div>
+  <div>
+    <h6 class="card-title" style="margin-bottom: 0;">Opus</h6>
+    <div style="display: flex; flex-direction: column;">
+      <p style="font-size: 0.8rem; margin-top: 2px; margin-bottom: 2px;">Data: 23-05-2023</p>
+      <p style="font-size: 0.8rem; margin-top: -3px;">Orario: 23:00</p>
     </div>
   </div>
-  <div class="card" style="display: inline-block; width: 150px; margin-right: 10px;border-radius:0px; margin-bottom: 10px;margin-top: 10px;;">
-    <div class="card-body">
-      <h6 class="card-title">Opus</h6>
-      <p class="card-text">24-05-2023 </p>
+</div>
+</div>
+
+<div class="card" style="display: inline-block; width: 200px; margin-right: 10px;border-radius:0px; margin-bottom: 10px;margin-top: 10px;">
+<div class="card-body" style="display: flex; align-items: center;padding-top: 8px;padding-bottom: 0px;">
+  <div style="flex: 0 0 15px; margin-right: 10px;">
+    <img src="assets/ticket.png" alt="Ticket" class="me-2" style="height: 28px; width: 28px;background-color: #e8eaed;border-radius: 20px;" />
+  </div>
+  <div>
+    <h6 class="card-title" style="margin-bottom: 0;">Opus</h6>
+    <div style="display: flex; flex-direction: column;">
+      <p style="font-size: 0.8rem; margin-top: 2px; margin-bottom: 2px;">Data: 24-05-2023</p>
+      <p style="font-size: 0.8rem; margin-top: -3px;">Orario: 23:00</p>
     </div>
   </div>
-  <div class="card" style="display: inline-block; width: 150px; margin-right: 10px;border-radius:0px;margin-bottom: 10px;margin-top: 10px;">
-    <div class="card-body">
-      <h6 class="card-title">Opus</h6>
-      <p class="card-text">25-05-2023 </p>
+</div>
+</div>
+
+
+
+<div class="card" style="display: inline-block; width: 200px; margin-right: 10px;border-radius:0px; margin-bottom: 10px;margin-top: 10px;">
+<div class="card-body" style="display: flex; align-items: center;padding-top: 8px;padding-bottom: 0px;">
+  <div style="flex: 0 0 15px; margin-right: 10px;">
+    <img src="assets/ticket.png" alt="Ticket" class="me-2" style="height: 28px; width: 28px;background-color: #e8eaed;border-radius: 20px;" />
+  </div>
+  <div>
+    <h6 class="card-title" style="margin-bottom: 0;">Opus</h6>
+    <div style="display: flex; flex-direction: column;">
+      <p style="font-size: 0.8rem; margin-top: 2px; margin-bottom: 2px;">Data: 25-05-2023</p>
+      <p style="font-size: 0.8rem; margin-top: -3px;">Orario: 23:00</p>
     </div>
   </div>
+</div>
+</div>
+
+</div>
+
 </div>
 
 <hr>
@@ -300,11 +332,13 @@ return`
 </div>
 </div>
 
-<hr>
-<script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
-<script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
+<br>
 
-<div id="container"></div>
+
+
+
+
+
 
 
 </div>
@@ -327,6 +361,12 @@ border-radius: 4px;
 .card-slider::-webkit-scrollbar-thumb:hover {
 background: #555;
 }
+
+
+
+
+
+
 </style>
 
 `;
@@ -350,4 +390,4 @@ background: #555;
 //}
 
 //console.log("STO IN CLOSE");
-  //})
+//})

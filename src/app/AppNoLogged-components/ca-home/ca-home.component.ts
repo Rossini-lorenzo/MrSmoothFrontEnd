@@ -20,12 +20,21 @@ markers:any[]=[];
 flagPrezzo :boolean=false;
 
 ngOnInit() {
+
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); // Gennaio è 0!
+  var yyyy = today.getFullYear();
+  var currentDate = yyyy + '-' + mm + '-' + dd;
+  (document.getElementById('dateFilter') as HTMLInputElement).value = currentDate;
+
 this.handleWindowResize();
 window.addEventListener('resize', this.handleWindowResize.bind(this));
 
 setTimeout(() => {
   this.aggiungiMarker();
-}, 300);
+}, 500);
 
 }
 ngAfterInit() {
@@ -34,7 +43,7 @@ ngAfterInit() {
   
   setTimeout(() => {
     this.aggiungiMarker();
-  }, 300);
+  }, 500);
   
   }
 
@@ -75,6 +84,7 @@ if(this.filtri.length!=0){
 var nF = document.getElementById('nessunFiltro');if(nF!= null ){nF.style.display='none'}
 } else { var nF = document.getElementById('nessunFiltro');if(nF!= null ){nF.style.display='block'}}
 }
+
 handleWindowResize() {
 var mapHeight=0;
 var mapElement = document.getElementById('map');

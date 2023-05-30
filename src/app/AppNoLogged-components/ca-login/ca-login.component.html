@@ -1,52 +1,82 @@
-<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
-<section class="h-100 bg-dark">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col">
-          <div class="card card-registration my-4">
-            <div class="row g-0">
-              <div class="col-xl-6 d-none d-xl-block">
-                <img src="../../assets/loginImg.png" 
-                  alt="Sample photo" class="img-fluid"
-                  style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;height: 450px;" />
-              </div>
-              <div class="col-xl-6">
-                <div class="card-body p-md-5 text-black">
-                  <h3 class="mb-5 text-uppercase">Login  form</h3>
-  
-                  <div class="row">
-                    
-  
-            
-  
-                  <div class="form-outline mb-4">
-                    <input type="text" name="username" [(ngModel)]="username" required class="form-control form-control-lg" />
-                    <label class="form-label" for="form3Example8">Address</label>
-                  </div>
-                  <div class="form-outline mb-4">
-                    <input type="text"  name="password" [(ngModel)]="password" required class="form-control form-control-lg" />
-                    <label class="form-label" for="form3Example8">Password</label>
-                  </div>
-              
-  
-  
+ <app-ca-navbar [showLoginButton]="false" [showCosaFareButton]="false" [showIntornoAMeButton]="false" [showSignInButton]="false"  [showHomeButton]="true" ></app-ca-navbar>
+ 
 
-            
-  
-                  </div>
-  
-                  <div class="d-flex justify-content-end pt-3">
-                    <button type="button" (click)="onHome()" class="btn btn-light btn-lg">Home</button>
-                    <button type="submit" class="btn btn-warning btn-lg ms-2">Login</button>
-                  </div>
-                  
-  
+
+<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+
+<div class="container py-5 h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-8">
+      <div class="card card-registration my-4" style="border-radius: 0px;">
+        <div class="row g-0" style="    box-shadow: -1px -1px 8px 4px #888888">
+          <div class="col-xl-6 ">
+            <img src="../../assets/loginImg.png" 
+              alt="Sample photo" class="img-fluid"
+              style="height: 450px;" />
+          </div>
+          <div class="col-md-6">
+            <div class="card-body p-md-5 text-black">
+              <div class="row">
+                <div class="col-5 ">
                 </div>
-              </div>
+              <div class="col-6 mb-1">
+              <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 text-white text-decoration-none">
+                <img src="assets/ticket.png" alt="Ticket" class="me-2" style="  height: 40px; width: 40px;      border-radius: 20px;    background-color: #0a0610;" /> <!-- Percorso immagine aggiunto qui -->
+                <svg class="bi me-2" width="40" height="40" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+              </a>
+              </div></div>
+
+              <h3 class="mb-4" style="text-align: center;">Accedi</h3>
+
+              <div class="row">
+                
+
+              
+                  <div class="col-3 ">
+                  </div>
+                <div class="col-6 ">
+              <div class="form-outline mb-3">
+                <input type="text" name="username" [(ngModel)]="username" required class="form-control form-control-md" style="border-radius: 1px;" />
+                <label class="form-label" for="form3Example8">Address</label>
+              </div></div>
+            
+            </div>
+              
+
+              <div class="row">
+                <div class="col-3 ">
+                </div>
+              <div class="col-6 ">
+              <div class="form-outline mb-3">
+                <input type="text"  name="password" [(ngModel)]="password" required class="form-control form-control-md" style="border-radius: 1px;" />
+                <label class="form-label" for="form3Example8">Password</label>
+              </div></div></div>
+          
+              <div class="row">
+                <div class="col-3 ">
+                </div>
+                <div class="col-6 ">
+                  <div class="d-flex justify-content-end pt-3">
+                    <button type="button"style="border-radius: 1px;"  (click)="onHome()" class="btn btn-light btn-md">Home</button>
+                    <button type="submit" style="border-radius: 1px;" class="btn btn-warning btn-md ms-2">Login</button>
+                  </div>
+                </div></div>
+        
+
+  
+              
+
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
+
+<div class="row" style="width: 100%;"> 
+  <div class="col-12 "  style="text-align: center;">
+       <a href="/registrazione" style="color: black;">Non sei registrato ? clicca qui ...</a>
+  </div></div>
+
 </form>
