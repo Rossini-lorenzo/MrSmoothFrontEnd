@@ -1,5 +1,5 @@
- <app-ca-navbar [showLoginButton]="false" [showCosaFareButton]="false" [showIntornoAMeButton]="false" [showSignInButton]="false"  [showHomeButton]="true" ></app-ca-navbar>
- 
+ <app-ca-navbar></app-ca-navbar>
+
 
 
 <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
@@ -10,7 +10,7 @@
       <div class="card card-registration my-4" style="border-radius: 0px;">
         <div class="row g-0" style="    box-shadow: -1px -1px 8px 4px #888888">
           <div class="col-xl-6 ">
-            <img src="../../assets/loginImg.png" 
+            <img src="../../assets/homeImg.jpg" 
               alt="Sample photo" class="img-fluid"
               style="height: 450px;" />
           </div>
@@ -21,7 +21,7 @@
                 </div>
               <div class="col-6 mb-1">
               <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 text-white text-decoration-none">
-                <img src="assets/ticket.png" alt="Ticket" class="me-2" style="  height: 40px; width: 40px;      border-radius: 20px;    background-color: #0a0610;" /> <!-- Percorso immagine aggiunto qui -->
+                <img src="assets/mrSmoothIcon.jpg" alt="Ticket" class="me-2" style="  height: 40px; width: 40px;      border-radius: 20px;    background-color: #0a0610;" /> <!-- Percorso immagine aggiunto qui -->
                 <svg class="bi me-2" width="40" height="40" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
               </a>
               </div></div>
@@ -55,9 +55,8 @@
               <div class="row">
                 <div class="col-3 ">
                 </div>
-                <div class="col-6 ">
+                <div class="col-4 ">
                   <div class="d-flex justify-content-end pt-3">
-                    <button type="button"style="border-radius: 1px;"  (click)="onHome()" class="btn btn-light btn-md">Home</button>
                     <button type="submit" style="border-radius: 1px;" class="btn btn-warning btn-md ms-2">Login</button>
                   </div>
                 </div></div>
@@ -74,9 +73,5 @@
   </div>
 </div>
 
-<div class="row" style="width: 100%;"> 
-  <div class="col-12 "  style="text-align: center;">
-       <a href="/registrazione" style="color: black;">Non sei registrato ? clicca qui ...</a>
-  </div></div>
 
 </form>

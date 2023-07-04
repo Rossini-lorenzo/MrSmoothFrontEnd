@@ -7,11 +7,11 @@
         <div class="col-3 d-flex align-items-center">
           <div>
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <img src="assets/ticket.png" alt="Ticket" class="me-2" style="height: 40px; width: 40px;"/> <!-- Percorso immagine aggiunto qui -->
+              <img src="assets/mrSmoothIcon.jpg" alt="Ticket" class="me-2" style="height: 40px; width: 40px; border-radius: 20px;"/> <!-- Percorso immagine aggiunto qui -->
               <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
             </a>
           </div>
-          <div>        <span class="custom-text">Around</span>
+          <div>        <span style="padding-left: 15px;" class="custom-text">Mr.Smooth</span>
 
           </div>
         </div>
@@ -19,8 +19,8 @@
 
         <div class="col-6 ">
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a *ngIf="showIntornoAMeButton" class="nav-link px-2 text-secondary">Intorno a me </a></li>
-          <li><a href="#" *ngIf="showCosaFareButton" class="nav-link px-2 text-white">Cosa fare</a></li>
+          <li><a *ngIf="showIntornoAMeButton" class="nav-link px-2 text-secondary"> </a></li>
+          <li><a href="#" *ngIf="showCosaFareButton" class="nav-link px-2 text-white"></a></li>
           <li><a href="#" class="nav-link px-2 text-white"></a></li>
           <li><a href="#" class="nav-link px-2 text-white"></a></li>
           <li><a href="#" class="nav-link px-2 text-white"></a></li>
@@ -28,11 +28,7 @@
         </div>
 
         <div class="col-3 ">
-        <div class="text-end">
-          <button type="button" style="border-radius: 1px;"  *ngIf="showLoginButton" (click)="onLogin()" class="btn btn-outline-light me-2">Login</button>
-          <button type="button" style="border-radius: 1px;" *ngIf="showSignInButton" (click)="onRegister()" class="btn btn-warning">Sign-up</button>
-          <a type="button" style="border-radius: 1px;"  *ngIf="showHomeButton" href="/" class="btn btn-light"> <i style="margin-right:10px;margin-left:10px;"class="fas fa-home" ></i></a>
-        </div>
+        
         </div></div>
 
 
