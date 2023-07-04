@@ -50,11 +50,12 @@ export class AroundClientService {
 
 
 
-  public welcome(token:any,role:any) {
+  public welcome(token:any,role:any,id:any) {
     let tokenStr = 'Bearer ' + token;
     const headers = new HttpHeaders().set('Authorization',tokenStr);
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
+    localStorage.setItem('id', id);
     return this.httpClient.get<string>("http://localhost:8080/products/welcome", {headers, responseType: 'text' as 'json' });
   }
 

@@ -15,6 +15,9 @@ import { CaHomeLoggedComponent } from './Appuser-components/ca-home-logged/ca-ho
 import { CaRegistrationPromoteComponent } from './AppPromote-components/ca-registration-promote/ca-registration-promote.component';
 import { CaNavbarLoggedPromoteComponent } from './AppPromote-components/ca-navbar-logged-promote/ca-navbar-logged-promote.component';
 import { CaHomeLoggedPromoteComponent } from './AppPromote-components/ca-home-logged-promote/ca-home-logged-promote.component';
+import { CaGestisciAttivitaPromoteComponent } from './AppPromote-components/ca-gestisci-attivita-promote/ca-gestisci-attivita-promote.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -29,16 +32,21 @@ import { CaHomeLoggedPromoteComponent } from './AppPromote-components/ca-home-lo
     CaHomeLoggedComponent,
     CaRegistrationPromoteComponent,
     CaNavbarLoggedPromoteComponent,
-    CaHomeLoggedPromoteComponent
+    CaHomeLoggedPromoteComponent,
+    CaGestisciAttivitaPromoteComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     GoogleMapsModule,
-    FormsModule
+    FormsModule,
+    MatSlideToggleModule,
+    MatSliderModule 
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [GoogleMapComponent],
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }

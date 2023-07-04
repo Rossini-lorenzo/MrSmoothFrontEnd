@@ -10,6 +10,7 @@ import { CaHomeLoggedComponent } from './Appuser-components/ca-home-logged/ca-ho
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { AuthGuard } from './AuthGuard';
 import { CaHomeLoggedPromoteComponent } from './AppPromote-components/ca-home-logged-promote/ca-home-logged-promote.component';
+import { CaGestisciAttivitaPromoteComponent } from './AppPromote-components/ca-gestisci-attivita-promote/ca-gestisci-attivita-promote.component';
 
 
 
@@ -19,10 +20,11 @@ const routes: Routes = [
   { path: '', component: CaHomeComponent },
   { path: 'registrazione', component:CaRegistrationComponent },
   { path: 'login', component: CaLoginComponent},
-  { path: 'logged-home', component: CaHomeLoggedComponent,canActivate: [AuthGuard] },
-  { path: 'logged-home-promote', component: CaHomeLoggedPromoteComponent,canActivate: [AuthGuard] },
+  { path: 'loggedHome', component: CaHomeLoggedComponent,canActivate: [AuthGuard] },
+  { path: 'loggedHomePromote', component: CaHomeLoggedPromoteComponent,canActivate: [AuthGuard] },
   { path: 'xxx', component: CaNavbarLoggedComponent },
   { path: 'xxx', component: GoogleMapComponent},
+  { path: 'gestisciAttavitaPromote', component: CaGestisciAttivitaPromoteComponent,canActivate: [AuthGuard] },
 ];
 // , canActivate: [AuthGuard]
 @NgModule({

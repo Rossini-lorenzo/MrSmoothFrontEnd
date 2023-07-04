@@ -25,6 +25,7 @@ export class CaRegistrationPromoteComponent implements OnInit {
   sesso: string;
   latitude : any;
   longitude : any;
+  telefono:string;
  
   registerRequest: any;
   ngOnInit(): void {
@@ -62,9 +63,7 @@ export class CaRegistrationPromoteComponent implements OnInit {
       
     });
   }
-  onHome(){
-    this.router.navigate(['/'])
-  }
+
  
 
   onSubmit(form: NgForm) {
@@ -76,6 +75,7 @@ export class CaRegistrationPromoteComponent implements OnInit {
       "appUser": form.value.appUser,
       "dataNascita": form.value.dataNascita,
       "indirizzo": form.value.indirizzo,
+      "telefono": form.value.telefono,
       "sesso": form.value.sesso,
       "latitudine": this.latitude,
       "longitudine": this.longitude

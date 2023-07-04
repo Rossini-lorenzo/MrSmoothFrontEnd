@@ -1,1 +1,246 @@
-<p>ca-gestisci-attivita-promote works!</p>
+
+
+<app-ca-navbar-logged-promote></app-ca-navbar-logged-promote>
+<br>
+<div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+
+        <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-5">
+                  <p class="mb-0">Nome luogo</p>
+                </div>
+                <div class="col-sm-5">
+                  <p class="text-muted mb-0">{{nomeLuogo}}</p>
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-secondary" (click)="modifica('nomeLuogo')"><i class="fa fa-edit"></i></button>
+                </div>
+              </div>
+              <div class="row mt-3" *ngIf="showTextAreaNomeLuogo">
+                <div class="col-sm-10">
+                  <textarea class="form-control" [(ngModel)]="textAreaNomeLuogo"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+                </div>
+              </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Descrizone</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0"> {{this.descrizione}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('descrizione')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaDescrizione">
+            <div class="col-sm-10">
+              <textarea class="form-control" [(ngModel)]="textAreaDescrizione"></textarea>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Indirizzo</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.indirizzo}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('indirizzo')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaIndirizzo">
+            <div class="col-sm-10">
+              <textarea class="form-control" [(ngModel)]="textAreaIndirizzo"></textarea>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        
+        <hr>
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">N posti</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.posti}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('posti')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaPosti">
+            <div class="col-sm-10">
+              <textarea class="form-control" [(ngModel)]="textAreaPosti"></textarea>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Outfit</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.outfit}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('outfit')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaOutfit">
+            <div class="col-sm-10">
+              <select class="form-control" [(ngModel)]="textAreaOutfit">
+                <option value="elegante">elegante</option>
+                <option value="casual">casual</option>
+                <option value="no">no</option>
+                <option value="maschera">maschera</option>
+
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        
+        <hr>
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Prezzo</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.prezzo}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('prezzo')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaPrezzo">
+            <div class="col-sm-10">
+              <textarea class="form-control" [(ngModel)]="textAreaPrezzo"></textarea>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Tipo</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.tipo}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('tipo')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaTipo">
+            <div class="col-sm-10">
+              <select class="form-control" [(ngModel)]="textAreaTipo">
+                <option value="discoteca">Discoteca</option>
+                <option value="locale/pub">locale/pub</option>
+                <option value="museo">museo</option>
+                <option value="altro">altro</option>
+
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Eta</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.eta}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('eta')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaEta">
+            <div class="col-sm-10">
+              <select class="form-control" [(ngModel)]="textAreaEta">
+                <option value="1-13 anni">1-13 anni</option>
+                <option value="13-17 anni">13-17 anni</option>
+                <option value="18-21 anni">18-21 anni</option>
+                <option value="21-23 anni">21-23 anni</option>
+                <option value="23-30 anni">23-30 anni</option>
+                <option value="30-60 anni">30-60 anni</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        
+        <hr>
+
+        <div class="row">
+          <div class="col-sm-5">
+            <p class="mb-0">Target</p>
+          </div>
+          <div class="col-sm-5">
+            <p class="text-muted mb-0">{{this.target}}</p>
+          </div>
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-secondary" (click)="modifica('target')"><i class="fa fa-edit"></i></button>
+          </div>
+        </div>
+        <div class="row mt-3" *ngIf="showTextAreaTarget">
+            <div class="col-sm-10">
+              <select class="form-control" [(ngModel)]="textAreaTarget">
+                <option value="maschile">Maschile</option>
+                <option value="femminile">Femminile</option>
+                <option value="entrambi">Entrambi</option>
+                <option value="altro">Altro</option>
+              </select>
+              
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-success" (click)="salvaModifiche()">Salva</button>
+            </div>
+          </div>
+        
+        <hr>
+
+
+        <div class="row">
+          <div class="col-sm-2">
+            <p class="mb-0">Eventi</p>
+          </div>
+          <div class="col-sm-5" *ngFor="let evento of eventi">
+            <div class="card mb-5">
+              <div class="card-body">{{ evento.nomeEvento }}
+                {{ evento.oraInizio }}
+              </div>
+            </div>
+            
+
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
