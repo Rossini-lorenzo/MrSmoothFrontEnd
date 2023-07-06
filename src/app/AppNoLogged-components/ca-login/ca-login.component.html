@@ -3,22 +3,23 @@
 <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-8">
+      <div class="col-12">
         <div class="card card-registration my-4" style="border-radius: 0px">
           <div class="row g-0" style="box-shadow: -1px -1px 8px 4px #888888">
-            <div class="col-xl-6">
+            <div class="col-lg-6 col-xl-5">
               <img
                 src="../../assets/homeImg.jpg"
                 alt="Sample photo"
                 class="img-fluid"
-                style="height: 450px"
+                style="height: 100%"
               />
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-6 col-xl-7">
               <div class="card-body p-md-5 text-black">
                 <div class="row">
-                  <div class="col-5"></div>
-                  <div class="col-6 mb-1">
+                  <div
+                    class="col-12 mb-5 d-flex justify-content-center align-items-center"
+                  >
                     <a
                       href="/"
                       class="d-flex align-items-center mb-3 mb-lg-0 text-white text-decoration-none"
@@ -26,60 +27,54 @@
                       <img
                         src="assets/mrSmoothIcon.jpg"
                         alt="Ticket"
-                        class="me-2"
+                        class=""
                         style="
-                          height: 40px;
-                          width: 40px;
+                          height: 120px;
+                          width: 120px;
                           border-radius: 20px;
                           background-color: #0a0610;
                         "
                       />
-                      <!-- Percorso immagine aggiunto qui -->
-                      <svg
-                        class="bi me-2"
-                        width="40"
-                        height="40"
-                        role="img"
-                        aria-label="Bootstrap"
-                      >
-                        <use xlink:href="#bootstrap" />
-                      </svg>
                     </a>
                   </div>
                 </div>
-
-                <h3 class="mb-4" style="text-align: center">Accedi</h3>
-
                 <div class="row">
-                  <div class="col-3"></div>
-                  <div class="col-6">
-                    <div class="form-outline mb-3">
+                  <h1
+                    class="col-12 mb-4 d-flex justify-content-center align-items-center"
+                    style="text-align: center"
+                  >
+                    Accedi
+                  </h1>
+                </div>
+
+                <div class="row mb-4 justify-content-center">
+                  <div class="col-10 col-sm-8 col-lg-7 col-xl-6">
+                    <div class="form-outline">
                       <input
                         type="text"
                         name="username"
                         [(ngModel)]="username"
                         required
                         class="form-control form-control-md"
-                        style="border-radius: 1px"
+                        style="border-radius: 10px"
                       />
                       <label class="form-label" for="form3Example8"
-                        >Address</label
+                        >Username</label
                       >
                     </div>
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-3"></div>
-                  <div class="col-6">
+                <div class="row justify-content-center">
+                  <div class="col-10 col-sm-8 col-lg-7 col-xl-6">
                     <div class="form-outline mb-3">
                       <input
-                        type="text"
+                        type="password"
                         name="password"
                         [(ngModel)]="password"
                         required
                         class="form-control form-control-md"
-                        style="border-radius: 1px"
+                        style="border-radius: 10px"
                       />
                       <label class="form-label" for="form3Example8"
                         >Password</label
@@ -88,14 +83,13 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-3"></div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-end pt-3">
+                <div class="row justify-content-center">
+                  <div class="col-12 text-center">
+                    <div class="pt-3">
                       <button
                         type="submit"
-                        style="border-radius: 1px"
-                        class="btn btn-warning btn-md ms-2"
+                        style="border-radius: 10px"
+                        class="btn btn-warning btn-lg ms-2"
                       >
                         Login
                       </button>
@@ -110,3 +104,111 @@
     </div>
   </div>
 </form>
+
+<!-- !!!!! SCOMMENTARE PER ADATTAMENTO ANCHE IPHONE !!!!! -->
+<!-- <app-ca-navbar></app-ca-navbar>
+
+<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration my-4" style="border-radius: 0px">
+          <div class="row g-0" style="box-shadow: -1px -1px 8px 4px #888888">
+            <div class="col-sm-6 col-md-5 col-lg-6 col-xl-5">
+              <img
+                src="../../assets/homeImg.jpg"
+                alt="Sample photo"
+                class="img-fluid"
+                style="height: 100%"
+              />
+            </div>
+            <div class="col-sm-6 col-md-7 col-lg-6 col-xl-7">
+              <div class="card-body p-md-5 text-black">
+                <div class="row">
+                  <div
+                    class="col-12 mb-5 d-flex justify-content-center align-items-center"
+                  >
+                    <a
+                      href="/"
+                      class="d-flex align-items-center mb-3 mb-lg-0 text-white text-decoration-none"
+                    >
+                      <img
+                        src="assets/mrSmoothIcon.jpg"
+                        alt="Ticket"
+                        class=""
+                        style="
+                          height: 120px;
+                          width: 120px;
+                          border-radius: 20px;
+                          background-color: #0a0610;
+                        "
+                      />
+                    </a>
+                  </div>
+                </div>
+                <div class="row">
+                  <h1
+                    class="col-12 mb-4 d-flex justify-content-center align-items-center"
+                    style="text-align: center"
+                  >
+                    Accedi
+                  </h1>
+                </div>
+
+                <div class="row mb-4 justify-content-center">
+                  <div class="col-10 col-sm-8 col-md-7 col-lg-6 col-xl-6">
+                    <div class="form-outline">
+                      <input
+                        type="text"
+                        name="username"
+                        [(ngModel)]="username"
+                        required
+                        class="form-control form-control-md"
+                        style="border-radius: 10px"
+                      />
+                      <label class="form-label" for="form3Example8"
+                        >Username</label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row justify-content-center">
+                  <div class="col-10 col-sm-8 col-md-7 col-lg-6 col-xl-6">
+                    <div class="form-outline mb-3">
+                      <input
+                        type="text"
+                        name="password"
+                        [(ngModel)]="password"
+                        required
+                        class="form-control form-control-md"
+                        style="border-radius: 10px"
+                      />
+                      <label class="form-label" for="form3Example8"
+                        >Password</label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row justify-content-center">
+                  <div class="col-12 text-center">
+                    <div class="pt-3">
+                      <button
+                        type="submit"
+                        style="border-radius: 10px"
+                        class="btn btn-warning btn-lg ms-2"
+                      >
+                        Login
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form> -->
