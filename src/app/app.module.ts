@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { CaLoginComponent } from './AppNoLogged-components/ca-login/ca-login.component';
 import { CaHomeComponent } from './AppNoLogged-components/ca-home/ca-home.component';
 import { CaNavbarComponent } from './AppNoLogged-components/ca-navbar/ca-navbar.component';
-import { GoogleMapsModule } from '@angular/google-maps';
+//import { GoogleMapsModule } from '@angular/google-maps';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -26,7 +26,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    GoogleMapsModule,
+    //GoogleMapsModule,
     FormsModule,
     MatSlideToggleModule,
     MatSliderModule 

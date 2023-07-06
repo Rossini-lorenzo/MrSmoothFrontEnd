@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GoogleMapServiceService {
-  map: google.maps.Map | null = null;
-  markers: google.maps.Marker[] = [];
+  //map: google.maps.Map | null = null;
+  //markers: google.maps.Marker[] = [];
   constructor(private http: HttpClient) { }
 
   getWhatDoMarkers(): Observable<HttpResponse<Object[]>> {
