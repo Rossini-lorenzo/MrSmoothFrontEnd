@@ -13,7 +13,7 @@ import { AuthGuard } from './AuthGuard';
 const routes: Routes = [
   { path: '', component: CaLoginComponent },
   { path: 'login', component: CaLoginComponent},
-
+  { path: 'home', component: CaHomeComponent},
 ];
 // , canActivate: [AuthGuard]
 @NgModule({

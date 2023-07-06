@@ -41,8 +41,8 @@ resp.subscribe(data=>{console.log("DATA LOGIN ",data);this.accessApi(JSON.parse(
 let resp=this.service.welcome(payload.token,payload.role,payload.id);
 resp.subscribe(data=>{
       this.response=data;
-       if (payload.role=="ROLE_PROMOTE" ){this.router.navigate(['/loggedHomePromote']);console.log("promote");}
-       else {this.router.navigate(['/loggedHome']);console.log("user");}
+       if (payload.role=="ROLE_PROMOTE" ){this.router.navigate(['/home']);console.log("promote");}
+       else {this.router.navigate(['/home']);console.log("user");}
       
       });
 
