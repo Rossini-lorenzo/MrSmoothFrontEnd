@@ -5,15 +5,26 @@ import { CaLoginComponent } from './AppNoLogged-components/ca-login/ca-login.com
 import { CaNavbarComponent } from './AppNoLogged-components/ca-navbar/ca-navbar.component';
 
 import { AuthGuard } from './AuthGuard';
+import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.component';
+import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
 
 
 
 
 
 const routes: Routes = [
-  { path: '', component: CaLoginComponent },
-  { path: 'login', component: CaLoginComponent},
-  { path: 'home', component: CaHomeComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'login', component: CaLoginComponent },
+  {
+    path: 'home',
+    component: CaHomeComponent,
+    children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: 'overview', component: CaOverwiewComponent },
+      { path: 'scanaggiungi', component: CaScanComponent }
+    ]
+  },
+  { path: '**', redirectTo: 'login' }
 ];
 // , canActivate: [AuthGuard]
 @NgModule({

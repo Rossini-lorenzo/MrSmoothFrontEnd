@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.component';
+import { RouterModule } from '@angular/router';
+import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
 
 
 @NgModule({
@@ -19,12 +22,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CaLoginComponent,
     CaHomeComponent,
     CaNavbarComponent,
+    CaScanComponent,
+    CaOverwiewComponent,
   
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule,
     HttpClientModule,
     //GoogleMapsModule,
     FormsModule,
