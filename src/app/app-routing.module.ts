@@ -13,7 +13,7 @@ import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-ove
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: CaLoginComponent },
   {
     path: 'home',
