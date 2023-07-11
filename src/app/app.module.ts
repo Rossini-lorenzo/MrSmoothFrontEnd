@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.component';
 import { RouterModule } from '@angular/router';
 import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-ove
     //GoogleMapsModule,
     FormsModule,
     MatSlideToggleModule,
-    MatSliderModule 
+    MatSliderModule,
+    NgxScannerQrcodeModule 
   ],
   providers: [],
   bootstrap: [AppComponent],

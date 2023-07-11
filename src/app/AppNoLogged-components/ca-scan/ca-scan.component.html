@@ -5,8 +5,76 @@
       <p class="card-text pt-3">
         Scannerizza il QR Code del prodotto e aggiungilo al magazzino.
       </p>
-      <div style="height: 500px;"></div>
-      <div class="mt-auto text-center">
+      <div class="container">
+        <!-- For camera -->
+        <ngx-scanner-qrcode
+          #action="scanner"
+          [config]="config"
+          (event)="onEvent($event, action)"
+        ></ngx-scanner-qrcode>
+
+        <!-- data  -->
+        <div class="row mt-3 ">
+          <div class="col-8">
+            <span class="badge bg-warning fs-6">{{ productName }}</span>
+          </div>
+          <div class="col-4">
+            <div *ngIf="productName" class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >Quantità</span
+              >
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="alert alert-primary text-center" role="alert">
+          {{ productName }}
+        </div>
+
+        <div class="card text-center">
+          <div class="card-body">
+            <span class="card-text">{{ productName }}</span>
+          </div>
+        </div> -->
+
+        <!-- Loading -->
+
+        <div
+          class="mt-3 text-center d-flex justify-content-center align-items-center"
+        >
+          <p *ngIf="action.isLoading">⌛ Caricamento in corso...</p>
+        </div>
+
+        <!-- start -->
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn"
+            [class.btn-dark]="!action.isStart"
+            [class.btn-warning]="action.isStart"
+            [disabled]="action.isLoading"
+            (click)="handle(action, action.isStart ? 'stop' : 'start')"
+          >
+            <img
+              [src]="
+                action.isStart
+                  ? 'https://id1945.github.io/images/svg/camera-off.svg'
+                  : 'https://id1945.github.io/images/svg/camera-on.svg'
+              "
+              width="30px"
+              [class.btn-white]="action.isStart"
+              style="filter: brightness(0) invert(1)"
+            />
+          </button>
+        </div>
+      </div>
+      <div *ngIf="productName && !action.isLoading" class="mt-3 text-center">
         <button type="button" class="btn btn-warning">Aggiungi</button>
       </div>
     </div>
