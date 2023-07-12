@@ -3,7 +3,7 @@
     <div class="card-body">
       <h3 class="card-title fw-bold">Gestione del magazzino</h3>
       <p class="card-text pt-3">
-        Scannerizza il QR Code del prodotto e aggiungilo al magazzino.
+        Scannerizza il Codice a barre del prodotto e aggiungilo al magazzino.
       </p>
       <div class="container">
         <!-- For camera -->
@@ -15,8 +15,9 @@
 
         <!-- data  -->
         <div class="row mt-3 ">
-          <div class="col-8">
-            <span class="badge bg-warning fs-6">{{ productName }}</span>
+          <div *ngIf="(action.data | async)?.[0]?.value" class="col-8">
+            <!-- <span class="badge bg-warning fs-6">{{ productName }}</span> -->
+            <p class="data">Codice: {{ (action.data | async)?.[0]?.value }}</p>
           </div>
           <div class="col-4">
             <div *ngIf="productName" class="input-group mb-3">

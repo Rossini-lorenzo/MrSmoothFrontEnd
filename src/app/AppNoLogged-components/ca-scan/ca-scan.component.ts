@@ -30,12 +30,17 @@ export class CaScanComponent {
     // ],
   };
 
-  onEvent(event: ScannerQRCodeResult[], action: any) {
-    const scannedValue = event[0].value;
-    this.productName = scannedValue;
-  
-    // Altri codici di gestione dell'evento...
+  public onEvent(e: ScannerQRCodeResult[], action?: any): void {
+    // e && action && action.pause();
+    console.log(e);
   }
+
+  // onEvent(event: ScannerQRCodeResult[], action: any) {
+  //   const scannedValue = event[0].value;
+  //   this.productName = scannedValue;
+  
+  //   // Altri codici di gestione dell'evento...
+  // }
   
   
   
