@@ -14,12 +14,25 @@
         ></ngx-scanner-qrcode>
 
         <!-- data  -->
-        <div class="row mt-3 ">
-          <div *ngIf="(action.data | async)?.[0]?.value" class="col-8">
+        <div class="row mt-3">
+          <div *ngIf="(action.data | async)?.[0]?.value" class="col-6">
             <!-- <span class="badge bg-warning fs-6">{{ productName }}</span> -->
             <p class="data">Codice: {{ (action.data | async)?.[0]?.value }}</p>
           </div>
-          <div class="col-4">
+          <div class="col-3">
+            <div *ngIf="productName" class="input-group mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-default"
+                >Nome prodotto</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+          <div class="col-3">
             <div *ngIf="productName" class="input-group mb-3">
               <span class="input-group-text" id="inputGroup-sizing-default"
                 >Quantità</span
@@ -78,6 +91,71 @@
       <div *ngIf="productName && !action.isLoading" class="mt-3 text-center">
         <button type="button" class="btn btn-warning">Aggiungi</button>
       </div>
+      <!-- <div class="row">
+        <div class="col-12">
+          <table class="table table-responsive align-middle">
+            <thead>
+              <tr>
+                <th scope="col">{{ tableHeader.id }}</th>
+                <th scope="col">{{ tableHeader.data }}</th>
+                <th scope="col">{{ tableHeader.rating }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">{{ operation.id }}</th>
+                <td>
+                  {{ convertDate(operation.data) + " - " + operation.time }}
+                </td>
+                <td>{{ operation.dynamic }}</td>
+                <!-- <td>{{ operation.result }}</td> -->
+                <td class="text-center">
+                  <i
+                    v-if="operation.result == 'Target'"
+                    class="bi bi-check-circle-fill fs-3 text-success"
+                  ></i>
+                  <i
+                    v-if="operation.result == 'Stop'"
+                    class="bi bi-x-circle-fill fs-3 text-danger"
+                  ></i>
+                </td>
+                <td class="text-center">{{ operation.targetPoints }}</td>
+                <td class="text-center">{{ operation.stopPoints }}</td>
+                <td class="text-center">{{ operation.riskReturn }}</td>
+                <!-- operation.target -->
+                <!-- <td>{{}}</td> -->
+                <td>
+                  <button
+                    type="button"
+                    class="mx-1 btn btn-outline-primary"
+                    @click="goToEdit(operation.id)"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="mx-1 btn btn-outline-danger"
+                    @click="deleteOperation(operation.id)"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="mx-1 btn btn-outline-success"
+                    @click="goToDetails(operation.id)"
+                  >
+                    <i class="bi bi-arrow-right"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> -->
     </div>
   </div>
 </div>
