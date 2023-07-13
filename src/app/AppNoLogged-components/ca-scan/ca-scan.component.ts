@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
+import { ProductServiceService } from 'src/app/service/product-service.service';
 
 @Component({
   selector: 'app-ca-scan',
@@ -7,6 +8,8 @@ import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
   styleUrls: ['./ca-scan.component.css']
 })
 export class CaScanComponent {
+
+  constructor(private productService : ProductServiceService) { }
 
   public productName: string = '';
 
@@ -51,6 +54,9 @@ export class CaScanComponent {
       // front camera or back camera check here!
       const device = devices.find(f => (/back|rear|environment/gi.test(f.label))); // Default Back Facing Camera
       action.playDevice(device ? device.deviceId : devices[0].deviceId);
+
+      
+
     }
 
     if (fn === 'start') {
@@ -59,4 +65,20 @@ export class CaScanComponent {
       action[fn]().subscribe((r: any) => console.log(fn, r), alert);
     }
   }
+
+
+public addProduct(id: string, prezzo: number, quantita: number,nomeProdotto:string){
+
+
+
+  this.productService.addProduct(id, prezzo, quantita,nomeProdotto).subscribe
+    ({
+      next: (response : any) => {
+        alert(response);
+      },
+      error: (error) => console.error(error),
+      complete: () => console.info('complete') });
+  }
 }
+
+
