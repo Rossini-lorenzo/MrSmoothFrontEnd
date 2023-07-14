@@ -10,9 +10,11 @@
 .card {
   height: 100%; /* Imposta l'altezza della card al 100% della sezione */
   width: 100%;
+  flex-grow: 1;
 }
 
 .card-body {
   height: 100%;
+  overflow: auto;
 }
 
