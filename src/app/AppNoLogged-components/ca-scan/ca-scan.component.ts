@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { PartialObserver } from 'rxjs';
@@ -10,17 +10,19 @@ import { ProductServiceService } from 'src/app/service/product-service.service';
   templateUrl: './ca-scan.component.html',
   styleUrls: ['./ca-scan.component.css'],
 })
-export class CaScanComponent {
-  
+export class CaScanComponent implements OnInit {
   constructor(private productService: ProductServiceService) {
     this.productIsPresent = false;
     this.apiCalled = false;
   }
+
+  displayedColumns: string[] = ['id', 'prezzo', 'nomeProdotto', 'quantita'];
+  dataSource: any[] = [];
   productIsPresent: boolean;
   apiCalled: boolean;
-  public productId: string;
+  productId: string;
   productName: string;
-  productPrize: string;
+  productPrize: number;
   quantity: number;
   form: NgForm;
 
@@ -44,6 +46,11 @@ export class CaScanComponent {
     // ],
   };
 
+  ngOnInit(): void {
+    // throw new Error('Method not implemented.');
+    this.getAllProduct();
+  }
+
   // public onEvent(e: ScannerQRCodeResult[], action?: any): void {
   //   // e && action && action.pause();
   //   console.log(e);
@@ -60,23 +67,23 @@ export class CaScanComponent {
     if (!this.apiCalled) {
       const scannedValue = event[0].value;
       this.productId = scannedValue;
-  
+
       // const observer: PartialObserver<HttpResponse<Object[]>> = {
       //   next: (response: HttpResponse<Object[]>) => {
       //     // Qui puoi gestire la risposta dell'API come desideri
       //     const responseData = response.body;
       //     // Esegui le operazioni necessarie con la risposta
-  
+
       //     // Ad esempio, puoi assegnare la risposta a una variabile o utilizzarla in altre logiche
       //     this.productResponse = responseData;
-  
+
       //     // Altri codici di gestione della risposta...
       //   },
       //   error: (error) => {
       //     // Gestisci eventuali errori nella chiamata API
       //   }
       // };
-  
+
       this.productService.checkProduct(scannedValue).subscribe({
         next: (response: any) => {
           const responseData = response.body;
@@ -87,10 +94,10 @@ export class CaScanComponent {
         error: (error) => console.error(error),
         complete: () => console.info('complete'),
       });
-  
+
       this.apiCalled = true;
     }
-  
+
     // Altri codici di gestione dell'evento...
   }
 
@@ -116,13 +123,34 @@ export class CaScanComponent {
 
   public addProduct() {
     this.productService
-      .addProduct(this.productId, parseFloat(this.productPrize), this.quantity, this.productName)
+      .addProduct(
+        this.productId,
+        parseFloat(this.productPrize.toFixed(2)),
+        this.quantity,
+        this.productName
+      )
       .subscribe({
         next: (response: any) => {
           alert(response);
         },
         error: (error) => console.error(error),
-        complete: () => console.info('complete'),
+        complete: () => {
+          console.info('complete');
+          this.getAllProduct();
+        },
       });
+  }
+
+  public getAllProduct() {
+    this.productService.getAllProducts().subscribe({
+      next: (response: any) => {
+        const responseData = response.body;
+        this.dataSource = responseData;
+        console.log(this.dataSource);
+        //alert(response);
+      },
+      error: (error) => console.error(error),
+      complete: () => console.info('complete'),
+    });
   }
 }

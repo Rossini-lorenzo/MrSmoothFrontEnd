@@ -18,6 +18,16 @@ export class ProductServiceService {
     );
   }
 
+  getAllProducts(): Observable<HttpResponse<Object[]>> {
+    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      'http://localhost:8080/userProduct/getAllProducts',
+      { headers, observe: 'response' }
+    );
+  }
+
   updateProduct(
     id: string,
     prezzo: number,

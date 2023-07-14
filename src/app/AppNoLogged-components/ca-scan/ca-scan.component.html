@@ -1,7 +1,7 @@
 <div class="section">
   <div class="card d-inline-block m-auto w-fit-content">
     <div class="card-body">
-      <h3 class="card-title fw-bold">Gestione del magazzino</h3>
+      <h3 class="card-title fw-bold">Scanner Prodotti</h3>
       <div
         class="alert alert-warning d-flex align-items-center mt-4"
         role="alert"
@@ -123,6 +123,29 @@
         <button type="button" class="btn btn-warning" (click)="addProduct()">
           Aggiungi
         </button>
+      </div>
+      <h3 class="card-title fw-bold mt-3">Magazzino</h3>
+      <div class="row mt-5">
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Codice Prodotto</th>
+                <th>Nome Prodotto</th>
+                <th>Prezzo</th>
+                <th>Quantità</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataSource">
+                <td>{{ item.id }}</td>
+                <td>{{ item.nomeProdotto }}</td>
+                <td>&euro; {{ item.prezzo }}</td>
+                <td>{{ item.quantita }} pz</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
