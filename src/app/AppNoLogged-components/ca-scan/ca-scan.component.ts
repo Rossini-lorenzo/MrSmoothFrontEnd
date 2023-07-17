@@ -5,6 +5,11 @@ import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { PartialObserver } from 'rxjs';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 
+// interface Product {
+//   id: string;
+//   // altre proprietà del prodotto
+// }
+
 @Component({
   selector: 'app-ca-scan',
   templateUrl: './ca-scan.component.html',
@@ -24,6 +29,7 @@ export class CaScanComponent implements OnInit {
   productName: string;
   productPrize: number;
   quantity: number;
+  selectedProduct: any = {};
   form: NgForm;
 
   public config: ScannerQRCodeConfig = {
@@ -49,57 +55,33 @@ export class CaScanComponent implements OnInit {
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
     this.getAllProduct();
+    console.log(this.productId, this.productName, this.productPrize, this.quantity);
   }
-
-  // public onEvent(e: ScannerQRCodeResult[], action?: any): void {
-  //   // e && action && action.pause();
-  //   console.log(e);
-  // }
-
-  // onEvent(event: ScannerQRCodeResult[], action: any) {
-  //   const scannedValue = event[0].value;
-  //   this.productId = scannedValue;
-
-  //   // Altri codici di gestione dell'evento...
-  // }
 
   onEvent(event: ScannerQRCodeResult[], action: any) {
-    if (!this.apiCalled) {
-      const scannedValue = event[0].value;
+    const scannedValue = event[0].value;
+  
+    if (!this.apiCalled || this.productId !== scannedValue) {
       this.productId = scannedValue;
-
-      // const observer: PartialObserver<HttpResponse<Object[]>> = {
-      //   next: (response: HttpResponse<Object[]>) => {
-      //     // Qui puoi gestire la risposta dell'API come desideri
-      //     const responseData = response.body;
-      //     // Esegui le operazioni necessarie con la risposta
-
-      //     // Ad esempio, puoi assegnare la risposta a una variabile o utilizzarla in altre logiche
-      //     this.productResponse = responseData;
-
-      //     // Altri codici di gestione della risposta...
-      //   },
-      //   error: (error) => {
-      //     // Gestisci eventuali errori nella chiamata API
-      //   }
-      // };
-
-      this.productService.checkProduct(scannedValue).subscribe({
-        next: (response: any) => {
-          const responseData = response.body;
-          this.productIsPresent = responseData.presente;
-          console.log(this.productIsPresent);
-          //alert(response);
-        },
-        error: (error) => console.error(error),
-        complete: () => console.info('complete'),
-      });
-
-      this.apiCalled = true;
+      this.apiCalled = false; // Ripristina il flag apiCalled per consentire una nuova chiamata API
+      this.onProductIdChange(); // Reimposta gli altri campi di input associati al nuovo prodotto
     }
-
-    // Altri codici di gestione dell'evento...
-  }
+  
+    // Chiamata API per verificare il prodotto
+    this.productService.checkProduct(scannedValue).subscribe({
+      next: (response: any) => {
+        const responseData = response.body;
+        this.productIsPresent = responseData.presente;
+        console.log(this.productIsPresent);
+        // Altri codici di gestione della risposta...
+      },
+      error: (error) => console.error(error),
+      complete: () => console.info('complete'),
+    });
+  
+    this.apiCalled = true;
+  }  
+  
 
   public handle(action: any, fn: string): void {
     // Fix issue #27, #29
@@ -132,6 +114,19 @@ export class CaScanComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           alert(response);
+
+          // La chiamata API è andata a buon fine
+          // Svuota i campi productName, productId, productPrize, quantity
+          this.productName = '';
+          this.productId = '';
+          this.productPrize = 0;
+          this.quantity = 0;
+
+          // Nascondi i campi productName, productId, productPrize, quantity
+          this.apiCalled = false;
+          this.productIsPresent = false;
+
+          // Esegui altre azioni o visualizza un messaggio di successo
         },
         error: (error) => console.error(error),
         complete: () => {
@@ -152,5 +147,47 @@ export class CaScanComponent implements OnInit {
       error: (error) => console.error(error),
       complete: () => console.info('complete'),
     });
+  }
+
+  deleteProduct(id: string) {
+    this.productService
+      .deleteProduct(
+        id
+      )
+      .subscribe({
+        next: (response: any) => {
+          alert(response);
+        },
+        error: (error) => console.error(error),
+        complete: () => {
+          console.info('complete');
+          this.getAllProduct();
+        },
+      });
+  }
+
+  onProductIdChange() {
+    // Imposta gli altri campi di input su vuoti
+    this.productName = '';
+    this.productPrize = 0;
+    this.quantity = 0;
+  }
+
+  areFieldsFilled(): boolean {
+    return (
+      this.productId !== undefined &&
+      this.productPrize !== undefined &&
+      this.quantity !== undefined &&
+      this.productName !== undefined &&
+      this.productId !== '' &&
+      this.productPrize !== 0 &&
+      this.quantity !== 0 &&
+      this.productName !== ''
+    );
+  }
+
+  selectProductForEdit(productId: string) {
+    this.selectedProduct = this.dataSource.find(item => item.id === productId);
+    console.log(this.selectedProduct?.id);
   }
 }

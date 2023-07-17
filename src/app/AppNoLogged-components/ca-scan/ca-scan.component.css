@@ -18,3 +18,9 @@
   overflow: auto;
 }
 
+.custom-modal-header {
+  background-color: #ffc107; /* Colore di sfondo giallo per il colore di avviso */
+  color: #000; /* Colore del testo nero */
+}
+
+

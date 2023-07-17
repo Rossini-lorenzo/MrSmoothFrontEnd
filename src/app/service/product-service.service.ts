@@ -72,4 +72,16 @@ export class ProductServiceService {
       { headers: headers, responseType: 'text' as 'json' }
     );
   }
+
+  deleteProduct(id: string): Observable<HttpResponse<Object[]>> {
+    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
+
+    return this.httpClient.post<any>(
+      'http://localhost:8080/userProduct/deleteProduct?id=' + id,
+      null,
+      { headers: headers, responseType: 'text' as 'json' }
+    );
+  }
 }
