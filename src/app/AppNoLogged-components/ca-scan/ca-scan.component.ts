@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { ProductServiceService } from 'src/app/service/product-service.service';
@@ -33,6 +33,7 @@ export class CaScanComponent implements OnInit {
   confirmDelete = false;
   isButtonDisabled: boolean = false;
   isEditing: boolean = false;
+  isVerticalLayout: boolean;
 
   public config: ScannerQRCodeConfig = {
     constraints: {
@@ -45,6 +46,7 @@ export class CaScanComponent implements OnInit {
   constructor(private productService: ProductServiceService) {}
 
   ngOnInit(): void {
+    this.checkOrientation();
     this.getAllProducts();
   }
 
@@ -213,5 +215,19 @@ export class CaScanComponent implements OnInit {
       (item) => item.id === productId
     ) || { id: '', prezzo: 0, nomeProdotto: '', quantita: 0 };
     this.confirmDelete = true;
+  }
+
+  checkOrientation() {
+    // Imposta la dimensione limite in base alle tue esigenze
+    const desktopSizeLimit = 820;
+  
+    // Verifica se la larghezza della finestra è inferiore alla dimensione limite per la modalità verticale
+    this.isVerticalLayout = window.innerWidth <= desktopSizeLimit;
+  }
+  
+  //Ascolta gli eventi di ridimensionamento della finestra per aggiornare l'orientamento
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkOrientation();
   }
 }

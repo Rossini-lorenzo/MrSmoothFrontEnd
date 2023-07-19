@@ -23,4 +23,13 @@
   color: #000; /* Colore del testo nero */
 }
 
+@media (max-width: 820px) {
+  .table th,
+  .table td {
+    white-space: nowrap; /* Impedisce il testo di andare a capo nelle celle */
+    overflow: hidden; /* Nasconde il contenuto in eccesso */
+    text-overflow: ellipsis; /* Aggiunge "..." se il contenuto è troppo lungo */
+  }
+}
+
 

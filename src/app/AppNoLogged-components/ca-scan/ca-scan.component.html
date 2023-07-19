@@ -148,6 +148,86 @@
       <div class="row mt-3">
         <div class="col-12">
           <table *ngIf="dataSource && dataSource.length > 0" class="table">
+            <thead *ngIf="!isVerticalLayout">
+              <tr>
+                <th>Codice Prodotto</th>
+                <th>Nome Prodotto</th>
+                <th>Prezzo</th>
+                <th>Quantità</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of dataSource">
+               
+                <div class="card mb-3" *ngIf="isVerticalLayout">
+                  <div class="card-body">
+                    <p class="card-text">Codice Prodotto: {{ item.id }}</p>
+                    <p class="card-text">
+                      Nome Prodotto: {{ item.nomeProdotto }}
+                    </p>
+                    <p class="card-text">
+                      Prezzo: &euro; {{ item.prezzo | number : "1.2-2" }}
+                    </p>
+                    <p class="card-text">Quantità: {{ item.quantita }} pz</p>
+                    
+                    <div class="d-flex justify-content-end">
+                      <button
+                        class="btn sc-primary me-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editProductModal"
+                        (click)="selectProductForEdit(item.id)"
+                      >
+                        <i class="bx bxs-edit"></i>
+                      </button>
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#editProductModal"
+                        class="btn sc-primary"
+                        (click)="confirmDeleteProduct(item.id.toString())"
+                      >
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+
+                
+                <tr *ngIf="!isVerticalLayout">
+                  <td class="align-middle">{{ item.id }}</td>
+                  <td class="align-middle">{{ item.nomeProdotto }}</td>
+                  <td class="align-middle">
+                    &euro; {{ item.prezzo | number : "1.2-2" }}
+                  </td>
+                  <td class="align-middle">{{ item.quantita }} pz</td>
+                  
+                  <td class="align-middle">
+                    <button
+                      class="btn sc-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProductModal"
+                      (click)="selectProductForEdit(item.id)"
+                    >
+                      <i class="bx bxs-edit"></i>
+                    </button>
+                  </td>
+                  <td class="align-middle">
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProductModal"
+                      class="btn sc-primary"
+                      (click)="confirmDeleteProduct(item.id.toString())"
+                    >
+                      <i class="bx bx-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <!-- <table *ngIf="dataSource && dataSource.length > 0" class="table">
             <thead>
               <tr>
                 <th>Codice Prodotto</th>
@@ -166,7 +246,6 @@
                   &euro; {{ item.prezzo | number : "1.2-2" }}
                 </td>
                 <td class="align-middle">{{ item.quantita }} pz</td>
-                <!-- (click)="deleteProduct(item.id.toString())" -->
                 <td class="align-middle">
                   <button
                     class="btn sc-primary"
@@ -189,7 +268,7 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
           <div
             *ngIf="dataSource.length == 0"
             class="alert sc-primary d-flex align-items-center mt-4"
