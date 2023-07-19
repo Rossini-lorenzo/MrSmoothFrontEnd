@@ -31,7 +31,8 @@ export class ProductServiceService {
   updateProduct(
     id: string,
     prezzo: number,
-    quantita: number
+    quantita: number,
+    nomeProdotto: string
   ): Observable<HttpResponse<Object[]>> {
     let tokenStr = 'Bearer ' + localStorage.getItem('token');
 
@@ -39,11 +40,13 @@ export class ProductServiceService {
 
     return this.httpClient.post<any>(
       'http://localhost:8080/userProduct/updateProduct?id=' +
-        id.toString() +
+        id +
         '&prezzo=' +
         prezzo +
         '&quantita=' +
-        quantita,
+        quantita +
+        '&nomeProdotto=' +
+        nomeProdotto,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );

@@ -15,6 +15,7 @@ import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.compon
 import { RouterModule } from '@angular/router';
 import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
     CaNavbarComponent,
     CaScanComponent,
     CaOverwiewComponent,
+    CaChestComponent,
   
     
   ],

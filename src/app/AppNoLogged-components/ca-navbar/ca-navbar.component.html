@@ -1,39 +1,57 @@
+<header class="p-3 sc-primary" style="margin-bottom: -1rem">
+  <div class="row">
+    <div class="col-3 d-flex align-items-center">
+      <div>
+        <a
+          href="/"
+          class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+        >
+          <img
+            src="assets/SmartControl_logo.jpg"
+            alt="Ticket"
+            class="me-2"
+            style="height: 50px; width: 50px; border-radius: 50%"
+          />
+          <!-- Percorso immagine aggiunto qui -->
+          <svg
+            class="bi me-2"
+            width="50"
+            height="50"
+            role="img"
+            aria-label="Bootstrap"
+          >
+            <use xlink:href="#bootstrap" />
+          </svg>
+        </a>
+      </div>
+      <div>
+        <span style="padding-left: 35px" class="custom-text text-nowrap">Smart Control</span>
+      </div>
+    </div>
 
+    <div class="col-6">
+      <ul
+        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+      >
+        <li>
+          <a *ngIf="showIntornoAMeButton" class="nav-link px-2 text-secondary">
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            *ngIf="showCosaFareButton"
+            class="nav-link px-2 text-white"
+          ></a>
+        </li>
+        <li><a href="#" class="nav-link px-2 text-white"></a></li>
+        <li><a href="#" class="nav-link px-2 text-white"></a></li>
+        <li><a href="#" class="nav-link px-2 text-white"></a></li>
+      </ul>
+    </div>
 
-<header class="p-3 text-bg-dark" style="margin-bottom: -1rem;">
-
-      <div class="row">
-
-        <div class="col-3 d-flex align-items-center">
-          <div>
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <img src="assets/mrSmoothIcon.jpg" alt="Ticket" class="me-2" style="height: 40px; width: 40px; border-radius: 20px;"/> <!-- Percorso immagine aggiunto qui -->
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-            </a>
-          </div>
-          <div>        <span style="padding-left: 15px;" class="custom-text">Mr.Smooth</span>
-
-          </div>
-        </div>
-        
-
-        <div class="col-6 ">
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a *ngIf="showIntornoAMeButton" class="nav-link px-2 text-secondary"> </a></li>
-          <li><a href="#" *ngIf="showCosaFareButton" class="nav-link px-2 text-white"></a></li>
-          <li><a href="#" class="nav-link px-2 text-white"></a></li>
-          <li><a href="#" class="nav-link px-2 text-white"></a></li>
-          <li><a href="#" class="nav-link px-2 text-white"></a></li>
-        </ul>
-        </div>
-
-        <div class="col-3 ">
-        
-        </div></div>
-
-
-      
-    
+    <div class="col-3"></div>
+  </div>
 </header>
 
 <div class="b-example-divider"></div>

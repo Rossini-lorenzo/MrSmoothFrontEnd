@@ -2,10 +2,7 @@
   <div class="card d-inline-block m-auto w-fit-content">
     <div class="card-body">
       <h3 class="card-title fw-bold">Scanner Prodotti</h3>
-      <div
-        class="alert alert-warning d-flex align-items-center mt-4"
-        role="alert"
-      >
+      <div class="alert sc-primary d-flex align-items-center mt-4" role="alert">
         <i
           class="bx bx-info-circle align-middle me-2"
           style="font-size: 30px"
@@ -24,7 +21,7 @@
 
         <!-- data  -->
         <form #myForm="ngForm" (ngSubmit)="addProduct()">
-          <div class="row mt-3">
+          <div *ngIf="!isEditing" class="row mt-3">
             <!-- <div *ngIf="productId" class="col-3">
               <p class="data"><strong>Codice:</strong> {{ productId }}</p>
             </div> -->
@@ -63,7 +60,7 @@
               />
               <!-- </div> -->
             </div>
-            <div *ngIf="productId" class="col-3">
+            <div *ngIf="apiCalled && !productIsPresent" class="col-3">
               <!-- <div class="input-group mb-3"> -->
               <label for="quantity" class="fw-bold form-label">Quantità</label>
               <input
@@ -76,6 +73,22 @@
                 [(ngModel)]="quantity"
               />
               <!-- </div> -->
+            </div>
+            <div *ngIf="productId && productIsPresent" class="col-9">
+              <div
+                class="alert sc-primary d-flex align-items-center"
+                role="alert"
+              >
+                <i
+                  class="bx bx-info-circle align-middle me-2"
+                  style="font-size: 30px"
+                ></i>
+                <div>
+                  Prodotto già registrato nel magazzino, per aggiornare la
+                  quantità o modificare altri dati, procedere dall'elenco qui
+                  sotto.
+                </div>
+              </div>
             </div>
           </div>
         </form>
@@ -124,8 +137,8 @@
       <div class="mt-5 text-center">
         <button
           type="button"
-          class="btn btn-warning"
-          [disabled]="!areFieldsFilled()"
+          class="btn sc-primary"
+          [disabled]="isButtonDisabled || !areFieldsFilled()"
           (click)="addProduct()"
         >
           Aggiungi
@@ -134,16 +147,14 @@
       <h3 class="card-title fw-bold mt-3">Magazzino</h3>
       <div class="row mt-3">
         <div class="col-12">
-          <table
-            *ngIf="dataSource && dataSource.length > 0"
-            class="table table-striped"
-          >
+          <table *ngIf="dataSource && dataSource.length > 0" class="table">
             <thead>
               <tr>
                 <th>Codice Prodotto</th>
                 <th>Nome Prodotto</th>
                 <th>Prezzo</th>
                 <th>Quantità</th>
+                <th></th>
                 <th></th>
               </tr>
             </thead>
@@ -158,7 +169,7 @@
                 <!-- (click)="deleteProduct(item.id.toString())" -->
                 <td class="align-middle">
                   <button
-                    class="btn btn-dark"
+                    class="btn sc-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#editProductModal"
                     (click)="selectProductForEdit(item.id)"
@@ -168,8 +179,10 @@
                 </td>
                 <td class="align-middle">
                   <button
-                    class="btn btn-dark"
-                    (click)="deleteProduct(item.id.toString())"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                    class="btn sc-primary"
+                    (click)="confirmDeleteProduct(item.id.toString())"
                   >
                     <i class="bx bx-trash"></i>
                   </button>
@@ -177,6 +190,17 @@
               </tr>
             </tbody>
           </table>
+          <div
+            *ngIf="dataSource.length == 0"
+            class="alert sc-primary d-flex align-items-center mt-4"
+            role="alert"
+          >
+            <i
+              class="bx bx-info-circle align-middle me-2"
+              style="font-size: 30px"
+            ></i>
+            <div>Nessun prodotto presente nel magazzino.</div>
+          </div>
           <!-- Modal -->
           <div
             class="modal fade"
@@ -189,7 +213,11 @@
               <div class="modal-content">
                 <div class="modal-header custom-modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">
-                    Modifica Prodotto - {{ selectedProduct.id }}
+                    {{
+                      confirmDelete
+                        ? "Conferma Eliminazione - " + selectedProduct.id
+                        : "Modifica Prodotto - " + selectedProduct.id
+                    }}
                   </h5>
                   <button
                     type="button"
@@ -198,7 +226,60 @@
                     aria-label="Close"
                   ></button>
                 </div>
-                <div class="modal-body">...</div>
+                <div class="modal-body">
+                  <!-- Contenuto -->
+                  <div *ngIf="!confirmDelete">
+                    <div class="row mt-3">
+                      <div class="col-12">
+                        <label for="productName" class="fw-bold form-label"
+                          >Nome prodotto</label
+                        >
+                        <input
+                          type="text"
+                          id="productName"
+                          name="productName"
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-default"
+                          [(ngModel)]="selectedProduct.nomeProdotto"
+                        />
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-6">
+                        <label for="productPrice" class="fw-bold form-label"
+                          >Prezzo</label
+                        >
+                        <input
+                          type="number"
+                          id="productPrice"
+                          name="productPrice"
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-default"
+                          [(ngModel)]="selectedProduct.prezzo"
+                        />
+                      </div>
+                      <div class="col-6">
+                        <label for="quantity" class="fw-bold form-label"
+                          >Quantità</label
+                        >
+                        <input
+                          type="number"
+                          id="quantity"
+                          name="quantity"
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-default"
+                          [(ngModel)]="selectedProduct.quantita"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="confirmDelete">
+                    Sei sicuro di voler eliminare questo prodotto?
+                  </div>
+                </div>
                 <div class="modal-footer">
                   <button
                     type="button"
@@ -207,23 +288,25 @@
                   >
                     Chiudi
                   </button>
-                  <button type="button" class="btn btn-warning">
+                  <button
+                    *ngIf="!confirmDelete"
+                    type="button"
+                    class="btn sc-primary"
+                    (click)="updateProduct()"
+                  >
                     Salva modifiche
+                  </button>
+                  <button
+                    *ngIf="confirmDelete"
+                    type="button"
+                    class="btn sc-primary"
+                    (click)="deleteProduct(selectedProduct.id.toString())"
+                  >
+                    Conferma
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            *ngIf="dataSource.length == 0"
-            class="alert alert-warning d-flex align-items-center mt-4"
-            role="alert"
-          >
-            <i
-              class="bx bx-info-circle align-middle me-2"
-              style="font-size: 30px"
-            ></i>
-            <div>Nessun prodotto presente nel magazzino.</div>
           </div>
         </div>
       </div>
