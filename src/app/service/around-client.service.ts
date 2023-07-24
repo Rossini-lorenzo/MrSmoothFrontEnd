@@ -9,11 +9,13 @@ import { catchError } from 'rxjs/operators';
 export class AroundClientService {
 
   constructor(private httpClient:HttpClient) { }
+  
+   backendUrl : string = 'https://mrsmooth-9e8bb3d010e3.herokuapp.com/';
 
 
   public userRegister(request: any) {
     console.log("STO IN USER REG");
-    return this.httpClient.post<string>("http://localhost:8080/products/new", request, { responseType: 'text' as 'json' })
+    return this.httpClient.post<string>(this.backendUrl + "products/new", request, { responseType: 'text' as 'json' })
     .pipe(
       catchError((error) => {
         if (error.status === 400) {
@@ -25,7 +27,7 @@ export class AroundClientService {
   }
   public promoteRegister(request: any) {
     console.log("STO IN USER REG");
-    return this.httpClient.post<string>("http://localhost:8080/products/newPromote", request, { responseType: 'text' as 'json' })
+    return this.httpClient.post<string>(this.backendUrl + "products/newPromote", request, { responseType: 'text' as 'json' })
     .pipe(
       catchError((error) => {
         if (error.status === 400) {
@@ -37,7 +39,7 @@ export class AroundClientService {
   }
 
   public generateToken(request: any) {
-    return this.httpClient.post<string>("http://localhost:8080/products/authenticate", request, { responseType: 'text' as 'json' })
+    return this.httpClient.post<string>(this.backendUrl + "products/authenticate", request, { responseType: 'text' as 'json' })
       .pipe(
         catchError((error) => {
           if (error.status === 403) {
@@ -56,7 +58,7 @@ export class AroundClientService {
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
     localStorage.setItem('id', id);
-    return this.httpClient.get<string>("http://localhost:8080/products/welcome", {headers, responseType: 'text' as 'json' });
+    return this.httpClient.get<string>(this.backendUrl + "products/welcome", {headers, responseType: 'text' as 'json' });
   }
 
 
