@@ -1,13 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --primary-color: #c6e9f9;
+  --primary-color: #ADD7F6;
+  --title-color: #2667FF;
+  --sub-title-color: #3F8EFC;
 }
 
 .sc-primary {
   background-color: var(--primary-color);
   /* Altri stili del pulsante... */
-}
-
-.table-striped tbody tr:nth-child(odd) {
-  background-color: #c6e9f9;
 }
