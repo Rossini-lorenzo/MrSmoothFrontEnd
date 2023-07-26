@@ -73,12 +73,37 @@ export class CaScanComponent implements OnInit {
     }
   }
 
+  // public handle(action: any, fn: string): void {
+  //   const playDeviceFacingBack = (devices: any[]): void => {
+  //     const device = devices.find((f) =>
+  //       /back|rear|environment/gi.test(f.label)
+  //     );
+  //     action.playDevice(device ? device.deviceId : devices[0].deviceId);
+  //   };
+
+  //   if (fn === 'start') {
+  //     action[fn](playDeviceFacingBack).subscribe(
+  //       (r: any) => console.log(fn, r),
+  //       alert
+  //     );
+  //   } else {
+  //     action[fn]().subscribe((r: any) => console.log(fn, r), alert);
+  //   }
+  // }
+
   public handle(action: any, fn: string): void {
     const playDeviceFacingBack = (devices: any[]): void => {
-      const device = devices.find((f) =>
+      const frontCamera = devices.find((f) => /front/gi.test(f.label));
+      const backCamera = devices.find((f) =>
         /back|rear|environment/gi.test(f.label)
       );
-      action.playDevice(device ? device.deviceId : devices[0].deviceId);
+
+      // Se entrambe le fotocamere sono disponibili, puoi scegliere quale utilizzare.
+      // Qui viene utilizzata quella posteriore (backCamera) se disponibile, altrimenti viene utilizzata quella frontale (frontCamera).
+      const deviceToUse = backCamera ? backCamera : frontCamera;
+      action.playDevice(
+        deviceToUse ? deviceToUse.deviceId : devices[0].deviceId
+      );
     };
 
     if (fn === 'start') {
@@ -220,11 +245,11 @@ export class CaScanComponent implements OnInit {
   checkOrientation() {
     // Imposta la dimensione limite in base alle tue esigenze
     const desktopSizeLimit = 820;
-  
+
     // Verifica se la larghezza della finestra è inferiore alla dimensione limite per la modalità verticale
     this.isVerticalLayout = window.innerWidth <= desktopSizeLimit;
   }
-  
+
   //Ascolta gli eventi di ridimensionamento della finestra per aggiornare l'orientamento
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
