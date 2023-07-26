@@ -98,7 +98,7 @@ export class CaScanComponent implements OnInit {
         // Verifica se il browser supporta l'API MediaDevices.getUserMedia
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           // Imposta la constraint "facingMode" per la fotocamera posteriore
-          const constraints = { video: { facingMode: { exact: "environment" } } };
+          const constraints = { video: { facingMode: { exact: "user" } } };
     
           // Ottieni l'accesso alla fotocamera con le constraint specificate
           navigator.mediaDevices.getUserMedia(constraints)
