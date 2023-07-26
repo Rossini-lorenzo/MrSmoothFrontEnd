@@ -93,17 +93,23 @@ export class CaScanComponent implements OnInit {
 
   public handle(action: any, fn: string): void {
     const playDeviceFacingBack = (devices: any[]): void => {
-      const frontCamera = devices.find((f) => /front/gi.test(f.label));
       const backCamera = devices.find((f) =>
         /back|rear|environment/gi.test(f.label)
       );
 
-      // Se entrambe le fotocamere sono disponibili, puoi scegliere quale utilizzare.
-      // Qui viene utilizzata quella posteriore (backCamera) se disponibile, altrimenti viene utilizzata quella frontale (frontCamera).
-      const deviceToUse = backCamera ? backCamera : frontCamera;
-      action.playDevice(
-        deviceToUse ? deviceToUse.deviceId : devices[0].deviceId
-      );
+      if (backCamera) {
+        action.playDevice(backCamera.deviceId);
+      } else {
+        // Se non è disponibile la fotocamera posteriore, puoi gestire il caso come preferisci.
+        // In questo esempio, stiamo aprendo comunque la fotocamera frontale come fallback.
+        const frontCamera = devices.find((f) => /front/gi.test(f.label));
+        if (frontCamera) {
+          action.playDevice(frontCamera.deviceId);
+        } else {
+          console.error('Nessuna fotocamera disponibile.');
+          // Puoi gestire questo caso come preferisci, ad esempio mostrando un messaggio all'utente o eseguendo un'azione alternativa.
+        }
+      }
     };
 
     if (fn === 'start') {
