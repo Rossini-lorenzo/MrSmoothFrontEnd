@@ -92,36 +92,28 @@ export class CaScanComponent implements OnInit {
   // }
 
   public handle(action: any, fn: string): void {
-    const playDeviceFacingBack = (devices: any[]): void => {
-      // Assicurati che devices sia un array prima di utilizzare il metodo find
-      if (!Array.isArray(devices)) {
-        console.error('La lista dei dispositivi non è un array.');
-        return;
-      }
-    
-      const backCamera = devices.find((f) => /back camera|rear camera|camera/i.test(f.label));
-    
-      if (backCamera) {
-        action.playDevice(backCamera.deviceId).subscribe(
-          (r: any) => console.log(fn, r),
+    const openBackCamera = (): void => {
+      // Verifica se l'azione "playDevice" è disponibile e apri la fotocamera posteriore
+      if (action.playDevice) {
+        action.playDevice('back').subscribe(
+          (r: any) => console.log('Fotocamera posteriore aperta:', r),
           (error: any) => console.error('Errore nell\'apertura della fotocamera', error)
         );
       } else {
-        console.error('Nessuna fotocamera posteriore disponibile.');
-        // Puoi gestire questo caso come preferisci, ad esempio mostrando un messaggio all'utente o eseguendo un'azione alternativa.
+        console.error('L\'azione "playDevice" non è disponibile per aprire la fotocamera.');
       }
     };
-
+  
     if (fn === 'start') {
-      playDeviceFacingBack(action.devices);
+      openBackCamera();
     } else {
       action[fn]().subscribe(
         (r: any) => console.log(fn, r),
-        (error: any) =>
-          console.error("Errore nell'esecuzione dell'azione", error)
+        (error: any) => console.error('Errore nell\'esecuzione dell\'azione', error)
       );
     }
   }
+  
 
   public addProduct(): void {
     this.productService
