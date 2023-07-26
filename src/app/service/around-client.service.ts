@@ -15,7 +15,7 @@ export class AroundClientService {
   public userRegister(request: any) {
     console.log('STO IN USER REG');
     return this.httpClient
-      .post<string>('https://mrsmooth-9e8bb3d010e3.herokuapp.com/' + 'products/new', request, {
+      .post<string>(this.apiUrl + 'products/new', request, {
         responseType: 'text' as 'json',
       })
       .pipe(
@@ -30,7 +30,7 @@ export class AroundClientService {
   public promoteRegister(request: any) {
     console.log('STO IN USER REG');
     return this.httpClient
-      .post<string>('https://mrsmooth-9e8bb3d010e3.herokuapp.com/' + 'products/newPromote', request, {
+      .post<string>(this.apiUrl + 'products/newPromote', request, {
         responseType: 'text' as 'json',
       })
       .pipe(
@@ -45,7 +45,7 @@ export class AroundClientService {
 
   public generateToken(request: any) {
     return this.httpClient
-      .post<string>('https://mrsmooth-9e8bb3d010e3.herokuapp.com/' + 'products/authenticate', request, {
+      .post<string>(this.apiUrl + 'products/authenticate', request, {
         responseType: 'text' as 'json',
       })
       .pipe(
