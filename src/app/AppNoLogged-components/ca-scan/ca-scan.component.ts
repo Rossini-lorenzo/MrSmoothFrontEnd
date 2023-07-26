@@ -94,31 +94,29 @@ export class CaScanComponent implements OnInit {
   public handle(action: any, fn: string): void {
     const playDeviceFacingBack = (devices: any[]): void => {
       const backCamera = devices.find((f) =>
-        /back|rear|environment/gi.test(f.label)
+        /back camera|rear camera|camera/i.test(f.label)
       );
 
       if (backCamera) {
-        action.playDevice(backCamera.deviceId);
+        action.playDevice(backCamera.deviceId).subscribe(
+          (r: any) => console.log(fn, r),
+          (error: any) =>
+            console.error("Errore nell'apertura della fotocamera", error)
+        );
       } else {
-        // Se non è disponibile la fotocamera posteriore, puoi gestire il caso come preferisci.
-        // In questo esempio, stiamo aprendo comunque la fotocamera frontale come fallback.
-        const frontCamera = devices.find((f) => /front/gi.test(f.label));
-        if (frontCamera) {
-          action.playDevice(frontCamera.deviceId);
-        } else {
-          console.error('Nessuna fotocamera disponibile.');
-          // Puoi gestire questo caso come preferisci, ad esempio mostrando un messaggio all'utente o eseguendo un'azione alternativa.
-        }
+        console.error('Nessuna fotocamera posteriore disponibile.');
+        // Puoi gestire questo caso come preferisci, ad esempio mostrando un messaggio all'utente o eseguendo un'azione alternativa.
       }
     };
 
     if (fn === 'start') {
-      action[fn](playDeviceFacingBack).subscribe(
-        (r: any) => console.log(fn, r),
-        alert
-      );
+      playDeviceFacingBack(action.devices);
     } else {
-      action[fn]().subscribe((r: any) => console.log(fn, r), alert);
+      action[fn]().subscribe(
+        (r: any) => console.log(fn, r),
+        (error: any) =>
+          console.error("Errore nell'esecuzione dell'azione", error)
+      );
     }
   }
 
