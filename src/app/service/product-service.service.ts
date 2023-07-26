@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environment/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,12 +9,14 @@ import { Observable } from 'rxjs';
 export class ProductServiceService {
   constructor(private httpClient: HttpClient) {}
 
+  apiUrl = `${environment.apiBaseUrl}/`;
+
   checkProduct(id: string): Observable<HttpResponse<Object[]>> {
     let tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      'http://localhost:8080/userProduct/checkProduct?id=' + id,
+      this.apiUrl + 'userProduct/checkProduct?id=' + id,
       { headers, observe: 'response' }
     );
   }
@@ -23,7 +26,7 @@ export class ProductServiceService {
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      'http://localhost:8080/userProduct/getAllProducts',
+      this.apiUrl + 'userProduct/getAllProducts',
       { headers, observe: 'response' }
     );
   }
@@ -39,7 +42,8 @@ export class ProductServiceService {
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      'http://localhost:8080/userProduct/updateProduct?id=' +
+      this.apiUrl +
+        'userProduct/updateProduct?id=' +
         id +
         '&prezzo=' +
         prezzo +
@@ -63,7 +67,8 @@ export class ProductServiceService {
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      'http://localhost:8080/userProduct/newProduct?id=' +
+      this.apiUrl +
+        'userProduct/newProduct?id=' +
         id.toString() +
         '&prezzo=' +
         prezzo +
@@ -82,7 +87,7 @@ export class ProductServiceService {
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      'http://localhost:8080/userProduct/deleteProduct?id=' + id,
+      this.apiUrl + 'userProduct/deleteProduct?id=' + id,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
