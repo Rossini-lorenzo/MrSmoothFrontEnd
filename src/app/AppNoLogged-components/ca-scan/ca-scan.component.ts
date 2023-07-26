@@ -1,6 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
+import { NgxScannerQrcodeComponent, ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 
 interface Product {
@@ -16,6 +16,7 @@ interface Product {
   styleUrls: ['./ca-scan.component.css'],
 })
 export class CaScanComponent implements OnInit {
+  @ViewChild('action') action!: NgxScannerQrcodeComponent;
   displayedColumns: string[] = ['id', 'prezzo', 'nomeProdotto', 'quantita'];
   dataSource: Product[] = [];
   productIsPresent = false;
@@ -50,6 +51,12 @@ export class CaScanComponent implements OnInit {
     this.getAllProducts();
   }
 
+  ngAfterViewInit(): void {
+    this.action.isReady.subscribe((res: any) => {
+      // this.handle(this.action, 'start');
+    });
+  }
+
   onEvent(event: ScannerQRCodeResult[], action: any): void {
     const scannedValue = event[0].value;
 
@@ -73,57 +80,18 @@ export class CaScanComponent implements OnInit {
     }
   }
 
-  // public handle(action: any, fn: string): void {
-  //   const playDeviceFacingBack = (devices: any[]): void => {
-  //     const device = devices.find((f) =>
-  //       /back|rear|environment/gi.test(f.label)
-  //     );
-  //     action.playDevice(device ? device.deviceId : devices[0].deviceId);
-  //   };
-
-  //   if (fn === 'start') {
-  //     action[fn](playDeviceFacingBack).subscribe(
-  //       (r: any) => console.log(fn, r),
-  //       alert
-  //     );
-  //   } else {
-  //     action[fn]().subscribe((r: any) => console.log(fn, r), alert);
-  //   }
-  // }
-
   public handle(action: any, fn: string): void {
-    const openBackCamera = (): void => {
-      // Verifica se l'azione "playDevice" è disponibile
-      if (action.playDevice) {
-        // Verifica se il browser supporta l'API MediaDevices.getUserMedia
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          // Imposta la constraint "facingMode" per la fotocamera posteriore
-          const constraints = { video: { facingMode: { exact: "user" } } };
-    
-          // Ottieni l'accesso alla fotocamera con le constraint specificate
-          navigator.mediaDevices.getUserMedia(constraints)
-            .then((stream) => {
-              // Usa lo stream della fotocamera per avviare la visualizzazione o altre operazioni necessarie
-              console.log('Fotocamera posteriore aperta con successo.');
-            })
-            .catch((error) => {
-              console.error('Errore nell\'apertura della fotocamera posteriore:', error);
-            });
-        } else {
-          console.error('Il browser non supporta l\'accesso alla fotocamera tramite MediaDevices API.');
-        }
-      } else {
-        console.error('L\'azione "playDevice" non è disponibile per aprire la fotocamera.');
-      }
-    };    
-  
+    // Fix issue #27, #29
+    const playDeviceFacingBack = (devices: any[]) => {
+      // front camera or back camera check here!
+      const device = devices.find(f => (/back|rear|environment/gi.test(f.label))); // Default Back Facing Camera
+      action.playDevice(device ? device.deviceId : devices[0].deviceId);
+    }
+
     if (fn === 'start') {
-      openBackCamera();
+      action[fn](playDeviceFacingBack).subscribe((r: any) => console.log(fn, r), alert);
     } else {
-      action[fn]().subscribe(
-        (r: any) => console.log(fn, r),
-        (error: any) => console.error('Errore nell\'esecuzione dell\'azione', error)
-      );
+      action[fn]().subscribe((r: any) => console.log(fn, r), alert);
     }
   }
   
