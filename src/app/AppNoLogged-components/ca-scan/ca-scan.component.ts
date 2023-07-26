@@ -93,16 +93,29 @@ export class CaScanComponent implements OnInit {
 
   public handle(action: any, fn: string): void {
     const openBackCamera = (): void => {
-      // Verifica se l'azione "playDevice" è disponibile e apri la fotocamera posteriore
+      // Verifica se l'azione "playDevice" è disponibile
       if (action.playDevice) {
-        action.playDevice('back').subscribe(
-          (r: any) => console.log('Fotocamera posteriore aperta:', r),
-          (error: any) => console.error('Errore nell\'apertura della fotocamera', error)
-        );
+        // Verifica se il browser supporta l'API MediaDevices.getUserMedia
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          // Imposta la constraint "facingMode" per la fotocamera posteriore
+          const constraints = { video: { facingMode: { exact: "environment" } } };
+    
+          // Ottieni l'accesso alla fotocamera con le constraint specificate
+          navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+              // Usa lo stream della fotocamera per avviare la visualizzazione o altre operazioni necessarie
+              console.log('Fotocamera posteriore aperta con successo.');
+            })
+            .catch((error) => {
+              console.error('Errore nell\'apertura della fotocamera posteriore:', error);
+            });
+        } else {
+          console.error('Il browser non supporta l\'accesso alla fotocamera tramite MediaDevices API.');
+        }
       } else {
         console.error('L\'azione "playDevice" non è disponibile per aprire la fotocamera.');
       }
-    };
+    };    
   
     if (fn === 'start') {
       openBackCamera();
