@@ -17,6 +17,8 @@ interface Product {
 })
 export class CaScanComponent implements OnInit {
   @ViewChild('action') action!: NgxScannerQrcodeComponent;
+  itemsPerPage = 5; // Numero di elementi per pagina
+  currentPage = 1; // Pagina corrente
   displayedColumns: string[] = ['id', 'prezzo', 'nomeProdotto', 'quantita'];
   dataSource: Product[] = [];
   productIsPresent = false;
@@ -32,8 +34,8 @@ export class CaScanComponent implements OnInit {
     quantita: 0,
   };
   confirmDelete = false;
-  isButtonDisabled: boolean = false;
-  isEditing: boolean = false;
+  isButtonDisabled = false;
+  isEditing = false;
   isVerticalLayout: boolean;
 
   public config: ScannerQRCodeConfig = {
@@ -234,5 +236,50 @@ export class CaScanComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkOrientation();
+  }
+
+  /// Calcola il numero totale di pagine sulla base dei dati disponibili
+  get totalPages(): number {
+    return Math.ceil(this.dataSource.length / this.itemsPerPage);
+  }
+
+  // Calcola l'array di pagine da visualizzare nella paginazione
+  get pages(): number[] {
+    const pagesArray = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
+  }
+
+  // Ottieni i dati per la pagina corrente
+  getPagesData(pageNumber: number): void {
+    this.currentPage = pageNumber;
+  }
+
+  // Ottieni i dati della pagina precedente
+  getPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  // Ottieni i dati della pagina successiva
+  getNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  // Verifica se la pagina è attiva per applicare lo stile corretto
+  isActive(pageNumber: number): string {
+    return pageNumber === this.currentPage ? 'active' : '';
+  }
+
+  // Metodo per paginare i dati e ottenere solo quelli per la pagina corrente
+  get visibleData(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = Math.min(startIndex + this.itemsPerPage, this.dataSource.length);
+    return this.dataSource.slice(startIndex, endIndex);
   }
 }

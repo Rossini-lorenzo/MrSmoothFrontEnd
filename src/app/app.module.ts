@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.component';
+import { AuthGuard } from './AuthGuard';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.com
     MatSliderModule,
     NgxScannerQrcodeModule 
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
   
 })

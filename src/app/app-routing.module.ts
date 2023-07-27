@@ -24,11 +24,10 @@ const routes: Routes = [
       { path: 'overview', component: CaOverwiewComponent },
       { path: 'scanaggiungi', component: CaScanComponent },
       { path: 'chest', component: CaChestComponent }
-    ]
+    ], canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: 'login' }
 ];
-// , canActivate: [AuthGuard]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

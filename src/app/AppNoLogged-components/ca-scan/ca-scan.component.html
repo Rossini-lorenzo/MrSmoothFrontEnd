@@ -13,9 +13,19 @@
       </div>
       <div class="container">
         <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3 my-1">
-          <select #select1 (change)="action.playDevice(select1.value)" class="form-select form-select-sm">
+          <select
+            #select1
+            (change)="action.playDevice(select1.value)"
+            class="form-select form-select-sm"
+          >
             <option [value]="null" selected>Select device</option>
-            <option *ngFor="let c of action.devices.value; let i = index" [value]="c.deviceId" [selected]="i == action.deviceIndexActive">{{c.label}}</option>
+            <option
+              *ngFor="let c of action.devices.value; let i = index"
+              [value]="c.deviceId"
+              [selected]="i === action.deviceIndexActive"
+            >
+              {{ c.label }}
+            </option>
           </select>
         </div>
         <!-- For camera -->
@@ -133,6 +143,7 @@
                   ? 'https://id1945.github.io/images/svg/camera-off.svg'
                   : 'https://id1945.github.io/images/svg/camera-on.svg'
               "
+              alt="Camera Icon"
               width="30px"
               [class.btn-white]="action.isStart"
               style="filter: brightness(0) invert(1)"
@@ -165,8 +176,7 @@
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let item of dataSource">
-               
+              <ng-container *ngFor="let item of visibleData">
                 <div class="card mb-3" *ngIf="isVerticalLayout">
                   <div class="card-body">
                     <p class="card-text">Codice Prodotto: {{ item.id }}</p>
@@ -177,7 +187,7 @@
                       Prezzo: &euro; {{ item.prezzo | number : "1.2-2" }}
                     </p>
                     <p class="card-text">Quantità: {{ item.quantita }} pz</p>
-                    
+
                     <div class="d-flex justify-content-end">
                       <button
                         class="btn sc-primary me-2"
@@ -198,9 +208,7 @@
                     </div>
                   </div>
                 </div>
-                
 
-                
                 <tr *ngIf="!isVerticalLayout">
                   <td class="align-middle">{{ item.id }}</td>
                   <td class="align-middle">{{ item.nomeProdotto }}</td>
@@ -208,7 +216,7 @@
                     &euro; {{ item.prezzo | number : "1.2-2" }}
                   </td>
                   <td class="align-middle">{{ item.quantita }} pz</td>
-                  
+
                   <td class="align-middle">
                     <button
                       class="btn sc-primary"
@@ -233,6 +241,44 @@
               </ng-container>
             </tbody>
           </table>
+          <!-- Aggiungi la paginazione di Bootstrap qui -->
+          <nav *ngIf="totalPages > 0" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center pt-3">
+              <!-- Codice corretto per il pulsante "Previous" -->
+              <li
+                class="fw-bold page-item"
+                (click)="getPreviousPage()"
+                (keydown.enter)="getPreviousPage()"
+                [ngClass]="{ disabled: currentPage === 1 }"
+                tabindex="0"
+              >
+                <button class="page-link">Previous</button>
+              </li>
+
+              <!-- Codice corretto per la lista di pagine -->
+              <li
+                *ngFor="let page of pages"
+                class="fw-bold page-item"
+                (click)="getPagesData(page)"
+                (keydown.enter)="getPagesData(page)"
+                [ngClass]="{ active: page === currentPage }"
+                tabindex="0"
+              >
+                <button class="page-link sc-primary">{{ page }}</button>
+              </li>
+
+              <!-- Codice corretto per il pulsante "Next" -->
+              <li
+                class="fw-bold page-item"
+                (click)="getNextPage()"
+                (keydown.enter)="getNextPage()"
+                [ngClass]="{ disabled: currentPage === totalPages }"
+                tabindex="0"
+              >
+                <button class="page-link">Next</button>
+              </li>
+            </ul>
+          </nav>
           <!-- <table *ngIf="dataSource && dataSource.length > 0" class="table">
             <thead>
               <tr>
@@ -276,7 +322,7 @@
             </tbody>
           </table> -->
           <div
-            *ngIf="dataSource.length == 0"
+            *ngIf="dataSource.length === 0"
             class="alert sc-primary d-flex align-items-center mt-4"
             role="alert"
           >

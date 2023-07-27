@@ -12,14 +12,14 @@ export class AroundPromoteService {
 
 
   getPlace(id : string ) : Observable<HttpResponse<Object[]>>{
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
    
     const headers = new HttpHeaders().set('Authorization',tokenStr);
     return this.httpClient.get<Object[]>("http://localhost:8080/promote/placeGetter?idPromote="+id, {headers, observe: 'response' });
   }
 
   modifyPlace(nomeLuogo: string, descrizione: string, posti: string,outfit:string,prezzo:string,tipo:string,eta:string,target:string,idPlace : string): Observable<HttpResponse<Object[]>> {
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
     console.log(idPlace);
