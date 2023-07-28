@@ -1,6 +1,10 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgxScannerQrcodeComponent, ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
+import {
+  NgxScannerQrcodeComponent,
+  ScannerQRCodeConfig,
+  ScannerQRCodeResult,
+} from 'ngx-scanner-qrcode';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 
 interface Product {
@@ -17,7 +21,7 @@ interface Product {
 })
 export class CaScanComponent implements OnInit {
   @ViewChild('action') action!: NgxScannerQrcodeComponent;
-  itemsPerPage = 5; // Numero di elementi per pagina
+  itemsPerPage = 10; // Numero di elementi per pagina
   currentPage = 1; // Pagina corrente
   displayedColumns: string[] = ['id', 'prezzo', 'nomeProdotto', 'quantita'];
   dataSource: Product[] = [];
@@ -38,13 +42,27 @@ export class CaScanComponent implements OnInit {
   isEditing = false;
   isVerticalLayout: boolean;
 
-  public config: ScannerQRCodeConfig = {
-    constraints: {
-      video: {
-        width: window.innerWidth,
-      },
-    },
+  // config: ScannerQRCodeConfig = {
+  //   constraints: {
+  //     video: {
+  //       width: { ideal: 1920 }, // Larghezza desiderata dell'anteprima della fotocamera
+  //       height: { ideal: 1080 }, // Altezza desiderata dell'anteprima della fotocamera
+  //     },
+  //   },
+  //   //formats: ['QR_CODE', 'EAN_13'] // Formati dei codici a barre supportati
+  // };
+
+  config: any = {
+    decoder: {
+      readers: ['ean_reader'] // Specifica il tipo di codici a barre da scannerizzare (in questo caso EAN)
+    }
   };
+
+  // Gestisci l'evento di scansione rilevato dalla libreria ngx-scanner-qrcode
+  // onScanSuccess(result: Result): void {
+  //   // Esegui qui l'azione desiderata con il codice a barre rilevato
+  //   console.log('Codice a barre rilevato:', result.codeResult.code);
+  // }
 
   constructor(private productService: ProductServiceService) {}
 
@@ -86,17 +104,21 @@ export class CaScanComponent implements OnInit {
     // Fix issue #27, #29
     const playDeviceFacingBack = (devices: any[]) => {
       // front camera or back camera check here!
-      const device = devices.find(f => (/back|rear|environment/gi.test(f.label))); // Default Back Facing Camera
+      const device = devices.find((f) =>
+        /back|rear|environment/gi.test(f.label)
+      ); // Default Back Facing Camera
       action.playDevice(device ? device.deviceId : devices[0].deviceId);
-    }
+    };
 
     if (fn === 'start') {
-      action[fn](playDeviceFacingBack).subscribe((r: any) => console.log(fn, r), alert);
+      action[fn](playDeviceFacingBack).subscribe(
+        (r: any) => console.log(fn, r),
+        alert
+      );
     } else {
       action[fn]().subscribe((r: any) => console.log(fn, r), alert);
     }
   }
-  
 
   public addProduct(): void {
     this.productService
@@ -279,7 +301,10 @@ export class CaScanComponent implements OnInit {
   // Metodo per paginare i dati e ottenere solo quelli per la pagina corrente
   get visibleData(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = Math.min(startIndex + this.itemsPerPage, this.dataSource.length);
+    const endIndex = Math.min(
+      startIndex + this.itemsPerPage,
+      this.dataSource.length
+    );
     return this.dataSource.slice(startIndex, endIndex);
   }
 }
