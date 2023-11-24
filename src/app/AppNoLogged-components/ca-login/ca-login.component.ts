@@ -29,7 +29,7 @@ export class CaLoginComponent implements OnInit {
   }
 
   public getAccessToken(authRequest: any) {
-    let resp = this.service.generateToken(authRequest);
+    const resp = this.service.generateToken(authRequest);
     resp.subscribe((data) => {
       console.log('DATA LOGIN ', data);
       this.accessApi(JSON.parse(data));
@@ -37,7 +37,7 @@ export class CaLoginComponent implements OnInit {
   }
 
   public accessApi(payload: any) {
-    let resp = this.service.welcome(payload.token, payload.role, payload.id);
+    const resp = this.service.welcome(payload.token, payload.role, payload.id);
     resp.subscribe((data) => {
       this.response = data;
       if (payload.role == 'ROLE_PROMOTE') {

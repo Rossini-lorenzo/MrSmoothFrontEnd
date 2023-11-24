@@ -18,6 +18,9 @@
   overflow: auto;
 }
 
+
+
+
 @media (max-width: 820px) {
   .table th,
   .table td {

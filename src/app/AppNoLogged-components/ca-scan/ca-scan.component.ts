@@ -1,6 +1,10 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgxScannerQrcodeComponent, ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
+import {
+  NgxScannerQrcodeComponent,
+  ScannerQRCodeConfig,
+  ScannerQRCodeResult,
+} from 'ngx-scanner-qrcode';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 
 interface Product {
@@ -17,6 +21,8 @@ interface Product {
 })
 export class CaScanComponent implements OnInit {
   @ViewChild('action') action!: NgxScannerQrcodeComponent;
+  itemsPerPage = 10; // Numero di elementi per pagina
+  currentPage = 1; // Pagina corrente
   displayedColumns: string[] = ['id', 'prezzo', 'nomeProdotto', 'quantita'];
   dataSource: Product[] = [];
   productIsPresent = false;
@@ -32,17 +38,31 @@ export class CaScanComponent implements OnInit {
     quantita: 0,
   };
   confirmDelete = false;
-  isButtonDisabled: boolean = false;
-  isEditing: boolean = false;
+  isButtonDisabled = false;
+  isEditing = false;
   isVerticalLayout: boolean;
 
-  public config: ScannerQRCodeConfig = {
-    constraints: {
-      video: {
-        width: window.innerWidth,
-      },
-    },
+  // config: ScannerQRCodeConfig = {
+  //   constraints: {
+  //     video: {
+  //       width: { ideal: 1920 }, // Larghezza desiderata dell'anteprima della fotocamera
+  //       height: { ideal: 1080 }, // Altezza desiderata dell'anteprima della fotocamera
+  //     },
+  //   },
+  //   //formats: ['QR_CODE', 'EAN_13'] // Formati dei codici a barre supportati
+  // };
+
+  config: any = {
+    decoder: {
+      readers: ['ean_reader'] // Specifica il tipo di codici a barre da scannerizzare (in questo caso EAN)
+    }
   };
+
+  // Gestisci l'evento di scansione rilevato dalla libreria ngx-scanner-qrcode
+  // onScanSuccess(result: Result): void {
+  //   // Esegui qui l'azione desiderata con il codice a barre rilevato
+  //   console.log('Codice a barre rilevato:', result.codeResult.code);
+  // }
 
   constructor(private productService: ProductServiceService) {}
 
@@ -84,17 +104,21 @@ export class CaScanComponent implements OnInit {
     // Fix issue #27, #29
     const playDeviceFacingBack = (devices: any[]) => {
       // front camera or back camera check here!
-      const device = devices.find(f => (/back|rear|environment/gi.test(f.label))); // Default Back Facing Camera
+      const device = devices.find((f) =>
+        /back|rear|environment/gi.test(f.label)
+      ); // Default Back Facing Camera
       action.playDevice(device ? device.deviceId : devices[0].deviceId);
-    }
+    };
 
     if (fn === 'start') {
-      action[fn](playDeviceFacingBack).subscribe((r: any) => console.log(fn, r), alert);
+      action[fn](playDeviceFacingBack).subscribe(
+        (r: any) => console.log(fn, r),
+        alert
+      );
     } else {
       action[fn]().subscribe((r: any) => console.log(fn, r), alert);
     }
   }
-  
 
   public addProduct(): void {
     this.productService
@@ -234,5 +258,53 @@ export class CaScanComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkOrientation();
+  }
+
+  /// Calcola il numero totale di pagine sulla base dei dati disponibili
+  get totalPages(): number {
+    return Math.ceil(this.dataSource.length / this.itemsPerPage);
+  }
+
+  // Calcola l'array di pagine da visualizzare nella paginazione
+  get pages(): number[] {
+    const pagesArray = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
+  }
+
+  // Ottieni i dati per la pagina corrente
+  getPagesData(pageNumber: number): void {
+    this.currentPage = pageNumber;
+  }
+
+  // Ottieni i dati della pagina precedente
+  getPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  // Ottieni i dati della pagina successiva
+  getNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  // Verifica se la pagina è attiva per applicare lo stile corretto
+  isActive(pageNumber: number): string {
+    return pageNumber === this.currentPage ? 'active' : '';
+  }
+
+  // Metodo per paginare i dati e ottenere solo quelli per la pagina corrente
+  get visibleData(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = Math.min(
+      startIndex + this.itemsPerPage,
+      this.dataSource.length
+    );
+    return this.dataSource.slice(startIndex, endIndex);
   }
 }

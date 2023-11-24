@@ -12,7 +12,7 @@ export class ProductServiceService {
   apiUrl = `${environment.apiBaseUrl}/`;
 
   checkProduct(id: string): Observable<HttpResponse<Object[]>> {
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
@@ -22,7 +22,7 @@ export class ProductServiceService {
   }
 
   getAllProducts(): Observable<HttpResponse<Object[]>> {
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
@@ -37,7 +37,7 @@ export class ProductServiceService {
     quantita: number,
     nomeProdotto: string
   ): Observable<HttpResponse<Object[]>> {
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -62,7 +62,7 @@ export class ProductServiceService {
     quantita: number,
     nomeProdotto: string
   ): Observable<HttpResponse<Object[]>> {
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -82,7 +82,7 @@ export class ProductServiceService {
   }
 
   deleteProduct(id: string): Observable<HttpResponse<Object[]>> {
-    let tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 

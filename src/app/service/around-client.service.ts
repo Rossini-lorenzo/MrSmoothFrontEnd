@@ -59,7 +59,7 @@ export class AroundClientService {
   }
 
   public welcome(token: any, role: any, id: any) {
-    let tokenStr = 'Bearer ' + token;
+    const tokenStr = 'Bearer ' + token;
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
