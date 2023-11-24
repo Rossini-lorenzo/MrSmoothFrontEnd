@@ -72,6 +72,8 @@ export class AroundClientService {
 
   isLoggedIn() {
     // check if token is present in local storage
+
+    
     return localStorage.getItem('token') !== null;
   }
 
