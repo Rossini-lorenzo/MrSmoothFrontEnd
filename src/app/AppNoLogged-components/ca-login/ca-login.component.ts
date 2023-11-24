@@ -20,6 +20,7 @@ export class CaLoginComponent implements OnInit {
   role: any;
 
   onSubmit(form: NgForm) {
+    
     this.authRequest = {
       username: form.value.username,
       password: form.value.password,
