@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CaHomeComponent } from './AppNoLogged-components/ca-home/ca-home.component';
 import { CaLoginComponent } from './AppNoLogged-components/ca-login/ca-login.component';
 import { CaNavbarComponent } from './AppNoLogged-components/ca-navbar/ca-navbar.component';
+import { CaCalendarComponent } from './AppNoLogged-components/ca-calendar/ca-calendar.component';
+
 
 import { AuthGuard } from './AuthGuard';
 import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.component';
@@ -23,6 +25,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: CaOverwiewComponent },
       { path: 'scanaggiungi', component: CaScanComponent },
+      { path: 'calendario', component: CaCalendarComponent },
       { path: 'chest', component: CaChestComponent }
     ], canActivate: [AuthGuard]
   },

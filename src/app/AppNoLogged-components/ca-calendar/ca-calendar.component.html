@@ -1,0 +1,39 @@
+<div class="section">
+  <div class="card d-inline-block m-auto w-fit-content">
+    <div class="card-body">
+      
+      <div class="container">
+        <!-- calendario.component.html -->
+<!-- calendario.component.html -->
+<div class="calendario-container">
+  <div class="header">
+    <button (click)="cambiaGiorno(-1)">Giorno precedente</button>
+    <h2>{{ dataCorrente | date: 'EEEE, dd/MM/yyyy' }}</h2>
+    <button (click)="cambiaGiorno(1)">Giorno successivo</button>
+  </div>
+
+  <div class="giorni-adiacenti">
+    <div *ngFor="let giorno of giorniAdiacenti" class="giorno">
+      {{ giorno | date: 'EEE dd/MM' }}
+    </div>
+  </div>
+
+  <div class="vista-giornaliera">
+    <div class="ore">
+      <div class="ora" *ngFor="let ora of ore">
+        {{ ora }}:00
+      </div>
+    </div>
+    <div class="appuntamenti">
+      <!-- Aggiungi qui la logica per visualizzare gli appuntamenti -->
+    </div>
+  </div>
+</div>
+
+
+         
+      </div>
+ 
+    </div>
+  </div>
+</div>

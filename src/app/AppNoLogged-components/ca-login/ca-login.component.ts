@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class CaLoginComponent implements OnInit {
   response: any;
+model: any;
 
   ngOnInit(): void {}
   constructor(private service: AroundClientService, private router: Router) {}

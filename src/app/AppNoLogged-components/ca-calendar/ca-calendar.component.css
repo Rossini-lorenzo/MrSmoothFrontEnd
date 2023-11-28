@@ -1,0 +1,71 @@
+.section {
+    padding-left: 280px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    height: 100vh; /* Imposta l'altezza della sezione al 100% della finestra */
+    display: flex;
+  }
+  
+  .card {
+    height: 100%; /* Imposta l'altezza della card al 100% della sezione */
+    width: 100%;
+    flex-grow: 1;
+  }
+  
+  .card-body {
+    height: 100%;
+    overflow: auto;
+  }
+  
+
+
+
+
+
+
+  /* calendario.component.css */
+.calendario-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4285f4;
+    color: white;
+    padding: 10px;
+  }
+  
+  .giorni-adiacenti {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .giorno {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .vista-giornaliera {
+    display: flex;
+  }
+  
+  .ore {
+    border-right: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .ora {
+    padding: 5px;
+  }
+  
+  .appuntamenti {
+    flex: 1;
+    padding: 10px;
+  }
+  

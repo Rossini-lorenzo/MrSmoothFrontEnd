@@ -17,8 +17,11 @@ import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-ove
 import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.component';
 import { AuthGuard } from './AuthGuard';
+import { CaCalendarComponent } from './AppNoLogged-components/ca-calendar/ca-calendar.component';
 
-
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +31,7 @@ import { AuthGuard } from './AuthGuard';
     CaScanComponent,
     CaOverwiewComponent,
     CaChestComponent,
+    CaCalendarComponent,
   
     
   ],
@@ -42,8 +46,14 @@ import { AuthGuard } from './AuthGuard';
     MatSliderModule,
     NgxScannerQrcodeModule 
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard ,{ provide: LOCALE_ID, useValue: 'it-IT' },],
   bootstrap: [AppComponent],
   
 })
-export class AppModule { }
+export class AppModule {
+  onstructor() {
+    registerLocaleData(localeIt, 'it');
+
+  }
+
+ }
