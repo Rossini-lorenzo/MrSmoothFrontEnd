@@ -18,10 +18,22 @@ import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
 import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.component';
 import { AuthGuard } from './AuthGuard';
 import { CaCalendarComponent } from './AppNoLogged-components/ca-calendar/ca-calendar.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'; // Puoi scegliere l'adattatore desiderato
+
+// Full Calendar
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction'; // this plugin isn´t installed
+
+
 
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +44,7 @@ import localeIt from '@angular/common/locales/it';
     CaOverwiewComponent,
     CaChestComponent,
     CaCalendarComponent,
+   
   
     
   ],
@@ -44,13 +57,15 @@ import localeIt from '@angular/common/locales/it';
     FormsModule,
     MatSlideToggleModule,
     MatSliderModule,
-    NgxScannerQrcodeModule 
+    NgxScannerQrcodeModule ,
+    FullCalendarModule,
   ],
   providers: [AuthGuard ,{ provide: LOCALE_ID, useValue: 'it-IT' },],
   bootstrap: [AppComponent],
   
 })
 export class AppModule {
+  
   onstructor() {
     registerLocaleData(localeIt, 'it');
 
