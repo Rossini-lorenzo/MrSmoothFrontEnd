@@ -32,6 +32,7 @@ import interactionPlugin from '@fullcalendar/interaction'; // this plugin isn´t
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
+import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-register.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import localeIt from '@angular/common/locales/it';
     CaOverwiewComponent,
     CaChestComponent,
     CaCalendarComponent,
+    CaRegisterComponent,
    
   
     

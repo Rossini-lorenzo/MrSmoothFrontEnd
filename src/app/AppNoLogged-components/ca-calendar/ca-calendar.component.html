@@ -1,8 +1,61 @@
-
 <div class="section">
-
   <div class="card d-inline-block m-auto w-fit-content">
     <div class="card-body">
-<full-calendar [options]="calendarOptions"></full-calendar>
-</div></div>
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+  <div class="modal fade" tabindex="-1" role="dialog" [ngClass]="{ show: showModal }">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitle }}</h5>
+          <button
+            type="button"
+            class="close"
+            (click)="closeEventModal()"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Form per l'inserimento/modifica/eliminazione dell'evento -->
+          <div class="form-group" *ngIf="action !== 'delete'">
+            <label for="eventTitle">Titolo:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="eventTitle"
+              [(ngModel)]="event.title"
+            />
+          </div>
+          <div class="form-group" *ngIf="action !== 'delete'">
+            <label for="eventDescription">Descrizione:</label>
+            <textarea
+              class="form-control"
+              id="eventDescription"
+              rows="3"
+              [(ngModel)]="event.description"
+            ></textarea>
+          </div>
+          <div class="alert alert-danger" *ngIf="action === 'delete'">
+            Sei sicuro di voler eliminare questo evento?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeEventModal()"
+          >
+            Chiudi
+          </button>
+          <button type="button" class="btn btn-primary" (click)="performAction()">
+            {{ action === "delete" ? "Elimina" : "Salva" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
