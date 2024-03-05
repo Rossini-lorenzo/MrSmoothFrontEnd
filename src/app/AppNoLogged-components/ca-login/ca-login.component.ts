@@ -12,7 +12,7 @@ export class CaLoginComponent implements OnInit {
   response: any;
 model: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {localStorage.setItem('googleAuthCode', "")}
   constructor(private service: AroundClientService, private router: Router) {}
 
   username: string;
