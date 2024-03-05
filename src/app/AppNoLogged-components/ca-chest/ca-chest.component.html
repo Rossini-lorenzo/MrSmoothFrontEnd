@@ -11,45 +11,169 @@
       </div>
       <div class="container">
         <!-- For camera -->
-        <ngx-scanner-qrcode
-          #action="scanner"
-          [config]="config"
-          (event)="onEvent($event, action)"
-        ></ngx-scanner-qrcode>
-        <div
-          class="mt-3 text-center d-flex justify-content-center align-items-center"
-        >
-          <p *ngIf="action.isLoading">⌛ Caricamento in corso...</p>
-        </div>
-
-        <!-- start -->
-        <div class="text-center mt-3">
-          <button
-            type="button"
-            class="btn"
-            [class.btn-dark]="!action.isStart"
-            [class.btn-warning]="action.isStart"
-            [disabled]="action.isLoading"
-            (click)="handle(action, action.isStart ? 'stop' : 'start')"
+        <div class="row">
+          <div class="col-6">
+            <ngx-scanner-qrcode
+              #action="scanner"
+              [config]="config"
+              (event)="onEvent($event, action)"
+            ></ngx-scanner-qrcode>
+          </div>
+          <div
+            class="col-6 d-flex flex-column justify-content-center align-items-center"
           >
-            <img
-              [src]="
-                action.isStart
-                  ? 'https://id1945.github.io/images/svg/camera-off.svg'
-                  : 'https://id1945.github.io/images/svg/camera-on.svg'
-              "
-              width="30px"
-              [class.btn-white]="action.isStart"
-              style="filter: brightness(0) invert(1)"
-              alt=""
-            />
-          </button>
+            <div class="text-center d-flex flex-column justify-content-center">
+              <button
+                type="button"
+                class="btn"
+                [class.btn-dark]="!action.isStart"
+                [class.btn-warning]="action.isStart"
+                [disabled]="action.isLoading"
+                (click)="handle(action, action.isStart ? 'stop' : 'start')"
+              >
+                <img
+                  [src]="
+                    action.isStart
+                      ? 'https://id1945.github.io/images/svg/camera-off.svg'
+                      : 'https://id1945.github.io/images/svg/camera-on.svg'
+                  "
+                  alt="Camera Icon"
+                  width="30px"
+                  [class.btn-white]="action.isStart"
+                  style="filter: brightness(0) invert(1)"
+                />
+              </button>
+            </div>
+            <div class="text-center d-flex justify-content-center mt-2">
+              <p *ngIf="action.isLoading">⌛ Caricamento in corso...</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="mt-5 text-center">
-        <!-- (click)="addProduct()" -->
-        <!-- [disabled]="isButtonDisabled || !areFieldsFilled()" -->
-        <button type="button" class="btn sc-primary">Registra Vendita</button>
+      <div class="mt-5 row">
+        <div class="col-4 col-md-6 col-xl-4">
+          <label for="serviceType" class="fw-bold form-label"
+            >Servizio effettuato</label
+          >
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            id="serviceType"
+            [(ngModel)]="service"
+          >
+            <option selected>Nessun servizio selezionato</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <div class="col-3 col-md-6 col-xl-3">
+          <label for="quantity" class="fw-bold form-label">Quantità</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            [(ngModel)]="quantity"
+            class="form-control"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default"
+          />
+        </div>
+        <div class="col-3 col-md-6 col-xl-3">
+          <label for="price" class="fw-bold form-label">Prezzo</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            [(ngModel)]="price"
+            class="form-control"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default"
+          />
+        </div>
+        <div class="col-2 d-flex align-items-end">
+          <button type="button" class="btn sc-primary" (click)="addSale()">
+            Aggiungi
+          </button>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <table *ngIf="salesList && salesList.length > 0" class="table">
+              <!-- *ngIf="!isVerticalLayout" -->
+              <thead>
+                <tr>
+                  <th>Servizio</th>
+                  <th>Quantità</th>
+                  <th>Prezzo</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of salesList">
+                  <!-- <div class="card mb-3">
+                  <div class="card-body">
+                    <p class="card-text">Codice Prodotto: {{ item.id }}</p>
+                    <p class="card-text">
+                      Nome Prodotto: {{ item.nomeProdotto }}
+                    </p>
+                    <p class="card-text">
+                      Prezzo: &euro; {{ item.prezzo | number : "1.2-2" }}
+                    </p>
+                    <p class="card-text">Quantità: {{ item.quantita }} pz</p>
+
+                    <div class="d-flex justify-content-end">
+                      <button
+                        class="btn sc-primary me-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editProductModal"
+                      >
+                        <i class="bx bxs-edit"></i>
+                      </button>
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#editProductModal"
+                        class="btn sc-primary"
+                      >
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div> -->
+                  <!-- *ngIf="!isVerticalLayout" -->
+                  <tr>
+                    <td class="align-middle">{{ item.service }}</td>
+                    <td class="align-middle">{{ item.quantity }}</td>
+                    <td class="align-middle">&euro; {{ item.price }}</td>
+                    <td class="align-middle">
+                      <button
+                        class="btn sc-primary"
+                        (click)="removeSale(item.service)"
+                      >
+                        <i class="bx bx-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div *ngIf="salesList && salesList.length > 0" class="row mt-3">
+          <div class="col-12 d-flex justify-content-center">
+            <p class="fw-bold">Totale: &euro; {{ calculateTotal() }}</p>
+          </div>
+        </div>
+        <div class="mt-3 text-center">
+          <!-- (click)="addProduct()" -->
+
+          <button
+            type="button"
+            class="btn sc-primary"
+            [disabled]="salesList && salesList.length === 0"
+          >
+            Registra Vendita
+          </button>
+        </div>
       </div>
     </div>
   </div>

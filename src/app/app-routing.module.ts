@@ -10,6 +10,7 @@ import { AuthGuard } from './AuthGuard';
 import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.component';
 import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
 import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.component';
+import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-register.component';
 
 
 
@@ -26,7 +27,8 @@ const routes: Routes = [
       { path: 'overview', component: CaOverwiewComponent },
       { path: 'scanaggiungi', component: CaScanComponent },
       { path: 'calendario', component: CaCalendarComponent },
-      { path: 'chest', component: CaChestComponent }
+      { path: 'chest', component: CaChestComponent },
+      { path: 'register', component: CaRegisterComponent }
     ], canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: 'login' }

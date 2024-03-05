@@ -158,14 +158,14 @@
             </thead>
             <tbody>
               <ng-container *ngFor="let item of visibleData">
-                <div class="card mb-3" *ngIf="isVerticalLayout">
+                <div class="card mb-3 col-12" *ngIf="isVerticalLayout">
                   <div class="card-body">
                     <p class="card-text">Codice Prodotto: {{ item.id }}</p>
                     <p class="card-text">
                       Nome Prodotto: {{ item.nomeProdotto }}
                     </p>
                     <p class="card-text">
-                      Prezzo: &euro; {{ item.prezzo | number : "1.2-2" }}
+                      Prezzo: &euro; {{ item.prezzo }}
                     </p>
                     <p class="card-text">Quantità: {{ item.quantita }} pz</p>
 
@@ -194,7 +194,7 @@
                   <td class="align-middle">{{ item.id }}</td>
                   <td class="align-middle">{{ item.nomeProdotto }}</td>
                   <td class="align-middle">
-                    &euro; {{ item.prezzo | number : "1.2-2" }}
+                    &euro; {{ item.prezzo }}
                   </td>
                   <td class="align-middle">{{ item.quantita }} pz</td>
 
