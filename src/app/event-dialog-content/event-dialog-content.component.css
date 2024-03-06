@@ -1,0 +1,21 @@
+.dialog-container {
+    position: fixed;
+    top: 35%;
+    left: 92%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    z-index: 9999; /* Imposta un valore alto per garantire che sia sopra il calendario */
+  }
+  .card-header{
+    background-color: #add7f6;
+  }
+  #custom-btn{
+    background-color: #add7f6;
+    border-color: #add7f6;
+    margin-left: 34px;
+
+  }

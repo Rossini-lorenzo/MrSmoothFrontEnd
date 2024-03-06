@@ -13,6 +13,11 @@ import { Injectable } from '@angular/core';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 import { ActivatedRoute } from '@angular/router';
 import itLocale from '@fullcalendar/core/locales/it';
+import { MatDialog } from '@angular/material/dialog';
+import { EventDialogContentComponent } from 'src/app/event-dialog-content/event-dialog-content.component';
+import * as moment from 'moment';
+import 'moment/locale/it'; // Importa il file di localizzazione italiano
+
 
 
 interface Evento {
@@ -42,17 +47,24 @@ export class CaCalendarComponent {
     eventClick: this.handleEventClick.bind(this),
     slotMinWidth: 50, // Puoi regolare questo valore in base alle tue esigenze
       locale: 'it', // Imposta la lingua italiana direttamente tramite l'opzione locale
-      slotMinTime: '03:00', // Imposta l'ora minima a 8:00 di mattina
-      slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
+      slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+      slotMaxTime: '21:30', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
-      allDaySlot: false, // Disabilita lo slot "All-day"
+      allDaySlot: false, // Disabilita lo slot "All-day",
+      titleFormat: { year: 'numeric', month: 'long' },
+      dayHeaderContent: function (args) {
+        return {
+           html: '<div class="custom-day-header" style=" text-decoration: none!important; ">' +
+          '<div class="day-number" style=" text-decoration: none; ">' + moment(args.date).format('D') + '</div>' +
+          '<div class="day-name" style=" text-decoration: none; ">' + moment(args.date).format('ddd') + '</div>' +
+        '</div>',       }},
 
 
     // altre opzioni del calendario...
   };
   events :any = [];
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService) {}
+  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {}
  
   ngOnInit(): void {
 
@@ -60,11 +72,17 @@ export class CaCalendarComponent {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
       eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
-      slotMinTime: '03:00', // Imposta l'ora minima a 8:00 di mattina
-      slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
+      slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+      slotMaxTime: '21:30', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
       allDaySlot: false, // Disabilita lo slot "All-day"
-
+      titleFormat: { year: 'numeric', month: 'long' },
+      dayHeaderContent: function (args) {
+        return {
+           html: '<div class="custom-day-header" style=" text-decoration: none!important; ">' +
+          '<div class="day-number" style=" text-decoration: none; ">' + moment(args.date).format('D') + '</div>' +
+          '<div class="day-name" style=" text-decoration: none; ">' + moment(args.date).format('ddd') + '</div>' +
+        '</div>',       }},
 
       headerToolbar: {
         left: 'prev,next',
@@ -161,43 +179,62 @@ export class CaCalendarComponent {
  
 
 
-// creazione evento
+// Creazione evento
 handleDateSelect(selectInfo: any) {
-  const title = prompt('Inserisci il titolo dell\'evento:');
-  const description = prompt('Inserisci la descrizione dell\'evento:') || '';
+  const dialogRef = this.dialog.open(
+    // Contenuto del dialogo
+    EventDialogContentComponent,
+    {
+      width: '400px',
+      disableClose: true,
+      autoFocus: true,
+      position: { top: '0%', left: '55%' } // Imposta la posizione al centro
 
-  if (title) {
-    const startDate = new Date(selectInfo.startStr).toISOString();
-    const endDate = new Date(selectInfo.endStr).toISOString();
+    }
+  );
+  dialogRef.afterOpened().subscribe(() => {
+    const dialogContainer = document.querySelector('.mat-dialog-container');
+    if (dialogContainer) {
+      dialogContainer.setAttribute('style', 'margin-top: -2000px'); // Imposta il margine superiore per centrare il dialogo
+    }
+  });
+  dialogRef.afterClosed().subscribe((result: any) => {
+    if (result) {
+      const title = dialogRef.componentInstance.getTitleValue();
+      const description = dialogRef.componentInstance.getDescriptionValue();
+     
 
-    const newEvent = {
-      title,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      description,
-    };
+      const startDate = new Date(selectInfo.startStr).toISOString();
+      const endDate = new Date(selectInfo.endStr).toISOString();
 
-    this.productService.createEvent(title, description, startDate, endDate).subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
-        console.log("RESP",response);
+      const newEvent = {
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        description,
+      };
 
-        // Aggiungi l'evento al calendario solo se la chiamata al backend ha avuto successo
-        
+      this.productService.createEvent(title, description, startDate, endDate).subscribe({
+        next: (response: any) => {
+          const responseData = response.body;
+          console.log("RESP", response);
+
+          // Aggiungi l'evento al calendario solo se la chiamata al backend ha avuto successo
           if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
             this.calendarOptions.events.push(newEvent);
             this.calendarOptions.events = [...this.calendarOptions.events];
-          } 
+          }
           this.showAlert("Evento creato")
           this.loadEvents();
-      },
-      error: (error) => {
-        alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
-        console.error("ERROE",error);
-      },
-      complete: () => console.info('Chiamata al backend completata'),
-    });
-  }
+        },
+        error: (error) => {
+          alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
+          console.error("ERROE", error);
+        },
+        complete: () => console.info('Chiamata al backend completata'),
+      });
+    }
+  });
 }
 
   //rimozione evento 
@@ -255,5 +292,11 @@ handleDateSelect(selectInfo: any) {
       document.body.removeChild(alertDiv);
   }, 3000); // Tempo in millisecondi (3 secondi)
 }
+
+
+
+
+
+
 
 }

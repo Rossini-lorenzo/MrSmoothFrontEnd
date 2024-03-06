@@ -1,0 +1,28 @@
+
+  
+  <div class="dialog-container">
+    <div class="card">
+      <div class="card-header">
+        Nuovo evento
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+            <label for="titleInput">Titolo</label>
+            <input type="text" class="form-control" #titleInput name="titleInput" [(ngModel)]="title">
+
+          </div>
+          <div class="form-group">
+            <label for="descriptionInput">Descrizione</label>
+            <textarea class="form-control" #descriptionInput name="descriptionInput" [(ngModel)]="description"></textarea>
+        </div>
+          
+          
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-secondary" (click)="onNoClick()">Annulla</button>
+        <button mat-button  class="btn btn-primary-custom" id="custom-btn" [mat-dialog-close]="{title: title, description: description}" >Conferma</button>
+
+      </div>
+    </div>
+  </div>
+  

@@ -1,6 +1,5 @@
 
 
-
 .section {
     padding-left: 280px;
     padding-top: 10px;
@@ -173,5 +172,16 @@
   .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
     background-color: #303030;
     opacity: 8%;
+  }
+  
+  /*
+
+   stile full calendar
+  */
+  .fc .fc-col-header-cell-cushion {
+    text-decoration: none!important; /* Rimuove la sottolineatura */
+  }
+  .fc-col-header-cell-cushion a {
+    text-decoration: none; /* Rimuove la sottolineatura dai link */
   }
   

@@ -20,6 +20,8 @@ import { AuthGuard } from './AuthGuard';
 import { CaCalendarComponent } from './AppNoLogged-components/ca-calendar/ca-calendar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns'; // Puoi scegliere l'adattatore desiderato
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Full Calendar
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -30,9 +32,12 @@ import interactionPlugin from '@fullcalendar/interaction'; // this plugin isn´t
 
 
 import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-register.component';
+import { EventDialogContentComponent } from './event-dialog-content/event-dialog-content.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card'; // Assicurati di aver aggiunto questa riga
 
 
 @NgModule({
@@ -46,6 +51,7 @@ import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-reg
     CaChestComponent,
     CaCalendarComponent,
     CaRegisterComponent,
+    EventDialogContentComponent,
    
   
     
@@ -61,8 +67,15 @@ import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-reg
     MatSliderModule,
     NgxScannerQrcodeModule ,
     FullCalendarModule,
+    CommonModule,
+    MatDialogModule,
+    MatInputModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatCardModule
   ],
-  providers: [AuthGuard ,{ provide: LOCALE_ID, useValue: 'it-IT' },],
+  providers: [AuthGuard ,{ provide: LOCALE_ID, useValue: 'it-IT' },    MatDialog // Assicurati di includere questo provider
+],
   bootstrap: [AppComponent],
   
 })
