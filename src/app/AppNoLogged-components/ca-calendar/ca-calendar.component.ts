@@ -48,7 +48,7 @@ export class CaCalendarComponent {
     slotMinWidth: 50, // Puoi regolare questo valore in base alle tue esigenze
       locale: 'it', // Imposta la lingua italiana direttamente tramite l'opzione locale
       slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
-      slotMaxTime: '21:30', // Imposta l'ora massima a 21:00 di sera
+      slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
       allDaySlot: false, // Disabilita lo slot "All-day",
       titleFormat: { year: 'numeric', month: 'long' },
@@ -73,7 +73,7 @@ export class CaCalendarComponent {
       initialView: 'timeGridWeek',
       eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
       slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
-      slotMaxTime: '21:30', // Imposta l'ora massima a 21:00 di sera
+      slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
       allDaySlot: false, // Disabilita lo slot "All-day"
       titleFormat: { year: 'numeric', month: 'long' },
