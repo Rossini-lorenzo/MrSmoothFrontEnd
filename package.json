@@ -63,5 +63,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~5.0.4"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC"
 }
