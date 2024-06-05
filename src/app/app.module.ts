@@ -38,6 +38,8 @@ import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-reg
 import { EventDialogContentComponent } from './event-dialog-content/event-dialog-content.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card'; // Assicurati di aver aggiunto questa riga
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { FooterComponent } from './AppNoLogged-components/footer/footer.component';
 
 
 @NgModule({
@@ -52,7 +54,7 @@ import { MatCardModule } from '@angular/material/card'; // Assicurati di aver ag
     CaCalendarComponent,
     CaRegisterComponent,
     EventDialogContentComponent,
-   
+    FooterComponent
   
     
   ],
@@ -72,7 +74,8 @@ import { MatCardModule } from '@angular/material/card'; // Assicurati di aver ag
     MatInputModule,
     FormsModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    CanvasJSAngularChartsModule
   ],
   providers: [AuthGuard ,{ provide: LOCALE_ID, useValue: 'it-IT' },    MatDialog // Assicurati di includere questo provider
 ],

@@ -1,0 +1,25 @@
+.footer {
+    background-color: #333333;
+    padding: 8px 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+  
+  .footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer nav a:hover {
+    text-decoration: underline;
+  }
+  

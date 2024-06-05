@@ -63,6 +63,7 @@ export class CaCalendarComponent {
     // altre opzioni del calendario...
   };
   events :any = [];
+  employees: any= [];  // Definire l'array di oggetti come 'any[]'
 
   constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {}
  
@@ -135,7 +136,10 @@ export class CaCalendarComponent {
     if (accessToken !== null && accessToken !== "") {
       this.productService.getAllEvent().subscribe({
         next: (response: any) => {
+
           const responseData = response.body;
+                      classNames: ['fc-timegrid-event-harness', 'my-custom-event'] // Aggiungi la classe personalizzata
+console.log(response);
           const events = responseData.map((item: any) => ({
             id: item.id,
             title: item.summary,
@@ -213,8 +217,11 @@ handleDateSelect(selectInfo: any) {
         end: selectInfo.endStr,
         description,
       };
-
-      this.productService.createEvent(title, description, startDate, endDate).subscribe({
+   
+      
+      
+      this.productService.createEvent(title, description,      result.employee
+        , startDate, endDate).subscribe({
         next: (response: any) => {
           const responseData = response.body;
           console.log("RESP", response);

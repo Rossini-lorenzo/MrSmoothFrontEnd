@@ -123,23 +123,17 @@ export class ProductServiceService {
     );
   }
 
-  createEvent(titolo: any, descrizione: any, startDate: any, endDate: any): Observable<HttpResponse<Object[]>> {
+  createEvent(titolo: any, descrizione: any,idDipendente: any, startDate: any, endDate: any): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().append('Authorization', tokenStr);
     
     return this.httpClient.post<any>(
-      "http://localhost:8080/googleCalendar/create-event?&titolo=" + titolo + "&descrizione=" + descrizione +"&startDate="+startDate+"&endDate="+endDate,
+      "http://localhost:8080/googleCalendar/create-event?&titolo=" + titolo + "&descrizione=" + descrizione +"&idDipendente="+ idDipendente +"&startDate="+startDate+"&endDate="+endDate,
       null,
       { headers: headers, responseType: 'text' as 'json' } // Aggiunto observe: 'response' per ottenere l'intera risposta HTTP
     );
   }
   
-
-
-
-
-
-
 
 deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
   const tokenStr = 'Bearer ' + localStorage.getItem('token');
@@ -151,4 +145,16 @@ deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
 }
   // EVENTI  CALENDARIO GOOGLE END
 
+
+  //START DASHBOARD
+    getAllEmployee(): Observable<HttpResponse<Object[]>> {
+      const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  
+      const headers = new HttpHeaders().set('Authorization', tokenStr);
+      return this.httpClient.get<Object[]>(
+        this.apiUrl + 'dashboard/getAllEmployee',
+        { headers, observe: 'response' }
+      );
+    }
+  //END DASHBOARD
 }
