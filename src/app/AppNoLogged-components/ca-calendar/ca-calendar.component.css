@@ -34,12 +34,8 @@
 
 
 
-
- /* Stile personalizzato per gli eventi */
-/* Stile personalizzato per gli eventi */
-.fc-timegrid-event-harness.my-custom-event {
-  width: 30%; /* Imposta la larghezza degli eventi al 30% della larghezza dell'intervallo di tempo */
-}
+  .my-custom-event{
+    width: 98px !important;}
 
 
   .modal-overlay {
@@ -56,6 +52,8 @@
   .modal-overlay.show {
     display: block; /* Mostra l'overlay quando showModal è true */
   }
+  
+
   
 
 

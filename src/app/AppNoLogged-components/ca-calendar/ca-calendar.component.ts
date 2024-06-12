@@ -41,26 +41,35 @@ export class CaCalendarComponent {
    loading: boolean = false;
 
   showModal: boolean = true;
-  calendarOptions: CalendarOptions = {
-    plugins: [ dayGridPlugin, interactionPlugin, timeGridPlugin], // Assicurati di includere i plugin necessari
+  calendarOptions: CalendarOptions  = {
+    plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
     initialView: 'timeGridWeek',
-    eventClick: this.handleEventClick.bind(this),
+    eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
+    slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+    slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
+    slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
+    allDaySlot: false, // Disabilita lo slot "All-day"
+    titleFormat: { year: 'numeric', month: 'long' },
+    dayHeaderContent: function (args) {
+      return {
+         html: '<div class="custom-day-header" style=" text-decoration: none!important; ">' +
+        '<div class="day-number" style=" text-decoration: none; ">' + moment(args.date).format('D') + '</div>' +
+        '<div class="day-name" style=" text-decoration: none; ">' + moment(args.date).format('ddd') + '</div>' +
+      '</div>',       }},
+
+    headerToolbar: {
+      left: 'prev,next',
+      center: 'title',
+      right: 'timeGridWeek,timeGridDay'
+    },
+    locale: 'it', // Imposta la lingua italiana direttamente tramite l'opzione locale
+
     slotMinWidth: 50, // Puoi regolare questo valore in base alle tue esigenze
-      locale: 'it', // Imposta la lingua italiana direttamente tramite l'opzione locale
-      slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
-      slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
-      slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
-      allDaySlot: false, // Disabilita lo slot "All-day",
-      titleFormat: { year: 'numeric', month: 'long' },
-      dayHeaderContent: function (args) {
-        return {
-           html: '<div class="custom-day-header" style=" text-decoration: none!important; ">' +
-          '<div class="day-number" style=" text-decoration: none; ">' + moment(args.date).format('D') + '</div>' +
-          '<div class="day-name" style=" text-decoration: none; ">' + moment(args.date).format('ddd') + '</div>' +
-        '</div>',       }},
 
-
-    // altre opzioni del calendario...
+    selectable: true,
+    select: this.handleDateSelect.bind(this),
+    eventClick: this.handleEventClick.bind(this), // Assegna la funzione handleEventClick all'azione eventClick
+    events: [] // Inizialmente senza eventi
   };
   events :any = [];
   employees: any= [];  // Definire l'array di oggetti come 'any[]'
@@ -136,29 +145,26 @@ export class CaCalendarComponent {
     if (accessToken !== null && accessToken !== "") {
       this.productService.getAllEvent().subscribe({
         next: (response: any) => {
-
           const responseData = response.body;
-                      classNames: ['fc-timegrid-event-harness', 'my-custom-event'] // Aggiungi la classe personalizzata
-console.log(response);
+          console.log('Response Data:', responseData);
           const events = responseData.map((item: any) => ({
             id: item.id,
             title: item.summary,
             start: item.start.dateTime,
             end: item.end.dateTime,
             description: item.description,
-            classNames: ['fc-timegrid-event-harness', 'my-custom-event'] // Aggiungi la classe personalizzata
-
+            classNames: ['my-custom-event']
           }));
-
-          // Aggiorna gli eventi in calendarOptions
+          console.log('Formatted Events:', events);
           this.calendarOptions.events = events;
-          this.events = events; // Aggiorna anche la variabile locale per gli eventi
+          this.events = events;
         },
         error: (error) => console.error(error),
         complete: () => console.info('complete'),
       });
     }
   }
+  
 
   authenticateWithGoogleCalendar() {
     const url = "http://localhost:8080/googleCalendar/login/google";
@@ -177,10 +183,25 @@ console.log(response);
   
  //modifica larghezza evento
  
+ mostraDettagli: boolean = false;
+  eventoSelezionato: any;
 
+  // Quando il mouse entra nell'evento
+  mostraDettagliEvento(evento: any) {
+    this.mostraDettagli = true;
+    this.eventoSelezionato = evento;
+  }
 
+  // Quando il mouse esce dall'evento
+  nascondiDettagliEvento() {
+    this.mostraDettagli = false;
+    this.eventoSelezionato = null;
+  }
 
  
+
+
+
 
 
 // Creazione evento

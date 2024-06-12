@@ -156,5 +156,15 @@ deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
         { headers, observe: 'response' }
       );
     }
+    getAllCounters(): Observable<HttpResponse<Object[]>> {
+      const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  
+      const headers = new HttpHeaders().set('Authorization', tokenStr);
+      return this.httpClient.get<Object[]>(
+        this.apiUrl + 'dashboard/getAllCounter',
+        { headers, observe: 'response' }
+      );
+    }
+
   //END DASHBOARD
 }

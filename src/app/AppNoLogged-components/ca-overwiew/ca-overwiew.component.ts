@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { ProductServiceService } from 'src/app/service/product-service.service';
 
 
 @Component({
@@ -9,6 +10,35 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 })
 export class CaOverwiewComponent {
+
+	constructor(
+		private productService: ProductServiceService
+	  ){}
+
+	employeesCounter : number = 0;
+    productsCounter : number = 0;
+    customersCounter : number = 0;
+    eventsCounter : number = 0;
+
+	ngOnInit(): void {
+		this.productService.getAllCounters().subscribe({
+		  next: (response: any) => {
+			
+			const responseData = response.body; // Accesso al corpo della risposta
+			console.log("Response data:", responseData); // Logga i dati ricevuti
+			
+			this.employeesCounter = responseData.employeesCounter;
+			this.productsCounter =responseData.productsCounter;
+			this.customersCounter = responseData.customersCounter;
+			this.eventsCounter = responseData.eventsCounter;
+			
+		   
+		  },
+		  error: (error) => console.error(error),
+		  complete: () => {console.info('complete')},
+		});
+	  }
+
   chartOptions = {
     animationEnabled: true,
     height: 270,
@@ -49,7 +79,7 @@ export class CaOverwiewComponent {
 
 		]
 	  }]
-	}	
+	};
 
   chartOptions2 = {
     height: 300,
@@ -80,5 +110,5 @@ export class CaOverwiewComponent {
 		  { x: new Date(2020, 0, 1), y: 300098 }
 		]
 	  }]
-	}
+	};
 }
