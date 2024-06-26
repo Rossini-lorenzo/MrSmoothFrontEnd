@@ -1,110 +1,97 @@
-<app-ca-navbar></app-ca-navbar>
+<app-ca-navbar ></app-ca-navbar>
 
-<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12">
-        <div class="card card-registration my-4" style="border-radius: 0px">
-          <div class="row g-0" style="box-shadow: -1px -1px 8px 4px #888888">
-            <div class="col-lg-6 col-xl-5">
-              <img
-                src="assets/homeImg.jpg"
-                alt="Sample photo"
-                class="img-fluid"
-                style="height: 100%"
-              />
-            </div>
-            <div class="col-lg-6 col-xl-7">
-              <div class="card-body p-md-5 text-black">
-                <div class="row">
-                  <div
-                    class="col-12 mb-5 d-flex justify-content-center align-items-center"
-                  >
-                    <a
-                      href="/"
-                      class="d-flex align-items-center mb-3 mb-lg-0 text-white text-decoration-none"
-                    >
-                      <img
-                        src="assets/SmartControl_logo.jpg"
-                        alt="Ticket"
-                        class=""
-                        style="
-                          height: 120px;
-                          width: 120px;
-                          border-radius: 50%;
-                          
-                          border-color: white;
-                        "
-                      />
-                    </a>
-                  </div>
-                </div>
-                <div class="row">
-                  <h1
-                    class="col-12 mb-4 d-flex justify-content-center align-items-center"
-                    style="text-align: center"
-                  >
-                    Accedi
-                  </h1>
-                </div>
+<div class="background-img"></div> <!-- Div per l'immagine di sfondo -->
 
-                <div class="row mb-4 justify-content-center">
-                  <div class="col-10 col-sm-8 col-lg-7 col-xl-6">
-                    <div class="form-outline">
-                      <input
-                        type="text"
-                        name="username"
-                        [(ngModel)]="username"
-                        required
-                        class="form-control form-control-md"
-                        style="border-radius: 0px"
-                      />
-                      <label class="form-label" for="form3Example8"
-                        >Username</label
-                      >
-                    </div>
-                  </div>
+<div class="form-container"> <!-- Div che avvolge tutto il contenuto del form -->
+  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-4">
+          <div class="card card-registration my-4" style="border-top-left-radius: 5px;border-top-right-radius: 5px;">
+              <div class="card-header" style="padding: 0px;">
+                <div class="row ">
+                  <div class="col-10" style="margin-left: 20px;font-weight: bolder; font-size: 12px;">Login</div>
                 </div>
-
-                <div class="row justify-content-center">
-                  <div class="col-10 col-sm-8 col-lg-7 col-xl-6">
-                    <div class="form-outline mb-3">
-                      <input
-                        type="password"
-                        name="password"
-                        [(ngModel)]="password"
-                        required
-                        class="form-control form-control-md"
-                        style="border-radius: 0px"
-                      />
-                      <label class="form-label" for="form3Example8"
-                        >Password</label
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row justify-content-center">
-                  <div class="col-12 text-center">
-                    <div class="pt-3">
-                      <button
-                        type="submit"
-                        style="border-radius: 10px"
-                        class="btn sc-primary btn-lg ms-2"
-                      >
-                        Login
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                       
               </div>
-            </div>
+                <div class="card-body  text-black">
+
+          
+
+                  <div class="row mb-3 justify-content-center">
+                    
+                    <div class="col-10 col-sm-8 col-lg-7 col-xl-6">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-user"></i>
+                          </span>
+                        </div>
+                        <input
+                          placeholder="Username"
+                          type="text"
+                          name="username"
+                          [(ngModel)]="username"
+                          required
+                          class="form-control form-control-md"
+                          style="border-radius: 0px;height: 30px;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-center">
+                    <div class="col-10 col-sm-8 col-lg-7 col-xl-6">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="fas fa-key"></i>
+                          </span>
+                        </div>
+                        <input
+                          type="password"
+                          name="password"
+                          placeholder="Password"
+                          [(ngModel)]="password"
+                          required
+                          class="form-control form-control-md"
+                          style="border-radius: 0px;height: 30px;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                      <div class="pt-1">
+                        <button
+                          type="submit"
+                          style="border-radius: 2px;margin-right: 5px;background-color: #2781b9;border-color: #2781b9;font-size: 11px;"
+                          class="btn btn-primary"
+                        >
+                          <i class="fas fa-sign-in-alt me-2"></i> Accedi
+                        </button>
+                        <button
+                        type="button"
+                           (click)="annulla()"
+                          style="border-radius: 2px;margin-left: 5px;background-color: #e9ecef;border-color: #e9ecef;font-size: 11px;"
+                          class="btn btn-light"
+                        >
+                          <i class="fa fa-refresh me-2"></i> Annulla
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
+              </div>
+           
           </div>
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>
+
 
 <!-- !!!!! SCOMMENTARE PER ADATTAMENTO ANCHE IPHONE !!!!! -->
 <!-- <app-ca-navbar></app-ca-navbar>

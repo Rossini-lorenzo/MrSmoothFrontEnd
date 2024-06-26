@@ -70,11 +70,11 @@ export class AroundClientService {
     });
   }
 
-  isLoggedIn() {
+   isLoggedIn ():  boolean {
     // check if token is present in local storage
 
-    
-    return localStorage.getItem('token') !== null;
+    const token  = localStorage.getItem('token') ;
+    return token!== null&&token!=='';
   }
 
   logout() {

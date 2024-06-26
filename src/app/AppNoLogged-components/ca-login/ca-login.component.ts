@@ -54,6 +54,11 @@ model: any;
   onHome() {
     this.router.navigate(['/']);
   }
+  annulla() {
+    this.username = ''; // Resetta il campo username
+    this.password = ''; // Resetta il campo password
+  }
+  
 }
 
 // modifiare il login che se è promoto apre pagina promote altrimenti user

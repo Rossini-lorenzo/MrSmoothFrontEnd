@@ -166,5 +166,34 @@ deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
       );
     }
 
+    getTagliPerDipendente(): Observable<HttpResponse<Object[]>> {
+      const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  
+      const headers = new HttpHeaders().set('Authorization', tokenStr);
+      return this.httpClient.get<Object[]>(
+        this.apiUrl + 'dashboard/getTagliPerDipendente',
+        { headers, observe: 'response' }
+      );
+    }
+    getProdottiVenduti(): Observable<HttpResponse<Object[]>> {
+      const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  
+      const headers = new HttpHeaders().set('Authorization', tokenStr);
+      return this.httpClient.get<Object[]>(
+        this.apiUrl + 'dashboard/getProdottiVenduti',
+        { headers, observe: 'response' }
+      );
+    }
+
+    getGuadagniMensili(): Observable<HttpResponse<Object[]>> {
+      const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  
+      const headers = new HttpHeaders().set('Authorization', tokenStr);
+      return this.httpClient.get<Object[]>(
+        this.apiUrl + 'dashboard/getGuadagnimensili',
+        { headers, observe: 'response' }
+      );
+    }
+    
   //END DASHBOARD
 }

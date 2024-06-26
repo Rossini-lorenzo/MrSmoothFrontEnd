@@ -165,12 +165,36 @@ export class CaCalendarComponent {
     }
   }
   
+  
 
+  
   authenticateWithGoogleCalendar() {
-    const url = "http://localhost:8080/googleCalendar/login/google";
-    window.open(url);
-  }
+    const accessToken = localStorage.getItem('googleAuthCode');
+     console.log("AUT",accessToken);
+    if (accessToken) {
+      // Se l'utente è già autenticato, carica gli eventi
+      this.loadEvents();
+      window.location.reload();
+    } else {
+      // Altrimenti, procedi con l'autenticazione
+      const authUrl = "http://localhost:8080/googleCalendar/login/google";
+  
+      // Apri una finestra popup per l'autenticazione
+      const popup = window.open(authUrl, '_blank', 'width=600,height=600');
+  
+      // Attendi il risultato dell'autenticazione
+      window.addEventListener('message', (event) => {
+        if (event.data.type === 'authorization_response') {
+          localStorage.setItem('googleAuthCode', event.data.code);
+          this.loadEvents(); // Carica gli eventi dopo l'autenticazione
+        }
+      });
+      window.location.reload();
 
+    }
+  }
+  
+  
  
   
   

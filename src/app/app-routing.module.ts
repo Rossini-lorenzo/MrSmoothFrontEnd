@@ -22,6 +22,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: CaHomeComponent,
+    canActivate: [AuthGuard], // Applicato qui per proteggere tutte le child routes
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: CaOverwiewComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
       { path: 'calendario', component: CaCalendarComponent },
       { path: 'chest', component: CaChestComponent },
       { path: 'register', component: CaRegisterComponent }
-    ], canActivate: [AuthGuard]
+    ]
   },
   { path: '**', redirectTo: 'login' }
 ];
