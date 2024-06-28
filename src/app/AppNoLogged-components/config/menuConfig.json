@@ -39,7 +39,7 @@
     "links": [
       {
         "label": "Scanner Prodotti",
-        "url": "smart-control/product-scanner",
+        "url": "product-scanner",
         "icon": "fa-solid fa-barcode fa-lg"
       },
       {

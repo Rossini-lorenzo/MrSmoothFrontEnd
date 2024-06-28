@@ -1,4 +1,4 @@
-
+<div class="section">
   <div class="card d-inline-block m-auto w-fit-content">
     <div class="card-body">
       <h3 class="card-title fw-bold">Scanner Prodotti</h3>
@@ -164,9 +164,7 @@
                     <p class="card-text">
                       Nome Prodotto: {{ item.nomeProdotto }}
                     </p>
-                    <p class="card-text">
-                      Prezzo: &euro; {{ item.prezzo }}
-                    </p>
+                    <p class="card-text">Prezzo: &euro; {{ item.prezzo }}</p>
                     <p class="card-text">Quantità: {{ item.quantita }} pz</p>
 
                     <div class="d-flex justify-content-end">
@@ -193,9 +191,7 @@
                 <tr *ngIf="!isVerticalLayout">
                   <td class="align-middle">{{ item.id }}</td>
                   <td class="align-middle">{{ item.nomeProdotto }}</td>
-                  <td class="align-middle">
-                    &euro; {{ item.prezzo }}
-                  </td>
+                  <td class="align-middle">&euro; {{ item.prezzo }}</td>
                   <td class="align-middle">{{ item.quantita }} pz</td>
 
                   <td class="align-middle">
@@ -382,3 +378,4 @@
       </div>
     </div>
   </div>
+</div>
