@@ -183,10 +183,14 @@ export class CaCalendarComponent {
     const accessToken = localStorage.getItem('googleAuthCode');
      console.log("AUT",accessToken);
     if (accessToken) {
+      
+
       // Se l'utente è già autenticato, carica gli eventi
       this.loadEvents();
       window.location.reload();
     } else {
+      console.log("Elese",event);
+
       // Altrimenti, procedi con l'autenticazione
       const authUrl = "http://localhost:8080/googleCalendar/login/google";
   
@@ -195,6 +199,7 @@ export class CaCalendarComponent {
   
       // Attendi il risultato dell'autenticazione
       window.addEventListener('message', (event) => {
+        console.log("E",event);
         if (event.data.type === 'authorization_response') {
           localStorage.setItem('googleAuthCode', event.data.code);
           this.loadEvents(); // Carica gli eventi dopo l'autenticazione

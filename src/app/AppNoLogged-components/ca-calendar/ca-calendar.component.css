@@ -1,13 +1,6 @@
 
 
-.section {
-    padding-left: 280px;
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    height: 100vh; /* Imposta l'altezza della sezione al 100% della finestra */
-    display: flex;
-  }
+
   
   .card {
     height: 100%; /* Imposta l'altezza della card al 100% della sezione */

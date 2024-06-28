@@ -43,10 +43,10 @@ model: any;
     resp.subscribe((data) => {
       this.response = data;
       if (payload.role == 'ROLE_PROMOTE') {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/smart-control']);
         console.log('promote');
       } else {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/smart-control']);
         console.log('user');
       }
     });

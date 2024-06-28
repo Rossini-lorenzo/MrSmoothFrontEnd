@@ -19,15 +19,15 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: CaLoginComponent },
   {
-    path: 'home',
+    path: 'smart-control',
     component: CaHomeComponent,
     canActivate: [AuthGuard], // Applicato qui per proteggere tutte le child routes
     children: [
-      { path: '', redirectTo: 'smart-control/dashboard', pathMatch: 'full' },
-      { path: 'smart-control/dashboard', component: CaOverwiewComponent },
-      { path: 'smart-control/product-scanner', component: CaScanComponent },
-      { path: 'smart-control/appointment-calendar', component: CaCalendarComponent },
-      { path: 'smart-control/cash-register', component: CaChestComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: CaOverwiewComponent },
+      { path: 'product-scanner', component: CaScanComponent },
+      { path: 'appointment-calendar', component: CaCalendarComponent },
+      { path: 'cash-register', component: CaChestComponent },
       { path: 'register', component: CaRegisterComponent }
     ]
   },
