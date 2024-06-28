@@ -37,9 +37,7 @@ interface Evento {
 export class CaCalendarComponent {
 
   selectedDate: Date;
-  dateSelected(date: Date): void {
-    this.selectedDate = date;
-  }
+
 
   http: any;
    //backendUrl: string = 'https://mrsmooth-9e8bb3d010e3.herokuapp.com/';
@@ -80,10 +78,17 @@ export class CaCalendarComponent {
   events :any = [];
   employees: any= [];  // Definire l'array di oggetti come 'any[]'
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) { this.selectedDate = new Date();}
  
+
+  dateSelected(date: Date): void {
+    this.selectedDate = date;
+    console.log('Selected date:', this.selectedDate);
+  }
+
+
   ngOnInit(): void {
-    this.selectedDate = new Date();
+
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
