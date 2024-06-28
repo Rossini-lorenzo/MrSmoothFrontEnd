@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CaHomeComponent } from './AppNoLogged-components/ca-home/ca-home.component';
 import { CaLoginComponent } from './AppNoLogged-components/ca-login/ca-login.component';
-import { CaNavbarComponent } from './AppNoLogged-components/ca-navbar/ca-navbar.component';
 import { CaCalendarComponent } from './AppNoLogged-components/ca-calendar/ca-calendar.component';
 
 
@@ -24,11 +23,11 @@ const routes: Routes = [
     component: CaHomeComponent,
     canActivate: [AuthGuard], // Applicato qui per proteggere tutte le child routes
     children: [
-      { path: '', redirectTo: 'overview', pathMatch: 'full' },
-      { path: 'overview', component: CaOverwiewComponent },
-      { path: 'scanaggiungi', component: CaScanComponent },
-      { path: 'calendario', component: CaCalendarComponent },
-      { path: 'chest', component: CaChestComponent },
+      { path: '', redirectTo: 'smart-control/dashboard', pathMatch: 'full' },
+      { path: 'smart-control/dashboard', component: CaOverwiewComponent },
+      { path: 'smart-control/product-scanner', component: CaScanComponent },
+      { path: 'smart-control/appointment-calendar', component: CaCalendarComponent },
+      { path: 'smart-control/cash-register', component: CaChestComponent },
       { path: 'register', component: CaRegisterComponent }
     ]
   },

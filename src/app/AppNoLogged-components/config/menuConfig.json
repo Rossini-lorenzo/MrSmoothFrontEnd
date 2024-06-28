@@ -1,0 +1,117 @@
+[
+  {
+    "title": "HOME",
+    "links": [
+      {
+        "label": "Dashboard",
+        "url": "smart-control/dashboard",
+        "icon": "fa-solid fa-house-user fa-lg"
+      }
+    ]
+  },
+  {
+    "title": "NEGOZIO",
+    "links": [
+      {
+        "label": "Dipendenti",
+        "url": "/smart-control/staff-management",
+        "icon": "fa-solid fa-users fa-lg"
+      },
+      {
+        "label": "Clienti",
+        "url": "/smart-control/customers-management",
+        "icon": "fa-solid fa-user-tie fa-lg"
+      },
+      {
+        "label": "Prodotti e Brand",
+        "url": "/smart-control/products-management",
+        "icon": "fa-solid fa-basket-shopping fa-lg"
+      },
+      {
+        "label": "Servizi",
+        "url": "/smart-control/services-management",
+        "icon": "fa-solid fa-person-booth fa-lg"
+      }
+    ]
+  },
+  {
+    "title": "MAGAZZINO",
+    "links": [
+      {
+        "label": "Scanner Prodotti",
+        "url": "smart-control/product-scanner",
+        "icon": "fa-solid fa-barcode fa-lg"
+      },
+      {
+        "label": "Sommario magazzino",
+        "url": "/smart-control/summary-warehouse",
+        "icon": "fa-solid fa-warehouse fa-lg"
+      },
+      {
+        "label": "Fatture prodotti",
+        "url": "/smart-control/product-invoices",
+        "icon": "fa-solid fa-file-invoice-dollar fa-lg"
+      }
+    ]
+  },
+  {
+    "title": "APPUNTAMENTI",
+    "links": [
+      {
+        "label": "Agenda",
+        "url": "smart-control/appointment-calendar",
+        "icon": "fa-solid fa-calendar-days fa-lg"
+      },
+      {
+        "label": "Gestisci messaggi automatici",
+        "url": "/smart-control/manage-automatic-message",
+        "icon": "fa-solid fa-comment-sms fa-lg"
+      }
+    ]
+  },
+  {
+    "title": "VENDITE",
+    "links": [
+      {
+        "label": "Cassa",
+        "url": "smart-control/cash-register",
+        "icon": "fa-solid fa-cash-register fa-lg"
+      },
+      {
+        "label": "Registro",
+        "url": "/smart-control/sales-register",
+        "icon": "fa-solid fa-book fa-lg"
+      }
+    ]
+  },
+  {
+    "title": "STATISTICHE",
+    "links": [
+      {
+        "label": "Andamento negozio",
+        "url": "/smart-control/shop-performance",
+        "icon": "fa-solid fa-chart-line fa-lg"
+      },
+      {
+        "label": "Andamento personale (dipendenti)",
+        "url": "/smart-control/staff-performance",
+        "icon": "fa-solid fa-users fa-lg"
+      },
+      {
+        "label": "Fatture negozio",
+        "url": "/smart-control/shop-invoices",
+        "icon": "fa-solid fa-file-lines fa-lg"
+      }
+    ]
+  },
+  {
+    "title": "ESCI",
+    "links": [
+      {
+        "label": "Logout",
+        "url": "/smart-control/logout",
+        "icon": "fa-solid fa-right-from-bracket fa-lg"
+      }
+    ]
+  }
+]

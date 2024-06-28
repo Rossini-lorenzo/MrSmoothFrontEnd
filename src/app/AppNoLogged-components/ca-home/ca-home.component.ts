@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AroundClientService } from 'src/app/service/around-client.service';
+import MenuConfig from '../config/menuConfig.json';
 
 
 @Component({
@@ -11,14 +12,30 @@ export class CaHomeComponent implements OnInit {
   constructor(private service : AroundClientService){
     
   }
-  logOut(){
-    this.service.logout();
+  menuItems = MenuConfig;
+  isOpen: boolean[] = [];
+
+  ngOnInit() {
+    this.isOpen = new Array(this.menuItems.length).fill(false);
   }
-  ngOnInit(): void {
-    
+
+  toggleAccordion(index: number) {
+    this.isOpen[index] = !this.isOpen[index];
+  }
+
+  onMouseOver(event: Event) {
+    (event.target as HTMLElement).style.textDecoration = 'underline';
+  }
+
+  onMouseOut(event: Event) {
+    (event.target as HTMLElement).style.textDecoration = 'none';
+  }
+
+  onFocus(event: Event) {
+    (event.target as HTMLElement).style.textDecoration = 'underline';
+  }
+
+  onBlur(event: Event) {
+    (event.target as HTMLElement).style.textDecoration = 'none';
   }
 }
-
-
-
-
