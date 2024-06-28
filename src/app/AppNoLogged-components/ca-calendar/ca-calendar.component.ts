@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import itLocale from '@fullcalendar/core/locales/it';
 import { MatDialog } from '@angular/material/dialog';
 import { EventDialogContentComponent } from 'src/app/event-dialog-content/event-dialog-content.component';
-import * as moment from 'moment';
+import moment from 'moment';
 import 'moment/locale/it'; // Importa il file di localizzazione italiano
 
 

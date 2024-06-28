@@ -1,4 +1,4 @@
-<nav class="sidebar locked sc-primary">
+<!-- <nav class="sidebar locked sc-primary">
   <div class="logo_items flex">
     <span class="nav_image">
       <img src="assets/SmartControl_logo.jpg" alt="logo_img" />
@@ -9,7 +9,7 @@
     <div class="menu_items">
       <ul class="menu_item">
         <div class="menu_title flex">
-          <span class="title fw-bold">Magazzino</span>
+          <span class="title fw-bold">Home</span>
           <span class="line"></span>
         </div>
         <li class="item">
@@ -18,10 +18,58 @@
             <span>Dashboard</span>
           </a>
         </li>
+      </ul>
+      <ul class="menu_item">
+        <div class="menu_title flex">
+          <span class="title fw-bold">***Negozio***</span>
+          <span class="line"></span>
+        </div>
         <li class="item">
           <a href="/home/scanaggiungi" class="link flex">
             <i class="bx bx-barcode-reader"></i>
-            <span>Scan e Magazzino</span>
+            <span>Dipendenti</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="/home/scanaggiungi" class="link flex">
+            <i class="bx bx-barcode-reader"></i>
+            <span>Clienti</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="/home/scanaggiungi" class="link flex">
+            <i class="bx bx-barcode-reader"></i>
+            <span>Prodotti e Brand</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="/home/scanaggiungi" class="link flex">
+            <i class="bx bx-barcode-reader"></i>
+            <span>Servizi</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="menu_item">
+        <div class="menu_title flex">
+          <span class="title fw-bold">Magazzino</span>
+          <span class="line"></span>
+        </div>
+        <li class="item">
+          <a href="/home/scanaggiungi" class="link flex">
+            <i class="bx bx-barcode-reader"></i>
+            <span>Scanner Prodotti</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="/home/scanaggiungi" class="link flex">
+            <i class="bx bx-barcode-reader"></i>
+            <span>Sommario Magazzino</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="/home/scanaggiungi" class="link flex">
+            <i class="bx bx-barcode-reader"></i>
+            <span>***Fatture prodotti***</span>
           </a>
         </li>
       </ul>
@@ -34,6 +82,12 @@
           <a href="/home/calendario" class="link flex">
             <i class="bx bxs-calendar"></i>
             <span>Agenda</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="/home/calendario" class="link flex">
+            <i class="bx bxs-calendar"></i>
+            <span>Gestisci messaggi automatici</span>
           </a>
         </li>
       </ul>
@@ -57,21 +111,33 @@
       </ul>
       <ul class="menu_item">
         <div class="menu_title flex">
-          <span class="title fw-bold">Statistiche</span>
+          <span class="title fw-bold">***Statistiche***</span>
           <span class="line"></span>
         </div>
         <li class="item">
           <a href="#" class="link flex">
             <i class="bx bxs-flag"></i>
-            <span>Notice Board</span>
+            <span>Andamento negozio</span>
           </a>
         </li>
         <li class="item">
           <a href="#" class="link flex">
             <i class="bx bxs-award"></i>
-            <span>Award</span>
+            <span>Andamento personale (dipendenti)</span>
           </a>
         </li>
+        <li class="item">
+          <a href="#" class="link flex">
+            <i class="bx bxs-award"></i>
+            <span>Fatture negozio</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="menu_item">
+        <div class="menu_title flex">
+          <span class="title fw-bold">Esci</span>
+          <span class="line"></span>
+        </div>
         <li class="item">
           <a href="#" (click)="logOut()" class="link flex">
             <i class="bx bxs-cog"></i>
@@ -81,17 +147,81 @@
       </ul>
     </div>
     <div class="sidebar_profile flex" style="margin-bottom: 40px;">
-      <!-- <span class="nav_image">
-            <img src="images/profile.jpg" alt="logo_img" />
-          </span> -->
       <div class="data_text">
         <span class="name" style="display: block">Mr. Smooth Vigne</span>
         <span class="email" style="display: block">mrsmooth&#64;gmail.com</span>
       </div>
     </div>
   </div>
-</nav>
-<!-- Navbar -->
-<div class="content">
-  <router-outlet></router-outlet>
+</nav> -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <aside>
+        <div class="accordion accordion-flush" id="sidebarAccordion">
+          <div class="logo_items flex">
+            <span class="nav_image">
+              <img src="assets/SmartControl_logo.jpg" alt="logo_img" />
+            </span>
+            <span class="logo_name">Smart Control</span>
+          </div>
+          <div
+            class="accordion-item mt-3 mb-3"
+            *ngFor="let menuItem of menuItems; let index = index"
+          >
+            <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
+              <button
+                class="accordion-button fw-bold sc-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#collapse' + index"
+                aria-expanded="false"
+                [attr.aria-controls]="'collapse' + index"
+                (click)="toggleAccordion(index)"
+                [class.collapsed]="!isOpen[index]"
+                data-bs-disable-animation="true"
+              >
+                {{ menuItem.title }}
+              </button>
+            </h2>
+            <div
+              [id]="'collapse' + index"
+              class="accordion-collapse collapse"
+              [attr.aria-labelledby]="'heading' + index"
+            >
+              <div
+                *ngFor="let link of menuItem.links; let linkIndex = index"
+                class="accordion-body sc-secondary border"
+              >
+                <div class="row">
+                  <div class="col-10">
+                    <a
+                      [routerLink]="link.url"
+                      style="text-decoration: none; color: black"
+                      (mouseover)="onMouseOver($event)"
+                      (mouseout)="onMouseOut($event)"
+                      (focus)="onFocus($event)"
+                      (blur)="onBlur($event)"
+                      >{{ link.label }}</a
+                    >
+                  </div>
+                  <div class="col-2 d-flex justify-content-end">
+                    <div>
+                      <i [class]="link.icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="col-9">
+      <!-- Navbar -->
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>
