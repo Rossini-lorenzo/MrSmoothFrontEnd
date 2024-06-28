@@ -4,7 +4,7 @@
     "links": [
       {
         "label": "Dashboard",
-        "url": "smart-control/dashboard",
+        "url": "dashboard",
         "icon": "fa-solid fa-house-user fa-lg"
       }
     ]
@@ -14,22 +14,22 @@
     "links": [
       {
         "label": "Dipendenti",
-        "url": "/smart-control/staff-management",
+        "url": "staff-management",
         "icon": "fa-solid fa-users fa-lg"
       },
       {
         "label": "Clienti",
-        "url": "/smart-control/customers-management",
+        "url": "customers-management",
         "icon": "fa-solid fa-user-tie fa-lg"
       },
       {
         "label": "Prodotti e Brand",
-        "url": "/smart-control/products-management",
+        "url": "products-management",
         "icon": "fa-solid fa-basket-shopping fa-lg"
       },
       {
         "label": "Servizi",
-        "url": "/smart-control/services-management",
+        "url": "services-management",
         "icon": "fa-solid fa-person-booth fa-lg"
       }
     ]
@@ -44,12 +44,12 @@
       },
       {
         "label": "Sommario magazzino",
-        "url": "/smart-control/summary-warehouse",
+        "url": "summary-warehouse",
         "icon": "fa-solid fa-warehouse fa-lg"
       },
       {
         "label": "Fatture prodotti",
-        "url": "/smart-control/product-invoices",
+        "url": "product-invoices",
         "icon": "fa-solid fa-file-invoice-dollar fa-lg"
       }
     ]
@@ -59,12 +59,12 @@
     "links": [
       {
         "label": "Agenda",
-        "url": "smart-control/appointment-calendar",
+        "url": "appointment-calendar",
         "icon": "fa-solid fa-calendar-days fa-lg"
       },
       {
         "label": "Gestisci messaggi automatici",
-        "url": "/smart-control/manage-automatic-message",
+        "url": "manage-automatic-message",
         "icon": "fa-solid fa-comment-sms fa-lg"
       }
     ]
@@ -79,7 +79,7 @@
       },
       {
         "label": "Registro",
-        "url": "/smart-control/sales-register",
+        "url": "sales-register",
         "icon": "fa-solid fa-book fa-lg"
       }
     ]
@@ -89,17 +89,17 @@
     "links": [
       {
         "label": "Andamento negozio",
-        "url": "/smart-control/shop-performance",
+        "url": "shop-performance",
         "icon": "fa-solid fa-chart-line fa-lg"
       },
       {
         "label": "Andamento personale (dipendenti)",
-        "url": "/smart-control/staff-performance",
+        "url": "staff-performance",
         "icon": "fa-solid fa-users fa-lg"
       },
       {
         "label": "Fatture negozio",
-        "url": "/smart-control/shop-invoices",
+        "url": "shop-invoices",
         "icon": "fa-solid fa-file-lines fa-lg"
       }
     ]
@@ -109,7 +109,7 @@
     "links": [
       {
         "label": "Logout",
-        "url": "/smart-control/logout",
+        "url": "logout",
         "icon": "fa-solid fa-right-from-bracket fa-lg"
       }
     ]

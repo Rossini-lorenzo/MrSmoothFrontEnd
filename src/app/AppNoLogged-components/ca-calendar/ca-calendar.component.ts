@@ -37,9 +37,7 @@ interface Evento {
 export class CaCalendarComponent {
 
   selectedDate: Date;
-  dateSelected(date: Date): void {
-    this.selectedDate = date;
-  }
+
 
   http: any;
    //backendUrl: string = 'https://mrsmooth-9e8bb3d010e3.herokuapp.com/';
@@ -80,10 +78,17 @@ export class CaCalendarComponent {
   events :any = [];
   employees: any= [];  // Definire l'array di oggetti come 'any[]'
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) { this.selectedDate = new Date();}
  
+
+  dateSelected(date: Date): void {
+    this.selectedDate = date;
+    console.log('Selected date:', this.selectedDate);
+  }
+
+
   ngOnInit(): void {
-    this.selectedDate = new Date();
+
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
@@ -178,10 +183,14 @@ export class CaCalendarComponent {
     const accessToken = localStorage.getItem('googleAuthCode');
      console.log("AUT",accessToken);
     if (accessToken) {
+      
+
       // Se l'utente è già autenticato, carica gli eventi
       this.loadEvents();
       window.location.reload();
     } else {
+      console.log("Elese",event);
+
       // Altrimenti, procedi con l'autenticazione
       const authUrl = "http://localhost:8080/googleCalendar/login/google";
   
@@ -190,6 +199,7 @@ export class CaCalendarComponent {
   
       // Attendi il risultato dell'autenticazione
       window.addEventListener('message', (event) => {
+        console.log("E",event);
         if (event.data.type === 'authorization_response') {
           localStorage.setItem('googleAuthCode', event.data.code);
           this.loadEvents(); // Carica gli eventi dopo l'autenticazione
