@@ -20,7 +20,7 @@
 }
 body {
   min-height: 100vh;
-  background: #eef5fe;
+  background: #eef5fe !important;
 }
 /* Pre css */
 .flex {

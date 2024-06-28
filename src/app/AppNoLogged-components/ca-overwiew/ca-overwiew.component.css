@@ -1,7 +1,5 @@
 .section {
-  padding-left: 280px;
   padding-top: 10px;
-  padding-right: 17px;;
   padding-bottom: 10px;
   height: 100vh; /* Imposta l'altezza della sezione al 100% della finestra */
   
@@ -11,9 +9,7 @@
 .card-header{
   background-color: #add7f6 !important;
   font-weight: bold;
-  padding: 3px 1px 1px 20px;
   margin: -1px -1px 0px -1px;
-  font-size: 10px;;
 }
 
 /* contatori */
@@ -78,4 +74,15 @@
   opacity: 0.5;
   display: block;
   font-size: 18px;
+}
+
+.card {
+  height: 100%; /* Imposta l'altezza della card al 100% della sezione */
+  width: 100%;
+  flex-grow: 1;
+}
+
+.card-body {
+  height: 100%;
+  overflow: auto;
 }

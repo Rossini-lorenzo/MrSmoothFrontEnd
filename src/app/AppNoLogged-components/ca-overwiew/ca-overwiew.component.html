@@ -1,95 +1,102 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+/>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-
-
 <div class="section">
+  <div class="card d-inline-block m-auto w-fit-content">
+    <div class="card-body">
+      <h3 class="card-title fw-bold mb-3">Dashboard</h3>
 
+      <div class="container-fluid">
+        <div class="row mb-3">
+          <div class="col-md-3">
+            <div class="card-counter primary">
+              <i class="fa fa-code-fork" style="color: #c0504e"></i>
+              <span class="count-numbers">{{ employeesCounter }}</span>
+              <span class="count-name">Dipendenti</span>
+            </div>
+          </div>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-        <div class="container-fluid">
-                <div class="row  mb-1">
-                        <div class="col-md-3">
-                                <div class="card-counter primary">
-                                        <i class="fa fa-code-fork" style="color: #c0504e;"></i>
-                                        <span class="count-numbers">{{ employeesCounter }}</span>
-                                        <span class="count-name">Dipendenti</span>
-                                </div>
-                        </div>
+          <div class="col-md-3">
+            <div class="card-counter danger">
+              <i class="fa fa-ticket" style="color: #9bbb58"></i>
+              <span class="count-numbers">{{ eventsCounter }}</span>
+              <span class="count-name">Tagli</span>
+            </div>
+          </div>
 
-                        <div class="col-md-3">
-                                <div class="card-counter danger">
-                                        <i class="fa fa-ticket" style="color: #9bbb58;"></i>
-                                        <span class="count-numbers">{{ eventsCounter }}</span>
-                                        <span class="count-name">Tagli</span>
-                                </div>
-                        </div>
+          <div class="col-md-3">
+            <div class="card-counter success">
+              <i class="fa fa-database" style="color: #4f81bc"></i>
+              <span class="count-numbers">{{ productsCounter }}</span>
+              <span class="count-name">Prodotti </span>
+            </div>
+          </div>
 
-                        <div class="col-md-3">
-                                <div class="card-counter success">
-                                        <i class="fa fa-database" style="color: #4f81bc;"></i>
-                                        <span class="count-numbers">{{ productsCounter }}</span>
-                                        <span class="count-name">Prodotti </span>
-                                </div>
-                        </div>
-
-                        <div class="col-md-3">
-                                <div class="card-counter info">
-                                        <i class="fa fa-users" style="color: #23bfaa;"></i>
-                                        <span class="count-numbers">{{ customersCounter }}</span>
-                                        <span class="count-name">Clienti</span>
-                                </div>
-                        </div>
-                </div>
+          <div class="col-md-3">
+            <div class="card-counter info">
+              <i class="fa fa-users" style="color: #23bfaa"></i>
+              <span class="count-numbers">{{ customersCounter }}</span>
+              <span class="count-name">Clienti</span>
+            </div>
+          </div>
         </div>
 
-        <div class="row  mb-1">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-4">
-                        <div class="card" style="width: 100%; height: 300px;">
-                                <div class="card-header">
-                                        <div class="text"></div>Tagli dipendenti
-                                </div>
-                                <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-sm-6">
+            <div class="card" style="width: 100%; height: 300px">
+              <div class="card-header">
+                <div class="text"></div>
+                Tagli dipendenti
+              </div>
+              <div class="card-body">
+                <canvas id="canvas1" style="width: 100%; height: 250px">{{
+                  chart1
+                }}</canvas>
+              </div>
+            </div>
+          </div>
 
-                                        <canvas id="canvas1" style="width: 100%; height: 250px;">{{chart1}}</canvas>
-                                </div>
-                        </div>
-                </div>
+          <div class="col-sm-6">
+            <div class="card" style="width: 100%; height: 300px">
+              <div class="card-header">
+                <div class="text"></div>
+                Prodotti più venduti
+              </div>
 
-                <div class="col-sm-4">
-                        <div class="card" style="width: 100%; height: 300px;">
-                                <div class="card-header">
-                                        <div class="text"></div>Prodotti più venduti
-                                </div>
-
-
-                                <div class="card-body">
-                                        <canvas id="canvas2" style="width: 100%; height: 250px;">{{chart2}}</canvas>
-
-
-                                </div>
-                        </div>
-                </div>
+              <div class="card-body">
+                <canvas id="canvas2" style="width: 100%; height: 250px">{{
+                  chart2
+                }}</canvas>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                        <div class="card" style="width: 100%; height: 300px;">
+          <div class="col-sm-12">
+            <div class="card" style="width: 100%; height: 300px">
+              <div class="card-header">
+                <div class="text"></div>
+                Guadagni mese corrente
+              </div>
 
-                                <div class="card-header">
-                                        <div class="text"></div>Guadagni questo mese
-                                </div>
-
-                                <div class="card-body">
-                                        <canvas id="canvas3" style="width: 100%; height: 250px;">{{chart2}}</canvas>
-
-                                </div>
-                        </div>
-                </div>
+              <div class="card-body">
+                <canvas id="canvas3" style="width: 100%; height: 250px">{{
+                  chart2
+                }}</canvas>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-
+      </div>
+    </div>
+  </div>
 </div>
