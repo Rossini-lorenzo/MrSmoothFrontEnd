@@ -35,6 +35,12 @@ interface Evento {
   styleUrls: ['./ca-calendar.component.css']
 })
 export class CaCalendarComponent {
+
+  selectedDate: Date;
+  dateSelected(date: Date): void {
+    this.selectedDate = date;
+  }
+
   http: any;
    //backendUrl: string = 'https://mrsmooth-9e8bb3d010e3.herokuapp.com/';
    apiUrl = `${environment.apiBaseUrl}/`;
@@ -77,7 +83,7 @@ export class CaCalendarComponent {
   constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {}
  
   ngOnInit(): void {
-
+    this.selectedDate = new Date();
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',

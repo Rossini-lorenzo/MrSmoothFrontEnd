@@ -42,6 +42,10 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { FooterComponent } from './AppNoLogged-components/footer/footer.component';
 
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +58,7 @@ import { FooterComponent } from './AppNoLogged-components/footer/footer.componen
     CaCalendarComponent,
     CaRegisterComponent,
     EventDialogContentComponent,
-    FooterComponent
+    FooterComponent,
   
     
   ],
@@ -75,7 +79,10 @@ import { FooterComponent } from './AppNoLogged-components/footer/footer.componen
     FormsModule,
     BrowserAnimationsModule,
     MatCardModule,
-    CanvasJSAngularChartsModule
+    CanvasJSAngularChartsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule
   ],
   providers: [AuthGuard ,{ provide: LOCALE_ID, useValue: 'it-IT' },    MatDialog // Assicurati di includere questo provider
 ],
