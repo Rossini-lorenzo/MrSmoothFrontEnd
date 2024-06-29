@@ -103,15 +103,5 @@
         "icon": "fa-solid fa-file-lines fa-lg"
       }
     ]
-  },
-  {
-    "title": "ESCI",
-    "links": [
-      {
-        "label": "Logout",
-        "url": "logout",
-        "icon": "fa-solid fa-right-from-bracket fa-lg"
-      }
-    ]
   }
 ]
