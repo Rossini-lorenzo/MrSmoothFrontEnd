@@ -24,9 +24,9 @@ const routes: Routes = [
     canActivate: [AuthGuard], // Applicato qui per proteggere tutte le child routes
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: CaOverwiewComponent },
-      { path: 'product-scanner', component: CaScanComponent },
-      { path: 'appointment-calendar', component: CaCalendarComponent },
+      { path: 'dashboard', component: CaOverwiewComponent, data: { breadcrumb: 'Home / Dashboard' } },
+      { path: 'product-scanner', component: CaScanComponent, data: { breadcrumb: 'Magazzino / Scanner Prodotti' } },
+      { path: 'appointment-calendar', component: CaCalendarComponent, data: { breadcrumb: 'Appuntamenti / Agenda' } },
       { path: 'cash-register', component: CaChestComponent },
       { path: 'register', component: CaRegisterComponent }
     ]

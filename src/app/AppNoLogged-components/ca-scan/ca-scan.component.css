@@ -15,8 +15,15 @@
   overflow: auto;
 }
 
+.custom-table {
+  border: 1px solid #dee2e6; /* bordo esterno */
+}
 
-
+.table th,
+.table td {
+  
+  border-bottom: 1px solid #dee2e6 !important;
+}
 
 @media (max-width: 820px) {
   .table th,

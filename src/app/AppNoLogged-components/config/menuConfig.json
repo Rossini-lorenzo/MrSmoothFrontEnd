@@ -74,7 +74,7 @@
     "links": [
       {
         "label": "Cassa",
-        "url": "smart-control/cash-register",
+        "url": "cash-register",
         "icon": "fa-solid fa-cash-register fa-lg"
       },
       {
