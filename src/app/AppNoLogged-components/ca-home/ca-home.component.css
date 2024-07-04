@@ -1,3 +1,13 @@
 .accordion-button:focus {
   box-shadow: none !important; /* Rimuove l'ombra */
 }
+/* Stile generale per la barra breadcrumb */
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 15px;
+    margin-bottom: 0rem;
+    list-style: none;
+    background-color: white;
+    border-radius: 0.375rem;
+}

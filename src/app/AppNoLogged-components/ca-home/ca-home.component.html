@@ -159,8 +159,8 @@
 
 <header class="navbar-expand-lg sc-primary">
   <div class="container-fluid">
-    <div class="row d-flex align-items-center">
-      <div class="col-3">
+    <div class="row d-flex align-items-center" style="background-color: white;">
+      <div class="col-2">
         <!-- Logo -->
         <a class="navbar-brand" href="#">
           <img
@@ -171,8 +171,9 @@
             class="me-3"
             style="height: 50px; width: 50px; border-radius: 50%"
           />
-          <span class="logo_name">Smart Control</span>
+          <span class="logo_name" style="font-size: 18px;">Smart Control</span>
         </a>
+        
         <!-- Toggler -->
         <button
           class="navbar-toggler"
@@ -186,9 +187,16 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
-      <div class="col-8 d-flex justify-content-end">
-        <span class="fw-bold"
-          ><i class="fa-solid fa-user fa-lg me-2"></i> MR. SMOOTH |
+      <div class="col-3">
+        <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+             <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">{{ breadcrumb }}</li>
+         </ol>
+     </nav>
+     </div>
+      <div class="col-6 d-flex justify-content-end">
+        <span class="fw"
+          ><i class="fa-solid fa-user fa-lg me-2" style="font-size: 1rem;"></i> MR. SMOOTH |
           SC00001</span
         >
       </div>
@@ -197,7 +205,7 @@
             <i class="fa-solid fa-right-from-bracket fa-lg"></i>
         </button> -->
         <a style="color: black;" href="#">
-          <i class="fa-solid fa-right-from-bracket fa-lg me-2"></i>
+          <i class="fa-solid fa-right-from-bracket fa-lg me-2" style="font-size: 1rem;"></i>
           <span class="fw-bold">ESCI</span>
         </a>
       </div>
@@ -245,24 +253,20 @@
   </ol>
 </nav> -->
 
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">{{ breadcrumb }}</li>
-  </ol>
-</nav>
+
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2">
+    <div class="col-2 p-0" style="background-color: #ADD7F6;">
       <aside>
         <div class="accordion accordion-flush" id="sidebarAccordion">
           <div
-            class="accordion-item mt-3 mb-3"
+            class="accordion-item " style=""
             *ngFor="let menuItem of menuItems; let index = index"
           >
             <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
               <button
-                class="accordion-button fw-bold sc-primary"
+                class="accordion-button  sc-primary"
                 type="button"
                 data-bs-toggle="collapse"
                 [attr.data-bs-target]="'#collapse' + index"
@@ -275,6 +279,7 @@
                 {{ menuItem.title }}
               </button>
             </h2>
+           
             <div
               [id]="'collapse' + index"
               class="accordion-collapse collapse"
@@ -309,9 +314,15 @@
       </aside>
     </div>
     <div class="col-10">
+      
       <!-- Navbar -->
-      <div class="content mt-3">
-        <router-outlet></router-outlet>
+      <div class="content mt-2">
+        <router-outlet>
+       
+        
+          
+          
+      </router-outlet>
       </div>
     </div>
   </div>

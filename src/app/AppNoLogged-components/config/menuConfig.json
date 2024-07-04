@@ -1,6 +1,6 @@
 [
   {
-    "title": "HOME",
+    "title": "Home",
     "links": [
       {
         "label": "Dashboard",
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "title": "NEGOZIO",
+    "title": "Negozi",
     "links": [
       {
         "label": "Dipendenti",
@@ -35,7 +35,7 @@
     ]
   },
   {
-    "title": "MAGAZZINO",
+    "title": "Magazzino",
     "links": [
       {
         "label": "Scanner Prodotti",
@@ -55,7 +55,7 @@
     ]
   },
   {
-    "title": "APPUNTAMENTI",
+    "title": "Appuntamenti",
     "links": [
       {
         "label": "Agenda",
@@ -70,7 +70,7 @@
     ]
   },
   {
-    "title": "VENDITE",
+    "title": "Vendite",
     "links": [
       {
         "label": "Cassa",
@@ -85,7 +85,7 @@
     ]
   },
   {
-    "title": "STATISTICHE",
+    "title": "Statistiche",
     "links": [
       {
         "label": "Andamento negozio",
