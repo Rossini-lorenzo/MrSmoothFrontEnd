@@ -232,7 +232,24 @@
   </div>
 </header>
 
+<!-- <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb sc-primary">
+    <li class="breadcrumb-item">Home</li>
+    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+  </ol>
+</nav> -->
 
+<!-- <nav *ngIf="breadcrumbs && breadcrumbs.length > 0" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">{{ breadcrumb }}</li>
+  </ol>
+</nav> -->
+
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">{{ breadcrumb }}</li>
+  </ol>
+</nav>
 
 <div class="container-fluid">
   <div class="row">
@@ -293,7 +310,7 @@
     </div>
     <div class="col-10">
       <!-- Navbar -->
-      <div class="content">
+      <div class="content mt-3">
         <router-outlet></router-outlet>
       </div>
     </div>
