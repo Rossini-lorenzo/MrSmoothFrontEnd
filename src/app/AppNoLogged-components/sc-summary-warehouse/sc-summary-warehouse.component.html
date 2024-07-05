@@ -1,5 +1,211 @@
 <div class="card d-inline-block m-auto w-fit-content">
-    <div class="card-body">
-        <h3 class="card-title fw-bold">Sommario magazzino</h3>
+  <div class="card-body">
+    <h3 class="card-title fw-bold">Sommario magazzino</h3>
+    <div class="row mt-3">
+      <div class="col-12">
+        <table
+          *ngIf="dataSource && dataSource.length > 0"
+          class="table custom-table"
+        >
+          <thead>
+            <tr>
+              <th>Codice Prodotto</th>
+              <th>Nome Prodotto</th>
+              <th>Prezzo</th>
+              <th>Quantità</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of visibleData">
+              <tr>
+                <td class="align-middle">{{ item.id }}</td>
+                <td class="align-middle">{{ item.nomeProdotto }}</td>
+                <td class="align-middle">&euro; {{ item.prezzo }}</td>
+                <td class="align-middle">{{ item.quantita }} pz</td>
+
+                <td class="align-middle">
+                  <button
+                    class="btn sc-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                    (click)="selectProductForEdit(item.id)"
+                  >
+                    <i class="bx bxs-edit"></i>
+                  </button>
+                </td>
+                <td class="align-middle">
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                    class="btn sc-primary"
+                    (click)="confirmDeleteProduct(item.id.toString())"
+                  >
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <!-- Aggiungi la paginazione di Bootstrap qui -->
+        <nav *ngIf="totalPages > 0" aria-label="Page navigation example">
+          <ul class="pagination justify-content-center pt-3">
+            <!-- Codice corretto per il pulsante "Previous" -->
+            <li
+              class="fw-bold page-item"
+              (click)="getPreviousPage()"
+              (keydown.enter)="getPreviousPage()"
+              [ngClass]="{ disabled: currentPage === 1 }"
+              tabindex="0"
+            >
+              <button class="page-link">Previous</button>
+            </li>
+
+            <!-- Codice corretto per la lista di pagine -->
+            <li
+              *ngFor="let page of pages"
+              class="fw-bold page-item"
+              (click)="getPagesData(page)"
+              (keydown.enter)="getPagesData(page)"
+              [ngClass]="{ active: page === currentPage }"
+              tabindex="0"
+            >
+              <button class="page-link sc-primary">{{ page }}</button>
+            </li>
+
+            <!-- Codice corretto per il pulsante "Next" -->
+            <li
+              class="fw-bold page-item"
+              (click)="getNextPage()"
+              (keydown.enter)="getNextPage()"
+              [ngClass]="{ disabled: currentPage === totalPages }"
+              tabindex="0"
+            >
+              <button class="page-link">Next</button>
+            </li>
+          </ul>
+        </nav>
+        <div
+          *ngIf="dataSource.length === 0"
+          class="alert sc-primary d-flex align-items-center mt-4"
+          role="alert"
+        >
+          <i
+            class="bx bx-info-circle align-middle me-2"
+            style="font-size: 30px"
+          ></i>
+          <div>Nessun prodotto presente nel magazzino.</div>
+        </div>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="editProductModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header sc-primary">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  {{
+                    confirmDelete
+                      ? "Conferma Eliminazione - " + selectedProduct.id
+                      : "Modifica Prodotto - " + selectedProduct.id
+                  }}
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <!-- Contenuto -->
+                <div *ngIf="!confirmDelete">
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <label for="productName" class="fw-bold form-label"
+                        >Nome prodotto</label
+                      >
+                      <input
+                        type="text"
+                        id="productName"
+                        name="productName"
+                        class="form-control"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default"
+                        [(ngModel)]="selectedProduct.nomeProdotto"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-6">
+                      <label for="productPrice" class="fw-bold form-label"
+                        >Prezzo</label
+                      >
+                      <input
+                        type="number"
+                        id="productPrice"
+                        name="productPrice"
+                        class="form-control"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default"
+                        [(ngModel)]="selectedProduct.prezzo"
+                      />
+                    </div>
+                    <div class="col-6">
+                      <label for="quantity" class="fw-bold form-label"
+                        >Quantità</label
+                      >
+                      <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        class="form-control"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default"
+                        [(ngModel)]="selectedProduct.quantita"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="confirmDelete">
+                  Sei sicuro di voler eliminare questo prodotto?
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Chiudi
+                </button>
+                <button
+                  *ngIf="!confirmDelete"
+                  type="button"
+                  class="btn sc-primary"
+                  (click)="updateProduct()"
+                >
+                  Salva modifiche
+                </button>
+                <button
+                  *ngIf="confirmDelete"
+                  type="button"
+                  class="btn sc-primary"
+                  (click)="deleteProduct(selectedProduct.id.toString())"
+                >
+                  Conferma
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
