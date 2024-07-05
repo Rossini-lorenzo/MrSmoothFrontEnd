@@ -1,6 +1,7 @@
 [
   {
     "title": "Home",
+    "icon": "fa-solid fa-house-user fa-lg",
     "links": [
       {
         "label": "Dashboard",
@@ -11,6 +12,7 @@
   },
   {
     "title": "Negozi",
+    "icon": "fa-solid fa-basket-shopping fa-lg",
     "links": [
       {
         "label": "Dipendenti",
@@ -36,6 +38,7 @@
   },
   {
     "title": "Magazzino",
+    "icon": "fa-solid fa-warehouse fa-lg",
     "links": [
       {
         "label": "Scanner Prodotti",
@@ -56,6 +59,7 @@
   },
   {
     "title": "Appuntamenti",
+    "icon": "fa-solid fa-calendar-days fa-lg",
     "links": [
       {
         "label": "Agenda",
@@ -71,6 +75,7 @@
   },
   {
     "title": "Vendite",
+    "icon": "fa-solid fa-cash-register fa-lg",
     "links": [
       {
         "label": "Cassa",
@@ -86,6 +91,7 @@
   },
   {
     "title": "Statistiche",
+    "icon": "fa-solid fa-chart-line fa-lg",
     "links": [
       {
         "label": "Andamento negozio",
