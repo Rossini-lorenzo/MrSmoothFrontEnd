@@ -72,4 +72,8 @@ export class CaHomeComponent implements OnInit {
   onBlur(event: Event) {
     (event.target as HTMLElement).style.textDecoration = 'none';
   }
+
+  logOut() {
+    this.service.logout();
+  }
 }

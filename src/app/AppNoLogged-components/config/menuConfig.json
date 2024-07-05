@@ -23,7 +23,7 @@
         "icon": "fa-solid fa-user-tie fa-lg"
       },
       {
-        "label": "Prodotti e Brand",
+        "label": "Prodotti",
         "url": "products-management",
         "icon": "fa-solid fa-basket-shopping fa-lg"
       },
@@ -78,7 +78,7 @@
         "icon": "fa-solid fa-cash-register fa-lg"
       },
       {
-        "label": "Registro",
+        "label": "Registro vendite",
         "url": "sales-register",
         "icon": "fa-solid fa-book fa-lg"
       }
