@@ -1,7 +1,7 @@
-import { Component, LOCALE_ID, Inject } from '@angular/core';
+import { Component, LOCALE_ID, Inject, ViewChild } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { Calendar, CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -35,8 +35,10 @@ interface Evento {
   styleUrls: ['./ca-calendar.component.css']
 })
 export class CaCalendarComponent {
+  @ViewChild('fullcalendar', { static: false }) fullcalendar: FullCalendarComponent;
 
   selectedDate: Date;
+  activeDate: Date; // Variabile per tenere traccia della data attiva nel mat-calendar
 
 
   http: any;
@@ -62,7 +64,7 @@ export class CaCalendarComponent {
       '</div>',       }},
 
     headerToolbar: {
-      left: 'prev,next',
+      left: '',
       center: 'title',
       right: 'timeGridWeek,timeGridDay'
     },
@@ -74,17 +76,18 @@ export class CaCalendarComponent {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this), // Assegna la funzione handleEventClick all'azione eventClick
     events: [] // Inizialmente senza eventi
+    
   };
   events :any = [];
   employees: any= [];  // Definire l'array di oggetti come 'any[]'
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) { this.selectedDate = new Date();}
+  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {
+     this.selectedDate = new Date();
+     this.activeDate = this.selectedDate; // Inizializza activeDate con selectedDate
+    }
  
 
-  dateSelected(date: Date): void {
-    this.selectedDate = date;
-    console.log('Selected date:', this.selectedDate);
-  }
+  
 
 
   ngOnInit(): void {
@@ -92,6 +95,7 @@ export class CaCalendarComponent {
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
+      initialDate: this.selectedDate, // Imposta la data iniziale alla data selezionata
       eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
       slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
       slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
@@ -106,7 +110,7 @@ export class CaCalendarComponent {
         '</div>',       }},
 
       headerToolbar: {
-        left: 'prev,next',
+        left: '',
         center: 'title',
         right: 'timeGridWeek,timeGridDay'
       },
@@ -117,6 +121,7 @@ export class CaCalendarComponent {
       selectable: true,
       select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this), // Assegna la funzione handleEventClick all'azione eventClick
+     // datesSet: this.handleViewChange.bind(this), // Assegna la funzione handleViewChange al cambio di date nel calendario
       events: [] // Inizialmente senza eventi
     };
     
@@ -150,6 +155,27 @@ export class CaCalendarComponent {
     }, 500); // 1000 millisecondi = 1 secondo
     });
   }
+
+
+
+//handleViewChange(viewChangeInfo: any) {
+  //this.activeDate = viewChangeInfo.start; // Aggiorna selectedDate con la data di inizio della nuova visualizzazione
+//}
+
+dateSelected(date: Date): void {
+  this.selectedDate = date;
+  this.activeDate = date; // Assicurati che activeDate venga aggiornato con la data selezionata
+
+  const calendarApi = this.fullcalendar.getApi();
+  calendarApi.gotoDate(date); // Vai alla data selezionata nel fullcalendar
+}
+
+
+
+
+
+
+
 
   loadEvents(): void {
     const accessToken = localStorage.getItem("googleAuthCode");

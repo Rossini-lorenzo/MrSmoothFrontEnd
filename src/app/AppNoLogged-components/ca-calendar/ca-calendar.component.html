@@ -18,12 +18,12 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-9">
-                        <full-calendar [options]="calendarOptions"></full-calendar>
+                        <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
                       </div>
                       <div class="col-3">
                        
-                        <mat-calendar (selectedChange)="dateSelected($event)"></mat-calendar>
-
+                        <mat-calendar [(selected)]="selectedDate" (selectedChange)="dateSelected($event)"></mat-calendar>
+                       
                         
                         
                         
