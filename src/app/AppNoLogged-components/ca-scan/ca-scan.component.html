@@ -139,7 +139,7 @@
         Aggiungi
       </button>
     </div>
-    <h3 class="card-title fw-bold mt-3">Magazzino</h3>
+    <!-- <h3 class="card-title fw-bold mt-3">Magazzino</h3>
     <div class="row mt-3">
       <div class="col-12">
         <table
@@ -218,10 +218,8 @@
             </ng-container>
           </tbody>
         </table>
-        <!-- Aggiungi la paginazione di Bootstrap qui -->
         <nav *ngIf="totalPages > 0" aria-label="Page navigation example">
           <ul class="pagination justify-content-center pt-3">
-            <!-- Codice corretto per il pulsante "Previous" -->
             <li
               class="fw-bold page-item"
               (click)="getPreviousPage()"
@@ -232,7 +230,6 @@
               <button class="page-link">Previous</button>
             </li>
 
-            <!-- Codice corretto per la lista di pagine -->
             <li
               *ngFor="let page of pages"
               class="fw-bold page-item"
@@ -244,7 +241,6 @@
               <button class="page-link sc-primary">{{ page }}</button>
             </li>
 
-            <!-- Codice corretto per il pulsante "Next" -->
             <li
               class="fw-bold page-item"
               (click)="getNextPage()"
@@ -267,7 +263,6 @@
           ></i>
           <div>Nessun prodotto presente nel magazzino.</div>
         </div>
-        <!-- Modal -->
         <div
           class="modal fade"
           id="editProductModal"
@@ -293,7 +288,6 @@
                 ></button>
               </div>
               <div class="modal-body">
-                <!-- Contenuto -->
                 <div *ngIf="!confirmDelete">
                   <div class="row mt-3">
                     <div class="col-12">
@@ -375,6 +369,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
