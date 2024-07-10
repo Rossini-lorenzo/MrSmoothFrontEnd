@@ -1,5 +1,85 @@
 <div class="card d-inline-block m-auto w-fit-content">
-    <div class="card-body">
-        <h3 class="card-title fw-bold">Dipendenti</h3>
+  <div class="card-body">
+    <h3 class="card-title fw-bold">Dipendenti</h3>
+    <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
+      <div
+        class="spinner-border"
+        role="status"
+        style="width: 3rem; height: 3rem;"
+      ></div>
     </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <table
+          *ngIf="!isLoading && dataSource && dataSource.length > 0"
+          class="table custom-table"
+        >
+          <thead>
+            <tr>
+              <th class="sc-secondary">Denominazione</th>
+              <th class="sc-secondary">Ruolo</th>
+              <!-- <th>Prezzo</th>
+              <th>Quantità</th> -->
+              <th class="sc-secondary"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- *ngFor="let item of visibleData" -->
+            <ng-container *ngFor="let item of dataSource">
+              <tr>
+                <td class="align-middle">
+                  {{ item.nome + " " + item.cognome }}
+                </td>
+                <td class="align-middle">{{ item.ruolo }}</td>
+                <!-- <td class="align-middle">&euro; {{ item.prezzo }}</td>
+                <td class="align-middle">{{ item.quantita }} pz</td> -->
+
+                <!-- (click)="selectProductForEdit(item.id)" -->
+                <td class="align-middle text-end">
+                  <button
+                    class="btn btn-outline-primary me-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                  >
+                    <i class="bx bxs-edit"></i>
+                  </button>
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-placement="top"
+                    data-bs-target="#editProductModal"
+                    title="Elimina prodotto"
+                    class="btn btn-outline-danger me-2"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+                <!-- (click)="confirmDeleteProduct(item.id.toString())" -->
+                <!-- <td class="align-middle">
+                  <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                    class="btn sc-primary"
+                    
+                  >
+                    <i class="bx bx-trash"></i>
+                  </button>
+                </td> -->
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
+      <button
+        data-bs-toggle="modal"
+        data-bs-placement="top"
+        data-bs-target="#editProductModal"
+        title="Elimina prodotto"
+        class="btn btn-outline-success btn-sm"
+      >
+        Aggiungi Dipendente
+      </button>
+    </div>
+  </div>
 </div>

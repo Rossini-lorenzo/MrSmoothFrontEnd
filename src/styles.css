@@ -1,10 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
   --primary-color: #ADD7F6;
+  --secondary-color: #F0F9FF;
 }
 
 .sc-primary {
   background-color: var(--primary-color);
+  /* Altri stili del pulsante... */
+}
+
+.sc-secondary {
+  background-color: var(--secondary-color) !important;
   /* Altri stili del pulsante... */
 }
 

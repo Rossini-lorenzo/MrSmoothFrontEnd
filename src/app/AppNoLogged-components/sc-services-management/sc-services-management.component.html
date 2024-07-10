@@ -1,5 +1,52 @@
 <div class="card d-inline-block m-auto w-fit-content">
     <div class="card-body">
         <h3 class="card-title fw-bold">Servizi</h3>
+        <div class="row mt-3">
+            <div class="col-12">
+              <!-- *ngIf="dataSource && dataSource.length > 0" -->
+              <table class="table custom-table">
+                <thead>
+                  <tr>
+                    <th>Servizio</th>
+                    <th>Prezzo</th>
+                    <!-- <th>Quantità</th> -->
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <!-- <tbody>
+                              <ng-container *ngFor="let item of visibleData">
+                                <tr>
+                                  <td class="align-middle">{{ item.id }}</td>
+                                  <td class="align-middle">{{ item.nomeProdotto }}</td>
+                                  <td class="align-middle">&euro; {{ item.prezzo }}</td>
+                                  <td class="align-middle">{{ item.quantita }} pz</td>
+                  
+                                  <td class="align-middle">
+                                    <button
+                                      class="btn sc-primary"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#editProductModal"
+                                      (click)="selectProductForEdit(item.id)"
+                                    >
+                                      <i class="bx bxs-edit"></i>
+                                    </button>
+                                  </td>
+                                  <td class="align-middle">
+                                    <button
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#editProductModal"
+                                      class="btn sc-primary"
+                                      (click)="confirmDeleteProduct(item.id.toString())"
+                                    >
+                                      <i class="bx bx-trash"></i>
+                                    </button>
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </tbody> -->
+              </table>
+            </div>
+          </div>
     </div>
 </div>
