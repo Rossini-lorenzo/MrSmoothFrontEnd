@@ -53,9 +53,19 @@ export class CaHomeComponent implements OnInit {
 
   
 
+  isAnimating: boolean = false;
+
   toggleAccordion(index: number) {
+    if (this.isAnimating) return;
+    this.isAnimating = true;
+  
     this.isOpen[index] = !this.isOpen[index];
+  
+    setTimeout(() => {
+      this.isAnimating = false;
+    }, 300); // Tempo pari alla durata dell'animazione CSS
   }
+  
 
   onMouseOver(event: Event) {
     (event.target as HTMLElement).style.textDecoration = 'underline';

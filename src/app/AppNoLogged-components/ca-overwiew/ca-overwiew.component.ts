@@ -86,6 +86,7 @@ export class CaOverwiewComponent implements OnInit {
 							  position: 'bottom', // Posizione della legenda in basso
 							  
 							},
+							
 					  },
 					}
 					});

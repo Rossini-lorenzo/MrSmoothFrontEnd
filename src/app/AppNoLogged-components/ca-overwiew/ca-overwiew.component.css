@@ -27,7 +27,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 100px;
   border-radius: 1px;
   transition: .3s linear all;
-  border-top: 1px solid #dfdfdf; /* Bordo superiore con colore celestino */
+  border-top: 4px solid #add7f6; /* Bordo superiore con colore celestino */
   border-left: 1px solid #dfdfdf; 
   border-right: 1px solid #dfdfdf; 
   border-bottom: 1px solid #dfdfdf; 
