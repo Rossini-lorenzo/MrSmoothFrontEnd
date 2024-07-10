@@ -144,6 +144,7 @@ export class CaOverwiewComponent implements OnInit {
 							  display: false,
 							},
 					  },
+					  
 					  },
 					});
 				},

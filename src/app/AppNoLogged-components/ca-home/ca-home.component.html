@@ -159,7 +159,7 @@
 
 <header class="navbar-expand-lg sc-primary">
   <div class="container-fluid">
-    <div class="row d-flex align-items-center" style="background-color: white;">
+    <div class="row d-flex align-items-center" style="background-color: white;    border-bottom: 1px solid #dfdfdf;">
       <div class="col-2">
         <!-- Logo -->
         <a class="navbar-brand" href="#">
@@ -257,28 +257,32 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2 p-0" style="background-color: #ADD7F6;">
+    <div class="col-2 p-0" style="background-color: #6aaad8;">
       <aside>
         <div class="accordion accordion-flush" id="sidebarAccordion">
           <div
             class="accordion-item " style=""
             *ngFor="let menuItem of menuItems; let index = index"
           >
-            <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
-              <button
-                class="accordion-button  sc-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                [attr.data-bs-target]="'#collapse' + index"
-                aria-expanded="false"
-                [attr.aria-controls]="'collapse' + index"
-                (click)="toggleAccordion(index)"
-                [class.collapsed]="!isOpen[index]"
-                data-bs-disable-animation="true"
-              >
-                {{ menuItem.title }}
-              </button>
-            </h2>
+          <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
+            <button
+            style="color: white;background-color: #6aaad8;"
+            
+              class="accordion-button sc-primary d-flex align-items-center"
+              type="button"
+              data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#collapse' + index"
+              aria-expanded="false"
+              [attr.aria-controls]="'collapse' + index"
+              (click)="toggleAccordion(index)"
+              [class.collapsed]="!isOpen[index]"
+              data-bs-disable-animation="true"
+            >
+              <i [class]="menuItem.icon" style="margin-right: 20px;"></i>
+              {{ menuItem.title }}
+            </button>
+          </h2>
+          
            
             <div
               [id]="'collapse' + index"
@@ -291,7 +295,6 @@
               >
                 <div class="row">
                   <div class="col-10">
-                    <i [class]="link.icon"></i>
                     <a
                       [routerLink]="link.url"
                       style="text-decoration: none; color: black"
