@@ -1,0 +1,59 @@
+<div
+  class="modal"
+  [ngClass]="{ show: isOpen }"
+  tabindex="-1"
+  role="dialog"
+  style="display: block"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header sc-primary">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="onCloseModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <!-- Utilizzo di d-flex (display: flex) e justify-content-center -->
+        <button
+          type="button"
+          class="btn btn-secondary me-2 btn-sm"
+          (click)="onCloseModal()"
+        >
+          Chiudi
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger me-2 btn-sm"
+          (click)="onDelete()"
+          *ngIf="title.startsWith('Conferma Eliminazione')"
+        >
+          Elimina
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary me-2 btn-sm"
+          (click)="onSave()"
+          *ngIf="title.startsWith('Modifica')"
+        >
+          Salva modifiche
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary btn-sm"
+          (click)="onAdd()"
+          *ngIf="title.startsWith('Aggiungi')"
+        >
+          Aggiungi
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show"></div>

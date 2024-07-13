@@ -33,6 +33,7 @@ import { ScManageAutomaticMessageComponent } from './AppNoLogged-components/sc-m
 import { ScShopPerformanceComponent } from './AppNoLogged-components/sc-shop-performance/sc-shop-performance.component';
 import { ScStaffPerformanceComponent } from './AppNoLogged-components/sc-staff-performance/sc-staff-performance.component';
 import { ScShopInvoicesComponent } from './AppNoLogged-components/sc-shop-invoices/sc-shop-invoices.component';
+import { ScModalComponent } from './sc-ui/sc-modal/sc-modal.component';
 
 // Full Calendar
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -72,6 +73,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ScShopPerformanceComponent,
     ScStaffPerformanceComponent,
     ScShopInvoicesComponent,
+    ScModalComponent,
     EventDialogContentComponent,
     FooterComponent,
   ],

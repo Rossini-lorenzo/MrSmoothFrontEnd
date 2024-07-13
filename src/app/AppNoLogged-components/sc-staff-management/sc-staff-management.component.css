@@ -26,3 +26,10 @@
     text-overflow: ellipsis; /* Aggiunge "..." se il contenuto è troppo lungo */
   }
 }
+.custom-table th, .custom-table td {
+  white-space: nowrap;
+}
+
+.custom-table th {
+  width: auto;
+}

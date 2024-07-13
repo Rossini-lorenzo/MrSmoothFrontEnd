@@ -21,4 +21,41 @@ export class EmployeesServiceService {
       { headers, observe: 'response' }
     );
   }
+
+  updateEmployee(
+    id: number,
+    nome: string,
+    cognome: string,
+    ruolo: string
+  ): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
+
+    return this.httpClient.post<any>(
+      this.apiUrl +
+        'userProduct/updateEmployee?id=' +
+        id +
+        '&nome=' +
+        nome +
+        '&cognome=' +
+        cognome + 
+        '&ruolo=' +
+        ruolo,
+      null,
+      { headers: headers, responseType: 'text' as 'json' }
+    );
+  }
+
+  deleteEmployee(id: number): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
+
+    return this.httpClient.post<any>(
+      this.apiUrl + 'userProduct/deleteEmployee?id=' + id,
+      null,
+      { headers: headers, responseType: 'text' as 'json' }
+    );
+  }
 }

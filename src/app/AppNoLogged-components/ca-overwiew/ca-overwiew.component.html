@@ -8,7 +8,7 @@
         style="width: 3rem; height: 3rem;"
       ></div>
     </div>
-    <div *ngIf="!isLoading" class="container-fluid">
+    <div *ngIf="!isLoading">
       <div class="row mb-3">
         <div class="col-md-3">
           <div class="card-counter primary">
@@ -51,9 +51,7 @@
               Tagli dipendenti
             </div>
             <div class="card-body">
-              <canvas id="canvas1" style="width: 100%; height: 250px">{{
-                chart1
-              }}</canvas>
+              <canvas  #canvas1 style="width: 100%; height: 250px"></canvas>
             </div>
           </div>
         </div>
@@ -66,9 +64,7 @@
             </div>
 
             <div class="card-body">
-              <canvas id="canvas2" style="width: 100%; height: 250px">{{
-                chart2
-              }}</canvas>
+              <canvas #canvas2 style="width: 100%; height: 250px"></canvas>
             </div>
           </div>
         </div>
@@ -82,9 +78,7 @@
             </div>
 
             <div class="card-body">
-              <canvas id="canvas3" style="width: 100%; height: 250px">{{
-                chart2
-              }}</canvas>
+              <canvas #canvas3 style="width: 100%; height: 250px"></canvas>
             </div>
           </div>
         </div>

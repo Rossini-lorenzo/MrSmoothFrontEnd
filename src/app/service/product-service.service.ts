@@ -155,6 +155,9 @@ deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
         { headers, observe: 'response' }
       );
     }
+
+    
+
     getAllCounters(): Observable<HttpResponse<Object[]>> {
       const tokenStr = 'Bearer ' + localStorage.getItem('token');
   

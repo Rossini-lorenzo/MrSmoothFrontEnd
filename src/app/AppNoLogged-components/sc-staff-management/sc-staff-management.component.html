@@ -5,7 +5,7 @@
       <div
         class="spinner-border"
         role="status"
-        style="width: 3rem; height: 3rem;"
+        style="width: 3rem; height: 3rem"
       ></div>
     </div>
     <div class="row mt-3">
@@ -17,38 +17,39 @@
           <thead>
             <tr>
               <th class="sc-secondary">Denominazione</th>
-              <th class="sc-secondary">Ruolo</th>
-              <!-- <th>Prezzo</th>
-              <th>Quantità</th> -->
+              <!-- <th class="col-md-1 sc-secondary">Ruolo</th> -->
+              <th class="sc-secondary">Cellulare</th>
+              <th class="sc-secondary">Email</th>
+              <th class="sc-secondary">Data Assunzione</th>
+              <th class="sc-secondary">Data Scadenza</th>
               <th class="sc-secondary"></th>
             </tr>
           </thead>
           <tbody>
             <!-- *ngFor="let item of visibleData" -->
             <ng-container *ngFor="let item of dataSource">
-              <tr>
+              <tr >
                 <td class="align-middle">
                   {{ item.nome + " " + item.cognome }}
                 </td>
-                <td class="align-middle">{{ item.ruolo }}</td>
-                <!-- <td class="align-middle">&euro; {{ item.prezzo }}</td>
-                <td class="align-middle">{{ item.quantita }} pz</td> -->
+                <!-- <td class="col-md-1 align-middle">{{ item.ruolo }}</td> -->
+                <td class="align-middle">{{ item.cellulare }}</td>
+                <td class="align-middle">{{ item.email }}</td>
+                <td class="align-middle">{{ item.dataAssunzione }}</td>
+                <td class="align-middle">{{ item.dataScadenzaContratto }}</td>
 
                 <!-- (click)="selectProductForEdit(item.id)" -->
                 <td class="align-middle text-end">
                   <button
-                    class="btn btn-outline-primary me-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editProductModal"
+                    class="btn btn-outline-primary me-2 btn-sm"
+                    (click)="openEditModal(item)"
                   >
                     <i class="bx bxs-edit"></i>
                   </button>
                   <button
-                    data-bs-toggle="modal"
-                    data-bs-placement="top"
-                    data-bs-target="#editProductModal"
                     title="Elimina prodotto"
-                    class="btn btn-outline-danger me-2"
+                    class="btn btn-outline-danger me-2 btn-sm"
+                    (click)="openDeleteModal(item)"
                   >
                     <i class="fa-solid fa-trash"></i>
                   </button>
@@ -70,16 +71,149 @@
         </table>
       </div>
     </div>
+
     <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
       <button
-        data-bs-toggle="modal"
-        data-bs-placement="top"
-        data-bs-target="#editProductModal"
-        title="Elimina prodotto"
-        class="btn btn-outline-success btn-sm"
+        title="Aggiungi prodotto"
+        class="btn sc-primary btn-sm"
+        (click)="openAddModal()"
       >
         Aggiungi Dipendente
       </button>
     </div>
+
+    <app-sc-modal
+      *ngIf="isOpen"
+      [title]="modalTitle"
+      (save)="saveChanges()"
+      (delete)="deleteItem()"
+      (add)="addItem()"
+      (closeModal)="closeModal()"
+    >
+      <!-- Contenuto della modale personalizzato -->
+      <div *ngIf="modalTitle.startsWith('Modifica')">
+        <div class="row mt-3">
+          <div class="col-6">
+            <label for="employeeName" class="fw-bold form-label">Nome</label>
+            <input
+              type="text"
+              id="employeeName"
+              name="employeeName"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.nome"
+            />
+          </div>
+          <div class="col-6">
+            <label for="employeeSurname" class="fw-bold form-label"
+              >Cognome</label
+            >
+            <input
+              type="text"
+              id="employeeSurname"
+              name="employeeSurname"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.cognome"
+            />
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <label for="employeeRole" class="fw-bold form-label">Ruolo</label>
+            <input
+              type="text"
+              id="employeeRole"
+              name="employeeRole"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.ruolo"
+            />
+          </div>
+          <div class="col-6">
+            <label for="employeeSurname" class="fw-bold form-label"
+              >Numero di telefono</label
+            >
+            <input
+              type="text"
+              id="employeeSurname"
+              name="employeeSurname"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.cognome"
+            />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="modalTitle.startsWith('Aggiungi')">
+        <div class="row mt-3">
+          <div class="col-6">
+            <label for="employeeName" class="fw-bold form-label">Nome</label>
+            <input
+              type="text"
+              id="employeeName"
+              name="employeeName"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.nome"
+            />
+          </div>
+          <div class="col-6">
+            <label for="employeeSurname" class="fw-bold form-label"
+              >Cognome</label
+            >
+            <input
+              type="text"
+              id="employeeSurname"
+              name="employeeSurname"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.cognome"
+            />
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <label for="employeeRole" class="fw-bold form-label">Ruolo</label>
+            <input
+              type="text"
+              id="employeeRole"
+              name="employeeRole"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.ruolo"
+            />
+          </div>
+          <div class="col-6">
+            <label for="employeeSurname" class="fw-bold form-label"
+              >Numero di telefono</label
+            >
+            <input
+              type="text"
+              id="employeeSurname"
+              name="employeeSurname"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+              [(ngModel)]="selectedEmployee.cognome"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="modalTitle.startsWith('Conferma Eliminazione')">
+        Sei sicuro di voler eliminare questo dipendente?
+      </div> -->
+      <div *ngIf="modalTitle.startsWith('Conferma Eliminazione')" class="alert alert-danger mt-3" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> <!-- Icona di avviso -->
+        <span class="ms-2">Sei sicuro di voler eliminare questo dipendente?</span>
+      </div>
+    </app-sc-modal>
   </div>
 </div>
