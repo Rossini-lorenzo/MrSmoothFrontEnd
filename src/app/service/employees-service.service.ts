@@ -26,7 +26,8 @@ export class EmployeesServiceService {
     id: number,
     nome: string,
     cognome: string,
-    ruolo: string
+    ruolo: string,
+    cellulare: number,
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
@@ -41,7 +42,9 @@ export class EmployeesServiceService {
         '&cognome=' +
         cognome + 
         '&ruolo=' +
-        ruolo,
+        ruolo + 
+        '&cellulare=' +
+        cellulare,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );

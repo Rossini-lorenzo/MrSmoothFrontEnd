@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
 
 interface Employee {
@@ -15,7 +16,7 @@ interface Employee {
 @Component({
   selector: 'app-sc-staff-management',
   templateUrl: './sc-staff-management.component.html',
-  styleUrl: './sc-staff-management.component.css',
+  styleUrls: ['./sc-staff-management.component.css'],
 })
 export class ScStaffManagementComponent implements OnInit {
   displayedColumns: string[] = ['nome', 'cognome', 'ruolo'];
@@ -30,7 +31,18 @@ export class ScStaffManagementComponent implements OnInit {
     cellulare: 0,
     email: '',
     dataAssunzione: '',
-    dataScadenzaContratto: ''
+    dataScadenzaContratto: '',
+  };
+
+  newEmployee: Employee = {
+    id: 0,
+    nome: '',
+    cognome: '',
+    ruolo: '',
+    cellulare: 0,
+    email: '',
+    dataAssunzione: '',
+    dataScadenzaContratto: '',
   };
 
   employeeToDelete = 0;
@@ -40,10 +52,23 @@ export class ScStaffManagementComponent implements OnInit {
   newItem: any = { name: '', quantity: 0 };
   isOpen = false;
 
-  constructor(private employeeService: EmployeesServiceService) {}
+  form: FormGroup;
+  submitted = false;
+
+  constructor(private employeeService: EmployeesServiceService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.getAllEmployee();
+    this.form = this.formBuilder.group({
+      nome: ['', Validators.required],
+      cognome: ['', Validators.required],
+      cellulare: ['', [Validators.required, Validators.pattern(/(\+39|0039)?3[0-9]{9}/)]],
+      email: ['', [Validators.required, Validators.email]],
+      dataAssunzione: ['', Validators.required],
+      dataScadenzaContratto: ['', Validators.required],
+    });
+    // Se è stata selezionata una riga per la modifica, prepopola il form
+    
   }
 
   public getAllEmployee(): void {
@@ -65,26 +90,21 @@ export class ScStaffManagementComponent implements OnInit {
     this.isLoading = true;
     if (!this.selectedEmployee) return;
 
-    this.employeeService
-      .updateEmployee(
-        this.selectedEmployee.id,
-        this.selectedEmployee.nome,
-        this.selectedEmployee.cognome,
-        this.selectedEmployee.ruolo
-      )
-      .subscribe({
-        next: (response: any) => {
-          alert(response);
-
-          //this.apiCalled = false;
-          //this.productIsPresent = false;
-        },
-        error: (error) => console.error(error),
-        complete: () => {
-          console.info('complete');
-          this.getAllEmployee();
-        },
-      });
+    this.employeeService.updateEmployee(
+      this.selectedEmployee.id,
+      this.selectedEmployee.nome,
+      this.selectedEmployee.cognome,
+      this.selectedEmployee.ruolo,
+      this.selectedEmployee.cellulare
+    ).subscribe({
+      next: (response: any) => {
+        alert(response);
+      },
+      error: (error) => console.error(error),
+      complete: () => {
+        this.getAllEmployee();
+      },
+    });
   }
 
   public deleteEmployee(id: number): void {
@@ -95,7 +115,6 @@ export class ScStaffManagementComponent implements OnInit {
       },
       error: (error) => console.error(error),
       complete: () => {
-        console.info('complete');
         this.getAllEmployee();
       },
     });
@@ -104,15 +123,21 @@ export class ScStaffManagementComponent implements OnInit {
   openEditModal(selectedEmployee: Employee) {
     this.selectedEmployee = { ...selectedEmployee };
     this.modalTitle = 'Modifica Dipendente';
-    // Inizializza editItem con i dati del prodotto da modificare
-    this.editItem = { name: 'Prodotto da modificare', quantity: 10 };
+    if (this.modalTitle.startsWith('Modifica') && this.selectedEmployee) {
+      this.form.patchValue({
+        nome: this.selectedEmployee.nome,
+        cognome: this.selectedEmployee.cognome,
+        cellulare: this.selectedEmployee.cellulare,
+        email: this.selectedEmployee.email,
+        dataAssunzione: this.selectedEmployee.dataAssunzione,
+        dataScadenzaContratto: this.selectedEmployee.dataScadenzaContratto
+      });
+    }
     this.isOpen = true;
   }
 
   openAddModal() {
     this.modalTitle = 'Aggiungi Dipendente';
-    // Inizializza newItem per aggiungere un nuovo prodotto
-    this.newItem = { name: '', quantity: 0 };
     this.isOpen = true;
   }
 
@@ -123,28 +148,53 @@ export class ScStaffManagementComponent implements OnInit {
   }
 
   saveChanges() {
-    console.log('Salvataggio modifiche...');
-    // Logica per salvare le modifiche
-    this.updateEmployee();
-    this.isOpen = false;
+    //this.updateEmployee();
+    this.onSubmit();
   }
 
   deleteItem() {
-    console.log('Eliminazione elemento...');
-    // Logica per eliminare l'elemento
-
     this.deleteEmployee(this.employeeToDelete);
     this.isOpen = false;
   }
 
   addItem() {
-    console.log('Aggiunta nuovo elemento...');
-    // Logica per aggiungere un nuovo elemento
     this.isOpen = false;
   }
 
   closeModal() {
-    console.log('Chiusura modale...');
     this.isOpen = false;
+    this.onReset();
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.selectedEmployee = {
+      ...this.selectedEmployee,
+      ...this.form.value,
+    };
+
+    this.updateEmployee();
+    this.isOpen = false;
+  }
+
+  convertDate(dateString: string) {
+    const parts = dateString.split('-');
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+    return `${day}/${month}/${year}`;
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
+  }
+
+  onReset(): void {
+    this.submitted = false;
+    this.form.reset();
   }
 }
