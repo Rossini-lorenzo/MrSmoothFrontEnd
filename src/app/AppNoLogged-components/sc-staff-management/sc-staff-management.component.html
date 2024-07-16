@@ -37,12 +37,12 @@
                 <td class="align-middle">
                   {{ item.email ? item.email : "-" }}
                 </td>
-                <td class="align-middle">
+                <td class="align-middle text-center">
                   {{
                     item.dataAssunzione ? convertDate(item.dataAssunzione) : "-"
                   }}
                 </td>
-                <td class="align-middle">
+                <td class="align-middle text-center">
                   {{
                     item.dataScadenzaContratto
                       ? convertDate(item.dataScadenzaContratto)
@@ -63,6 +63,14 @@
                   >
                     <i class="fa-solid fa-trash"></i>
                   </button>
+                  <!-- (click)="openDeleteModal(item)" -->
+                  <!-- <button
+                    title="Elimina prodotto"
+                    class="btn btn-outline-success btn-sm"
+                    
+                  >
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button> -->
                 </td>
               </tr>
             </ng-container>
@@ -241,11 +249,18 @@
               <input
                 type="text"
                 id="employeeName"
-                name="employeeName"
                 class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-default"
+                formControlName="nome"
+                [ngClass]="{ 'is-invalid': submitted && f['nome'].errors }"
               />
+              <div
+                *ngIf="submitted && f['nome'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['nome'].errors?.['required']">
+                  Il nome è richiesto
+                </div>
+              </div>
             </div>
             <div class="col-6">
               <label for="employeeSurname" class="fw-bold form-label"
@@ -256,24 +271,20 @@
                 id="employeeSurname"
                 name="employeeSurname"
                 class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-default"
+                formControlName="cognome"
+                [ngClass]="{ 'is-invalid': submitted && f['cognome'].errors }"
               />
+              <div
+                *ngIf="submitted && f['cognome'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['cognome'].errors?.['required']">
+                  Il nome è richiesto
+                </div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
-            <!-- <div class="col-6">
-              <label for="employeeRole" class="fw-bold form-label">Ruolo</label>
-              <input
-                type="text"
-                id="employeeRole"
-                name="employeeRole"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-default"
-                [(ngModel)]="newEmployee.ruolo"
-              />
-            </div> -->
             <div class="col-6">
               <label for="employeePhone" class="fw-bold form-label"
                 >Numero di telefono</label
@@ -285,7 +296,20 @@
                 class="form-control"
                 pattern="(\+39|0039)?3[0-9]{9}"
                 required
+                formControlName="cellulare"
+                [ngClass]="{ 'is-invalid': submitted && f['cellulare'].errors }"
               />
+              <div
+                *ngIf="submitted && f['cellulare'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['cellulare'].errors?.['required']">
+                  Il cellulare è richiesto
+                </div>
+                <div *ngIf="f['cellulare'].errors?.['pattern']">
+                  Il cellulare non è valido
+                </div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -296,12 +320,20 @@
                 id="email"
                 name="email"
                 class="form-control"
+                formControlName="email"
                 [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
               />
-              <div *ngIf="f['email'].errors?.['required']">
-                L'email è richiesta
+              <div
+                *ngIf="submitted && f['email'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['email'].errors?.['required']">
+                  L'email è richiesta
+                </div>
+                <div *ngIf="f['email'].errors?.['email']">
+                  L'email non è valida
+                </div>
               </div>
-              <div *ngIf="f['email'].errors?.['email']">L'email non è valida</div>
             </div>
           </div>
           <div class="row mt-3">
@@ -314,7 +346,19 @@
                 id="dataAssunzione"
                 name="dataAssunzione"
                 class="form-control"
+                formControlName="dataAssunzione"
+                [ngClass]="{
+                  'is-invalid': submitted && f['dataAssunzione'].errors
+                }"
               />
+              <div
+                *ngIf="submitted && f['dataAssunzione'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['dataAssunzione'].errors?.['required']">
+                  La data di assunzione è richiesta
+                </div>
+              </div>
             </div>
             <div class="col-6">
               <label for="dataScadenzaContratto" class="fw-bold form-label"
@@ -325,7 +369,19 @@
                 id="dataScadenzaContratto"
                 name="dataScadenzaContratto"
                 class="form-control"
+                formControlName="dataScadenzaContratto"
+                [ngClass]="{
+                  'is-invalid': submitted && f['dataScadenzaContratto'].errors
+                }"
               />
+              <div
+                *ngIf="submitted && f['dataScadenzaContratto'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['dataScadenzaContratto'].errors?.['required']">
+                  La data di scadenza contratto è richiesta
+                </div>
+              </div>
             </div>
           </div>
         </div>

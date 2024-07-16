@@ -50,6 +50,28 @@ export class EmployeesServiceService {
     );
   }
 
+  addEmployee(
+    nome: string,
+    cognome: string,
+    ruolo: string,
+  ): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
+
+    return this.httpClient.post<any>(
+      this.apiUrl +
+        'userProduct/newEmployee?nome=' +
+        nome +
+        '&cognome=' +
+        cognome +
+        '&ruolo=' +
+        ruolo,
+      null,
+      { headers: headers, responseType: 'text' as 'json' }
+    );
+  }
+
   deleteEmployee(id: number): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 

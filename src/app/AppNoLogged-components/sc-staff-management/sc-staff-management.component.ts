@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
 
 interface Employee {
@@ -34,17 +39,6 @@ export class ScStaffManagementComponent implements OnInit {
     dataScadenzaContratto: '',
   };
 
-  newEmployee: Employee = {
-    id: 0,
-    nome: '',
-    cognome: '',
-    ruolo: '',
-    cellulare: 0,
-    email: '',
-    dataAssunzione: '',
-    dataScadenzaContratto: '',
-  };
-
   employeeToDelete = 0;
 
   modalTitle = '';
@@ -55,20 +49,25 @@ export class ScStaffManagementComponent implements OnInit {
   form: FormGroup;
   submitted = false;
 
-  constructor(private employeeService: EmployeesServiceService, private formBuilder: FormBuilder) {}
+  constructor(
+    private employeeService: EmployeesServiceService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.getAllEmployee();
     this.form = this.formBuilder.group({
       nome: ['', Validators.required],
       cognome: ['', Validators.required],
-      cellulare: ['', [Validators.required, Validators.pattern(/(\+39|0039)?3[0-9]{9}/)]],
+      cellulare: [
+        '',
+        [Validators.required, Validators.pattern(/(\+39|0039)?3[0-9]{9}/)],
+      ],
       email: ['', [Validators.required, Validators.email]],
       dataAssunzione: ['', Validators.required],
       dataScadenzaContratto: ['', Validators.required],
     });
     // Se è stata selezionata una riga per la modifica, prepopola il form
-    
   }
 
   public getAllEmployee(): void {
@@ -90,21 +89,23 @@ export class ScStaffManagementComponent implements OnInit {
     this.isLoading = true;
     if (!this.selectedEmployee) return;
 
-    this.employeeService.updateEmployee(
-      this.selectedEmployee.id,
-      this.selectedEmployee.nome,
-      this.selectedEmployee.cognome,
-      this.selectedEmployee.ruolo,
-      this.selectedEmployee.cellulare
-    ).subscribe({
-      next: (response: any) => {
-        alert(response);
-      },
-      error: (error) => console.error(error),
-      complete: () => {
-        this.getAllEmployee();
-      },
-    });
+    this.employeeService
+      .updateEmployee(
+        this.selectedEmployee.id,
+        this.selectedEmployee.nome,
+        this.selectedEmployee.cognome,
+        this.selectedEmployee.ruolo,
+        this.selectedEmployee.cellulare
+      )
+      .subscribe({
+        next: (response: any) => {
+          alert(response);
+        },
+        error: (error) => console.error(error),
+        complete: () => {
+          this.getAllEmployee();
+        },
+      });
   }
 
   public deleteEmployee(id: number): void {
@@ -130,7 +131,7 @@ export class ScStaffManagementComponent implements OnInit {
         cellulare: this.selectedEmployee.cellulare,
         email: this.selectedEmployee.email,
         dataAssunzione: this.selectedEmployee.dataAssunzione,
-        dataScadenzaContratto: this.selectedEmployee.dataScadenzaContratto
+        dataScadenzaContratto: this.selectedEmployee.dataScadenzaContratto,
       });
     }
     this.isOpen = true;
@@ -158,7 +159,7 @@ export class ScStaffManagementComponent implements OnInit {
   }
 
   addItem() {
-    this.isOpen = false;
+    this.onSubmit();
   }
 
   closeModal() {
@@ -172,13 +173,33 @@ export class ScStaffManagementComponent implements OnInit {
       return;
     }
 
-    this.selectedEmployee = {
-      ...this.selectedEmployee,
-      ...this.form.value,
-    };
+    if (this.modalTitle.startsWith('Modifica')) {
+      // Logica per aggiornare un dipendente esistente
+      this.selectedEmployee = {
+        ...this.selectedEmployee,
+        ...this.form.value,
+      };
+      this.updateEmployee();
+    } else if (this.modalTitle.startsWith('Aggiungi')) {
+      // Logica per aggiungere un nuovo dipendente
+      const newEmployee: Employee = this.form.value;
+      this.employeeService
+        .addEmployee(
+          newEmployee.nome,
+          newEmployee.cognome,
+          newEmployee.ruolo
+        )
+        .subscribe({
+          next: (response: any) => {
+            alert(response);
+            this.getAllEmployee();
+          },
+          error: (error) => console.error(error),
+        });
+    }
 
-    this.updateEmployee();
     this.isOpen = false;
+    this.onReset();
   }
 
   convertDate(dateString: string) {
