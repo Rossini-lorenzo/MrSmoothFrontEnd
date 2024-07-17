@@ -4,32 +4,30 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class EmployeesServiceService {
-
-  constructor(private httpClient: HttpClient) { }
+export class CustomersServiceService {
+  constructor(private httpClient: HttpClient) {}
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
-  getAllEmployee(): Observable<HttpResponse<Object[]>> {
+  getAllCustomer(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'userProduct/getAllEmployee',
+      this.apiUrl + 'userProduct/getAllCustomer',
       { headers, observe: 'response' }
     );
   }
 
-  updateEmployee(
+  updateCustomer(
     id: number,
     nome: string,
     cognome: string,
     email: string,
     cellulare: number,
-    dataScadenzaContratto: string,
-    dataAssunzione: string,
+    dataDiNascita: string,
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
@@ -37,32 +35,29 @@ export class EmployeesServiceService {
 
     return this.httpClient.post<any>(
       this.apiUrl +
-        'userProduct/updateEmployee?id=' +
+        'userProduct/updateCustomer?id=' +
         id +
         '&nome=' +
         nome +
         '&cognome=' +
-        cognome + 
+        cognome +
         '&email=' +
-        email + 
+        email +
         '&cellulare=' +
-        cellulare + 
-        '&dataScadenzaContratto=' +
-        dataScadenzaContratto + 
-        '&dataAssunzione=' +
-        dataAssunzione,
+        cellulare +
+        '&dataNascita=' +
+        dataDiNascita,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
   }
 
-  addEmployee(
+  addCustomer(
     nome: string,
     cognome: string,
     email: string,
     cellulare: number,
-    dataScadenzaContratto: string,
-    dataAssunzione: string,
+    dataDiNascita: string,
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
@@ -70,30 +65,28 @@ export class EmployeesServiceService {
 
     return this.httpClient.post<any>(
       this.apiUrl +
-        'userProduct/newEmployee?nome=' +
+        'userProduct/newCustomer?nome=' +
         nome +
         '&cognome=' +
-        cognome + 
+        cognome +
         '&email=' +
-        email + 
+        email +
         '&cellulare=' +
-        cellulare + 
-        '&dataScadenzaContratto=' +
-        dataScadenzaContratto + 
-        '&dataAssunzione=' +
-        dataAssunzione,
+        cellulare +
+        '&dataNascita=' +
+        dataDiNascita,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
   }
 
-  deleteEmployee(id: number): Observable<HttpResponse<Object[]>> {
+  deleteCustomer(id: number): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      this.apiUrl + 'userProduct/deleteEmployee?id=' + id,
+      this.apiUrl + 'userProduct/deleteCustomer?id=' + id,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );

@@ -24,7 +24,6 @@ interface Employee {
   styleUrls: ['./sc-staff-management.component.css'],
 })
 export class ScStaffManagementComponent implements OnInit {
-  displayedColumns: string[] = ['nome', 'cognome', 'ruolo'];
   dataSource: Employee[] = [];
   isLoading = false;
 
@@ -42,12 +41,15 @@ export class ScStaffManagementComponent implements OnInit {
   employeeToDelete = 0;
 
   modalTitle = '';
-  editItem: any = { name: '', quantity: 0 };
-  newItem: any = { name: '', quantity: 0 };
+  modalActionType = '';
   isOpen = false;
 
   form: FormGroup;
   submitted = false;
+
+  // Variabili per l'alert di successo
+  showSuccessAlert = false;
+  successMessage = '';
 
   constructor(
     private employeeService: EmployeesServiceService,
@@ -85,8 +87,35 @@ export class ScStaffManagementComponent implements OnInit {
     });
   }
 
+  public addNewEmployee(): void {
+    this.isLoading = true;
+    const newEmployee: Employee = this.form.value;
+    this.employeeService
+      .addEmployee(
+        newEmployee.nome,
+        newEmployee.cognome,
+        newEmployee.email,
+        newEmployee.cellulare,
+        newEmployee.dataScadenzaContratto,
+        newEmployee.dataAssunzione
+      )
+      .subscribe({
+        next: (response: any) => {
+          this.showSuccess(response);
+        },
+        error: (error) => console.error(error),
+        complete: () => {
+          this.getAllEmployee();
+        },
+      });
+  }
+
   public updateEmployee(): void {
     this.isLoading = true;
+    this.selectedEmployee = {
+      ...this.selectedEmployee,
+      ...this.form.value,
+    };
     if (!this.selectedEmployee) return;
 
     this.employeeService
@@ -94,12 +123,14 @@ export class ScStaffManagementComponent implements OnInit {
         this.selectedEmployee.id,
         this.selectedEmployee.nome,
         this.selectedEmployee.cognome,
-        this.selectedEmployee.ruolo,
-        this.selectedEmployee.cellulare
+        this.selectedEmployee.email,
+        this.selectedEmployee.cellulare,
+        this.selectedEmployee.dataScadenzaContratto,
+        this.selectedEmployee.dataAssunzione
       )
       .subscribe({
         next: (response: any) => {
-          alert(response);
+          this.showSuccess(response);
         },
         error: (error) => console.error(error),
         complete: () => {
@@ -112,7 +143,7 @@ export class ScStaffManagementComponent implements OnInit {
     this.isLoading = true;
     this.employeeService.deleteEmployee(id).subscribe({
       next: (response: any) => {
-        alert(response);
+        this.showSuccess(response);
       },
       error: (error) => console.error(error),
       complete: () => {
@@ -121,45 +152,68 @@ export class ScStaffManagementComponent implements OnInit {
     });
   }
 
-  openEditModal(selectedEmployee: Employee) {
-    this.selectedEmployee = { ...selectedEmployee };
-    this.modalTitle = 'Modifica Dipendente';
-    if (this.modalTitle.startsWith('Modifica') && this.selectedEmployee) {
-      this.form.patchValue({
-        nome: this.selectedEmployee.nome,
-        cognome: this.selectedEmployee.cognome,
-        cellulare: this.selectedEmployee.cellulare,
-        email: this.selectedEmployee.email,
-        dataAssunzione: this.selectedEmployee.dataAssunzione,
-        dataScadenzaContratto: this.selectedEmployee.dataScadenzaContratto,
-      });
+  openModal(actionType: string, selectedEmployee?: Employee) {
+    this.modalActionType = actionType;
+    if (selectedEmployee) this.employeeToDelete = selectedEmployee.id;
+    this.isOpen = true;
+    this.setModalTitle();
+    this.initializeForm(selectedEmployee);
+  }
+
+  initializeForm(selectedEmployee?: Employee) {
+    switch (this.modalActionType) {
+      case 'EDIT':
+        if (selectedEmployee) this.selectedEmployee = { ...selectedEmployee };
+        this.form.patchValue({
+          nome: this.selectedEmployee.nome,
+          cognome: this.selectedEmployee.cognome,
+          cellulare: this.selectedEmployee.cellulare,
+          email: this.selectedEmployee.email,
+          dataAssunzione: this.selectedEmployee.dataAssunzione,
+          dataScadenzaContratto: this.selectedEmployee.dataScadenzaContratto,
+        });
+        break;
+      case 'ADD':
+        break;
+      case 'DELETE':
+        break;
+      default:
+        console.error('Azione non supportata');
     }
-    this.isOpen = true;
   }
 
-  openAddModal() {
-    this.modalTitle = 'Aggiungi Dipendente';
-    this.isOpen = true;
+  setModalTitle() {
+    switch (this.modalActionType) {
+      case 'EDIT':
+        this.modalTitle = 'Modifica Dipendente';
+        break;
+      case 'ADD':
+        this.modalTitle = 'Aggiungi Dipendente';
+        break;
+      case 'DELETE':
+        this.modalTitle = 'Conferma Eliminazione';
+        break;
+      default:
+        this.modalTitle = '';
+    }
   }
 
-  openDeleteModal(selectedEmployee: Employee) {
-    this.employeeToDelete = selectedEmployee.id;
-    this.modalTitle = 'Conferma Eliminazione Dipendente';
-    this.isOpen = true;
-  }
-
-  saveChanges() {
-    //this.updateEmployee();
-    this.onSubmit();
-  }
-
-  deleteItem() {
-    this.deleteEmployee(this.employeeToDelete);
-    this.isOpen = false;
-  }
-
-  addItem() {
-    this.onSubmit();
+  performAction() {
+    // Esegui azioni in base al tipo di azione
+    switch (this.modalActionType) {
+      case 'EDIT':
+        this.updateEmployee();
+        break;
+      case 'ADD':
+        this.addNewEmployee();
+        break;
+      case 'DELETE':
+        this.deleteEmployee(this.employeeToDelete);
+        break;
+      default:
+        console.error('Azione non supportata');
+    }
+    this.closeModal();
   }
 
   closeModal() {
@@ -167,39 +221,15 @@ export class ScStaffManagementComponent implements OnInit {
     this.onReset();
   }
 
-  onSubmit(): void {
+  onSubmit() {
     this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
 
-    if (this.modalTitle.startsWith('Modifica')) {
-      // Logica per aggiornare un dipendente esistente
-      this.selectedEmployee = {
-        ...this.selectedEmployee,
-        ...this.form.value,
-      };
-      this.updateEmployee();
-    } else if (this.modalTitle.startsWith('Aggiungi')) {
-      // Logica per aggiungere un nuovo dipendente
-      const newEmployee: Employee = this.form.value;
-      this.employeeService
-        .addEmployee(
-          newEmployee.nome,
-          newEmployee.cognome,
-          newEmployee.ruolo
-        )
-        .subscribe({
-          next: (response: any) => {
-            alert(response);
-            this.getAllEmployee();
-          },
-          error: (error) => console.error(error),
-        });
+    if (this.modalActionType === 'EDIT' || this.modalActionType === 'ADD') {
+      if (this.form.invalid) {
+        return;
+      }
     }
-
-    this.isOpen = false;
-    this.onReset();
+    this.performAction();
   }
 
   convertDate(dateString: string) {
@@ -217,5 +247,17 @@ export class ScStaffManagementComponent implements OnInit {
   onReset(): void {
     this.submitted = false;
     this.form.reset();
+  }
+
+  showSuccess(message: string): void {
+    this.successMessage = message;
+    this.showSuccessAlert = true;
+    setTimeout(() => {
+      this.showSuccessAlert = false;
+    }, 3000);
+  }
+
+  closeSuccessAlert(): void {
+    this.showSuccessAlert = false;
   }
 }
