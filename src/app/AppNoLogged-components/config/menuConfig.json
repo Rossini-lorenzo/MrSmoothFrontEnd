@@ -1,6 +1,7 @@
 [
   {
-    "title": "HOME",
+    "title": "Home",
+    "icon": "fa-solid fa-house-user fa-lg",
     "links": [
       {
         "label": "Dashboard",
@@ -10,7 +11,8 @@
     ]
   },
   {
-    "title": "NEGOZIO",
+    "title": "Negozi",
+    "icon": "fa-solid fa-basket-shopping fa-lg",
     "links": [
       {
         "label": "Dipendenti",
@@ -23,7 +25,7 @@
         "icon": "fa-solid fa-user-tie fa-lg"
       },
       {
-        "label": "Prodotti",
+        "label": "Prodotti e Brand",
         "url": "products-management",
         "icon": "fa-solid fa-basket-shopping fa-lg"
       },
@@ -35,7 +37,8 @@
     ]
   },
   {
-    "title": "MAGAZZINO",
+    "title": "Magazzino",
+    "icon": "fa-solid fa-warehouse fa-lg",
     "links": [
       {
         "label": "Scanner Prodotti",
@@ -55,7 +58,8 @@
     ]
   },
   {
-    "title": "APPUNTAMENTI",
+    "title": "Appuntamenti",
+    "icon": "fa-solid fa-calendar-days fa-lg",
     "links": [
       {
         "label": "Agenda",
@@ -63,14 +67,15 @@
         "icon": "fa-solid fa-calendar-days fa-lg"
       },
       {
-        "label": "Gestisci messaggi automatici",
+        "label": "Gestisci messaggi",
         "url": "manage-automatic-message",
         "icon": "fa-solid fa-comment-sms fa-lg"
       }
     ]
   },
   {
-    "title": "VENDITE",
+    "title": "Vendite",
+    "icon": "fa-solid fa-cash-register fa-lg",
     "links": [
       {
         "label": "Cassa",
@@ -78,14 +83,15 @@
         "icon": "fa-solid fa-cash-register fa-lg"
       },
       {
-        "label": "Registro vendite",
+        "label": "Registro",
         "url": "sales-register",
         "icon": "fa-solid fa-book fa-lg"
       }
     ]
   },
   {
-    "title": "STATISTICHE",
+    "title": "Statistiche",
+    "icon": "fa-solid fa-chart-line fa-lg",
     "links": [
       {
         "label": "Andamento negozio",
@@ -105,3 +111,5 @@
     ]
   }
 ]
+
+

@@ -1,6 +1,13 @@
 
 
+  .card-header{
+    background-color: #add7f6;
+  }
+  #custom-btn{
+    background-color: #add7f6;
+    border-color: #add7f6;
 
+  }
   
   .card {
     height: 100%; /* Imposta l'altezza della card al 100% della sezione */

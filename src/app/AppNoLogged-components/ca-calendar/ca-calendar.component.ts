@@ -35,23 +35,35 @@ interface Evento {
   styleUrls: ['./ca-calendar.component.css']
 })
 export class CaCalendarComponent {
-  @ViewChild('fullcalendar', { static: false }) fullcalendar: FullCalendarComponent;
 
-  selectedDate: Date;
-  activeDate: Date; // Variabile per tenere traccia della data attiva nel mat-calendar
-
-
-  http: any;
    //backendUrl: string = 'https://mrsmooth-9e8bb3d010e3.herokuapp.com/';
    apiUrl = `${environment.apiBaseUrl}/`;
-   loading: boolean = false;
 
-  showModal: boolean = true;
+  @ViewChild('fullcalendar', { static: false }) fullcalendar: FullCalendarComponent;
+
+  //Mat Calendar 
+  selectedDate: Date;
+  activeDate: Date; 
+
+
+  // Cazione evento 
+  selectedEmployee: any;
+  title: string = '';
+  description: string = '';
+  employees: any= [];  
+  startDateCreateEvent : any;
+  endDateCreateEvent : any;
+
+  events :any = [];
+
+  http: any;
+
+
   calendarOptions: CalendarOptions  = {
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
     initialView: 'timeGridWeek',
     eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
-    slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+    slotMinTime: '07:00', // Imposta l'ora minima a 8:00 di mattina
     slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
     slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
     allDaySlot: false, // Disabilita lo slot "All-day"
@@ -78,8 +90,7 @@ export class CaCalendarComponent {
     events: [] // Inizialmente senza eventi
     
   };
-  events :any = [];
-  employees: any= [];  // Definire l'array di oggetti come 'any[]'
+  
 
   constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {
      this.selectedDate = new Date();
@@ -92,12 +103,33 @@ export class CaCalendarComponent {
 
   ngOnInit(): void {
 
+    this.productService.getAllEmployee().subscribe({
+      next: (response: any) => {
+        
+        const responseData = response.body; // Accesso al corpo della risposta
+        console.log("Response data:", responseData); // Logga i dati ricevuti
+        
+          for (const emp of responseData) {
+            const employee = {
+              idDipendente: emp.id,
+              nomeDipendente: emp.nome,
+              cognomeDipendente: emp.cognome
+            };
+            this.employees.push(employee);
+          }
+        
+       
+      },
+      error: (error) => console.error(error),
+      complete: () => {console.info('complete');console.log(this.employees)},
+    });
+
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
       initialDate: this.selectedDate, // Imposta la data iniziale alla data selezionata
       eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
-      slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+      slotMinTime: '07:00', // Imposta l'ora minima a 8:00 di mattina
       slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
       allDaySlot: false, // Disabilita lo slot "All-day"
@@ -235,6 +267,10 @@ dateSelected(date: Date): void {
 
     }
   }
+
+  authenticateWithSmartControl() {
+
+  }
   
   
  
@@ -267,68 +303,68 @@ dateSelected(date: Date): void {
  
 
 
+  creaEvento(){
+    console.log(this.description +" " + this.title+ " "+this.selectedEmployee)
+    const newEvent = {
+      title:this.title,
+      start: this.startDateCreateEvent,
+      end: this.endDateCreateEvent,
+      description : this.description,
+    };
+
+    this.productService.createEvent(this.title, this.description,this.selectedEmployee
+      ,  new Date(this.startDateCreateEvent).toISOString(),  new Date(this.endDateCreateEvent).toISOString()).subscribe({
+      next: (response: any) => {
+        const responseData = response.body;
+        console.log("RESP", response);
+
+        // Aggiungi l'evento al calendario solo se la chiamata al backend ha avuto successo
+        if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
+          this.calendarOptions.events.push(newEvent);
+          this.calendarOptions.events = [...this.calendarOptions.events];
+        }
+        this.showAlert("Evento creato")
+        this.loadEvents();
+      },
+      error: (error) => {
+        alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
+        console.error("ERROE", error);
+      },
+      complete: () => console.info('Chiamata al backend completata'),
+    });
+  }
 
 
-
-// Creazione evento
+// Creazione evento click sul calendario (NO click su eventi)
 handleDateSelect(selectInfo: any) {
-  const dialogRef = this.dialog.open(
-    // Contenuto del dialogo
-    EventDialogContentComponent,
-    {
-      width: '400px',
-      disableClose: true,
-      autoFocus: true,
-      position: { top: '0%', left: '55%' } // Imposta la posizione al centro
 
-    }
-  );
-  dialogRef.afterOpened().subscribe(() => {
-    const dialogContainer = document.querySelector('.mat-dialog-container');
-    if (dialogContainer) {
-      dialogContainer.setAttribute('style', 'margin-top: -2000px'); // Imposta il margine superiore per centrare il dialogo
-    }
-  });
-  dialogRef.afterClosed().subscribe((result: any) => {
-    if (result) {
-      const title = dialogRef.componentInstance.getTitleValue();
-      const description = dialogRef.componentInstance.getDescriptionValue();
-     
+  const cardElement = document.getElementById('creaEvento');
+  const spanElement = document.getElementById('creaEventoTitolo');
+  this.startDateCreateEvent = selectInfo.startStr;
+  this.endDateCreateEvent =selectInfo.endStr;
 
-      const startDate = new Date(selectInfo.startStr).toISOString();
-      const endDate = new Date(selectInfo.endStr).toISOString();
 
-      const newEvent = {
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        description,
-      };
-   
-      
-      
-      this.productService.createEvent(title, description,      result.employee
-        , startDate, endDate).subscribe({
-        next: (response: any) => {
-          const responseData = response.body;
-          console.log("RESP", response);
+  if (cardElement&&spanElement) {
+    cardElement.style.display = 'block';
+    
+    //Titolo card
+    const startDate = new Date(selectInfo.start);
+    const formattedDate = startDate.toLocaleString('it-IT', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    spanElement.innerText = formattedDate;
 
-          // Aggiungi l'evento al calendario solo se la chiamata al backend ha avuto successo
-          if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
-            this.calendarOptions.events.push(newEvent);
-            this.calendarOptions.events = [...this.calendarOptions.events];
-          }
-          this.showAlert("Evento creato")
-          this.loadEvents();
-        },
-        error: (error) => {
-          alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
-          console.error("ERROE", error);
-        },
-        complete: () => console.info('Chiamata al backend completata'),
-      });
-    }
-  });
+
+  } else {
+    console.error('Elemento con id "creaEvento" non trovato');
+  }
+
+
+ 
 }
 
   //rimozione evento 
