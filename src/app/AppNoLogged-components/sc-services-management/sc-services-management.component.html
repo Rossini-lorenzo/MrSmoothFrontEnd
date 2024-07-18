@@ -1,52 +1,169 @@
 <div class="card d-inline-block m-auto w-fit-content">
-    <div class="card-body">
-        <h3 class="card-title fw-bold">Servizi</h3>
-        <div class="row mt-3">
-            <div class="col-12">
-              <!-- *ngIf="dataSource && dataSource.length > 0" -->
-              <table class="table custom-table">
-                <thead>
-                  <tr>
-                    <th>Servizio</th>
-                    <th>Prezzo</th>
-                    <!-- <th>Quantità</th> -->
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <!-- <tbody>
-                              <ng-container *ngFor="let item of visibleData">
-                                <tr>
-                                  <td class="align-middle">{{ item.id }}</td>
-                                  <td class="align-middle">{{ item.nomeProdotto }}</td>
-                                  <td class="align-middle">&euro; {{ item.prezzo }}</td>
-                                  <td class="align-middle">{{ item.quantita }} pz</td>
-                  
-                                  <td class="align-middle">
-                                    <button
-                                      class="btn sc-primary"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#editProductModal"
-                                      (click)="selectProductForEdit(item.id)"
-                                    >
-                                      <i class="bx bxs-edit"></i>
-                                    </button>
-                                  </td>
-                                  <td class="align-middle">
-                                    <button
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#editProductModal"
-                                      class="btn sc-primary"
-                                      (click)="confirmDeleteProduct(item.id.toString())"
-                                    >
-                                      <i class="bx bx-trash"></i>
-                                    </button>
-                                  </td>
-                                </tr>
-                              </ng-container>
-                            </tbody> -->
-              </table>
+  <div class="card-body">
+    <h3 class="card-title fw-bold">Servizi</h3>
+    <div *ngIf="!isLoading && showSuccessAlert">
+      <div
+        class="alert alert-success alert-dismissible alert-api-message fade show"
+        role="alert"
+      >
+        {{ successMessage }}
+      </div>
+
+      <!-- <div class="alert-backdrop fade show"></div> -->
+    </div>
+    <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
+      <div
+        class="spinner-border"
+        role="status"
+        style="width: 3rem; height: 3rem"
+      ></div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <table
+          *ngIf="!isLoading && dataSource && dataSource.length > 0"
+          class="table custom-table"
+        >
+          <thead>
+            <tr>
+              <th class="sc-secondary">Servizio</th>
+              <th class="sc-secondary">Prezzo</th>
+              <th class="sc-secondary"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of dataSource">
+              <tr>
+                <td class="align-middle">
+                  {{ item.serviceName }}
+                </td>
+                <td class="align-middle">
+                  &euro;{{ " " + item.servicePrice.toFixed(2) }}
+                </td>
+                <td class="align-middle text-end">
+                  <button
+                    class="btn btn-outline-primary me-2 btn-sm"
+                    (click)="openModal('EDIT', item)"
+                  >
+                    <i class="bx bxs-edit"></i>
+                  </button>
+                  <button
+                    title="Elimina prodotto"
+                    class="btn btn-outline-danger me-2 btn-sm"
+                    (click)="openModal('DELETE', item)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
+      <button
+        title="Aggiungi dipendente"
+        class="btn sc-primary btn-sm"
+        (click)="openModal('ADD')"
+      >
+        Aggiungi Servizio
+      </button>
+    </div>
+
+    <app-sc-modal
+      *ngIf="isOpen"
+      [title]="modalTitle"
+      (action)="performAction()"
+      (closeModal)="closeModal()"
+    >
+      <div class="modal-body-content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'">
+            <div class="row mt-3">
+              <div class="col-6">
+                <label for="employeeName" class="fw-bold form-label"
+                  >Nome servizio</label
+                >
+                <input
+                  type="text"
+                  id="employeeName"
+                  class="form-control"
+                  formControlName="serviceName"
+                  [ngClass]="{ 'is-invalid': submitted && f['serviceName'].errors }"
+                />
+                <div
+                  *ngIf="submitted && f['serviceName'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['serviceName'].errors?.['required']">
+                    Il nome servizio è obbligatorio
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="employeeSurname" class="fw-bold form-label"
+                  >Prezzo</label
+                >
+                <input
+                  type="number"
+                  id="employeeSurname"
+                  name="employeeSurname"
+                  class="form-control"
+                  formControlName="servicePrice"
+                  [ngClass]="{ 'is-invalid': submitted && f['servicePrice'].errors }"
+                />
+                <div
+                  *ngIf="submitted && f['servicePrice'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['servicePrice'].errors?.['required']">
+                    Il prezzo è obbligatorio
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-    </div>
+        </form>
+        <div
+          *ngIf="modalActionType === 'DELETE'"
+          class="alert alert-danger mt-3"
+          role="alert"
+        >
+          <i class="fas fa-exclamation-triangle"></i>
+          <!-- Icona di avviso -->
+          <span class="ms-2"
+            >Sei sicuro di voler eliminare questo servizio?</span
+          >
+        </div>
+      </div>
+      <div class="modal-footer-content">
+        <!-- Contenuto del footer della modale -->
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-2"
+          (click)="closeModal()"
+        >
+          Annulla
+        </button>
+        <button
+          *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'"
+          type="button"
+          class="btn btn-primary btn-sm"
+          (click)="onSubmit()"
+        >
+          Salva
+        </button>
+        <button
+          *ngIf="modalActionType === 'DELETE'"
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="onSubmit()"
+        >
+          Cancella
+        </button>
+      </div>
+    </app-sc-modal>
+  </div>
 </div>
