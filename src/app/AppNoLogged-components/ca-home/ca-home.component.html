@@ -252,39 +252,42 @@
       <aside>
         <div class="accordion accordion-flush" id="sidebarAccordion">
           <div
-          class="accordion-item"
-          *ngFor="let menuItem of menuItems; let index = index"
-        >
-        <ng-container *ngIf="menuItem.links.length > 1; else singleLink">
-          <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
-            <button
-              style="color: white; background-color: #6aaad8;"
-              class="accordion-button sc-primary d-flex align-items-center"
-              type="button"
-              data-bs-toggle="collapse"
-              [attr.data-bs-target]="'#collapse' + index"
-              aria-expanded="false"
-              [attr.aria-controls]="'collapse' + index"
-              (click)="toggleAccordion(index)"
-              [class.collapsed]="!isOpen[index]"
-              data-bs-disable-animation="true"
-            >
-              <i [class]="menuItem.icon" style="margin-right: 20px;"></i>
-              {{ menuItem.title }}
-            </button>
-          </h2>
-          <div
-          [id]="'collapse' + index"
+            class="accordion-item"
+            *ngFor="let menuItem of menuItems; let index = index"
+          >
+            <ng-container *ngIf="menuItem.links.length > 1; else singleLink">
+              <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
+                <button
+                  style="color: white; background-color: #6aaad8;"
+                  class="accordion-button sc-primary d-flex align-items-center"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#collapse' + index"
+                  aria-expanded="false"
+                  [attr.aria-controls]="'collapse' + index"
+                  (click)="toggleAccordion(index)"
+                  [class.collapsed]="!isOpen[index]"
+                  data-bs-disable-animation="true"
+                >
+                  <i [class]="menuItem.icon" style="margin-right: 20px;"></i>
+                  {{ menuItem.title }}
+                </button>
+              </h2>
+              <div
+                [id]="'collapse' + index"
                 class="accordion-collapse collapse"
-                [attr.aria-labelledby]="'heading' + index"  >
+                [attr.aria-labelledby]="'heading' + index"
+              >
                 <div
                   *ngFor="let link of menuItem.links; let linkIndex = index"
                   class="accordion-body sc-secondary border"
+                  [class.selected]="selectedLink === link"
+                  (click)="selectLink(link)"
+                  [routerLink]="link.url"
                 >
                   <div class="row">
                     <div class="col-10">
                       <a
-                        [routerLink]="link.url"
                         style="text-decoration: none; color: black"
                         (mouseover)="onMouseOver($event)"
                         (mouseout)="onMouseOut($event)"
@@ -304,20 +307,31 @@
               </div>
             </ng-container>
             <ng-template #singleLink>
-              <a
-                [routerLink]="menuItem.links[0].url"
-                style="color: white; background-color: #6aaad8;"
-
-                class="accordion-button sc-primary d-flex align-items-center no-arrow"
-              >
-                <i [class]="menuItem.icon" style="margin-right: 20px;"></i>
-                {{ menuItem.title }}
-              </a>
+              <h2 class="accordion-header" id="homeBtn" style="--bs-accordion-btn-icon: none;">
+                <button
+                  (click)="selectLink(menuItem.links[0])"
+                  [routerLink]="menuItem.links[0].url"
+                  style="color: white; background-color: #6aaad8;"
+                  class="accordion-button sc-primary d-flex align-items-center"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#collapse' + index"
+                  aria-expanded="false"
+                  [attr.aria-controls]="'collapse' + index"
+                  [class.collapsed]="!isOpen[index]"
+                  data-bs-disable-animation="true"
+                >
+                  <i [class]="menuItem.icon" style="margin-right: 20px;"></i>
+                  {{ menuItem.title }}
+                </button>
+              </h2>
             </ng-template>
           </div>
         </div>
       </aside>
     </div>
+    
+    
 
     <div class="col-10">
 

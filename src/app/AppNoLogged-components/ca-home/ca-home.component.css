@@ -24,3 +24,11 @@
 .accordion-collapse {
   transition: height 0.3s ease; /* Tempo di animazione */
 }
+  .accordion {
+    border-width: 0!important; /* Rimuove il bordo */
+  }
+  .accordion-body.selected {
+    background-color: rgb(173 215 246)!important; /* Colore di sfondo per l'elemento selezionato */
+    color: white; /* Colore del testo per l'elemento selezionato */
+  }
+  

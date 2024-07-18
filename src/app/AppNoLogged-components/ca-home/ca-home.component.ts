@@ -10,11 +10,13 @@ styleUrls: ['./ca-home.component.css']
 })
 export class CaHomeComponent implements OnInit {
   breadcrumbs: string[] = [];
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private service : AroundClientService){
-    
-  }
   menuItems = MenuConfig;
   isOpen: boolean[] = [];
+  selectedLink: any = null; // Proprietà per tenere traccia del link selezionato
+  isAnimating: boolean = false;
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: AroundClientService) {}
+
   ngOnInit() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -24,6 +26,7 @@ export class CaHomeComponent implements OnInit {
     // Initialize breadcrumbs on component load
     this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.snapshot.root);
   }
+
   createBreadcrumbs(route: ActivatedRouteSnapshot, url = '', breadcrumbs: string[] = []): string[] {
     const routeConfig = route.routeConfig;
     const label = routeConfig?.data?.['breadcrumb'] || this.capitalize(routeConfig?.path || '');
@@ -36,36 +39,38 @@ export class CaHomeComponent implements OnInit {
     }
     return breadcrumbs;
   }
+
   capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-
-
-  isAnimating: boolean = false;
-
   toggleAccordion(index: number) {
     if (this.isAnimating) return;
     this.isAnimating = true;
-
     this.isOpen[index] = !this.isOpen[index];
-
     setTimeout(() => {
       this.isAnimating = false;
     }, 300); // Tempo pari alla durata dell'animazione CSS
   }
 
-
   onMouseOver(event: Event) {
     (event.target as HTMLElement).style.textDecoration = 'underline';
   }
+
   onMouseOut(event: Event) {
     (event.target as HTMLElement).style.textDecoration = 'none';
   }
+
   onFocus(event: Event) {
     (event.target as HTMLElement).style.textDecoration = 'underline';
   }
+
   onBlur(event: Event) {
     (event.target as HTMLElement).style.textDecoration = 'none';
+  }
+
+  selectLink(link: any) {
+    this.selectedLink = link;
+    console.log(link);
   }
 }
