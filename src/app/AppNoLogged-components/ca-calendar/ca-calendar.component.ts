@@ -1,7 +1,7 @@
-import { Component, LOCALE_ID, Inject } from '@angular/core';
+import { Component, LOCALE_ID, Inject, ViewChild } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import { Calendar, CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -36,20 +36,36 @@ interface Evento {
 })
 export class CaCalendarComponent {
 
-  selectedDate: Date;
-
-
-  http: any;
    //backendUrl: string = 'https://mrsmooth-9e8bb3d010e3.herokuapp.com/';
    apiUrl = `${environment.apiBaseUrl}/`;
-   loading: boolean = false;
 
-  showModal: boolean = true;
+  @ViewChild('fullcalendar', { static: false }) fullcalendar: FullCalendarComponent;
+
+  // Mat Calendar 
+  selectedDate: Date;
+  activeDate: Date; 
+
+  // Rimozione evento
+  clickInfoDelete: any
+
+  // Cazione evento 
+  selectedEmployee: any;
+  cliente: string = '';
+  description: string = '';
+  employees: any= [];  
+  startDateCreateEvent : any;
+  endDateCreateEvent : any;
+
+  events :any = [];
+
+  http: any;
+
+
   calendarOptions: CalendarOptions  = {
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
     initialView: 'timeGridWeek',
     eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
-    slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+    slotMinTime: '07:00', // Imposta l'ora minima a 8:00 di mattina
     slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
     slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
     allDaySlot: false, // Disabilita lo slot "All-day"
@@ -62,7 +78,7 @@ export class CaCalendarComponent {
       '</div>',       }},
 
     headerToolbar: {
-      left: 'prev,next',
+      left: '',
       center: 'title',
       right: 'timeGridWeek,timeGridDay'
     },
@@ -74,26 +90,48 @@ export class CaCalendarComponent {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this), // Assegna la funzione handleEventClick all'azione eventClick
     events: [] // Inizialmente senza eventi
+    
   };
-  events :any = [];
-  employees: any= [];  // Definire l'array di oggetti come 'any[]'
+  
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) { this.selectedDate = new Date();}
+  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {
+     this.selectedDate = new Date();
+     this.activeDate = this.selectedDate; // Inizializza activeDate con selectedDate
+    }
  
 
-  dateSelected(date: Date): void {
-    this.selectedDate = date;
-    console.log('Selected date:', this.selectedDate);
-  }
+  
 
 
   ngOnInit(): void {
 
+    this.productService.getAllEmployee().subscribe({
+      next: (response: any) => {
+        
+        const responseData = response.body; // Accesso al corpo della risposta
+        console.log("Response data:", responseData); // Logga i dati ricevuti
+        
+          for (const emp of responseData) {
+            const employee = {
+              idDipendente: emp.id,
+              nomeDipendente: emp.nome,
+              cognomeDipendente: emp.cognome
+            };
+            this.employees.push(employee);
+          }
+        
+       
+      },
+      error: (error) => console.error(error),
+      complete: () => {console.info('complete');console.log(this.employees)},
+    });
+
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
+      initialDate: this.selectedDate, // Imposta la data iniziale alla data selezionata
       eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
-      slotMinTime: '06:00', // Imposta l'ora minima a 8:00 di mattina
+      slotMinTime: '07:00', // Imposta l'ora minima a 8:00 di mattina
       slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
       allDaySlot: false, // Disabilita lo slot "All-day"
@@ -106,7 +144,7 @@ export class CaCalendarComponent {
         '</div>',       }},
 
       headerToolbar: {
-        left: 'prev,next',
+        left: '',
         center: 'title',
         right: 'timeGridWeek,timeGridDay'
       },
@@ -117,6 +155,7 @@ export class CaCalendarComponent {
       selectable: true,
       select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this), // Assegna la funzione handleEventClick all'azione eventClick
+     // datesSet: this.handleViewChange.bind(this), // Assegna la funzione handleViewChange al cambio di date nel calendario
       events: [] // Inizialmente senza eventi
     };
     
@@ -150,6 +189,27 @@ export class CaCalendarComponent {
     }, 500); // 1000 millisecondi = 1 secondo
     });
   }
+
+
+
+//handleViewChange(viewChangeInfo: any) {
+  //this.activeDate = viewChangeInfo.start; // Aggiorna selectedDate con la data di inizio della nuova visualizzazione
+//}
+
+dateSelected(date: Date): void {
+  this.selectedDate = date;
+  this.activeDate = date; // Assicurati che activeDate venga aggiornato con la data selezionata
+
+  const calendarApi = this.fullcalendar.getApi();
+  calendarApi.gotoDate(date); // Vai alla data selezionata nel fullcalendar
+}
+
+
+
+
+
+
+
 
   loadEvents(): void {
     const accessToken = localStorage.getItem("googleAuthCode");
@@ -209,6 +269,10 @@ export class CaCalendarComponent {
 
     }
   }
+
+  authenticateWithSmartControl() {
+
+  }
   
   
  
@@ -241,86 +305,103 @@ export class CaCalendarComponent {
  
 
 
+  //Click bottone crea evento
+  creaEvento(){
+    console.log(this.description +" " + this.cliente+ " "+this.selectedEmployee)
+    const newEvent = {
+      title:this.cliente,
+      start: this.startDateCreateEvent,
+      end: this.endDateCreateEvent,
+      description : this.description,
+    };
+
+    this.productService.createEvent(this.cliente, this.description,this.selectedEmployee
+      ,  new Date(this.startDateCreateEvent).toISOString(),  new Date(this.endDateCreateEvent).toISOString()).subscribe({
+      next: (response: any) => {
+        const responseData = response.body;
+        console.log("RESP", response);
+
+        // Aggiungi l'evento al calendario solo se la chiamata al backend ha avuto successo
+        if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
+          this.calendarOptions.events.push(newEvent);
+          this.calendarOptions.events = [...this.calendarOptions.events];
+        }
+        this.showAlert("Evento creato")
+        this.loadEvents();
+        const cardElement = document.getElementById('creaEvento');
+        if (cardElement){
+          cardElement.style.display = 'none';
+
+        }
+      },
+      error: (error) => {
+        alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
+        console.error("ERROE", error);
+      },
+      complete: () => console.info('Chiamata al backend completata'),
+    });
+  }
 
 
-
-// Creazione evento
+// Creazione evento click sul calendario (NO click su eventi)
 handleDateSelect(selectInfo: any) {
-  const dialogRef = this.dialog.open(
-    // Contenuto del dialogo
-    EventDialogContentComponent,
-    {
-      width: '400px',
-      disableClose: true,
-      autoFocus: true,
-      position: { top: '0%', left: '55%' } // Imposta la posizione al centro
+  this.cliente="";
+  this.description="";
 
-    }
-  );
-  dialogRef.afterOpened().subscribe(() => {
-    const dialogContainer = document.querySelector('.mat-dialog-container');
-    if (dialogContainer) {
-      dialogContainer.setAttribute('style', 'margin-top: -2000px'); // Imposta il margine superiore per centrare il dialogo
-    }
-  });
-  dialogRef.afterClosed().subscribe((result: any) => {
-    if (result) {
-      const title = dialogRef.componentInstance.getTitleValue();
-      const description = dialogRef.componentInstance.getDescriptionValue();
-     
+  const cardElement = document.getElementById('creaEvento');
+  const spanElement = document.getElementById('creaEventoTitolo');
+  const creaEventoBtn = document.getElementById('creaEventoBtn');
+  const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
+  const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
 
-      const startDate = new Date(selectInfo.startStr).toISOString();
-      const endDate = new Date(selectInfo.endStr).toISOString();
+  this.startDateCreateEvent = selectInfo.startStr;
+  this.endDateCreateEvent =selectInfo.endStr;
 
-      const newEvent = {
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        description,
-      };
-   
-      
-      
-      this.productService.createEvent(title, description,      result.employee
-        , startDate, endDate).subscribe({
-        next: (response: any) => {
-          const responseData = response.body;
-          console.log("RESP", response);
 
-          // Aggiungi l'evento al calendario solo se la chiamata al backend ha avuto successo
-          if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
-            this.calendarOptions.events.push(newEvent);
-            this.calendarOptions.events = [...this.calendarOptions.events];
-          }
-          this.showAlert("Evento creato")
-          this.loadEvents();
-        },
-        error: (error) => {
-          alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
-          console.error("ERROE", error);
-        },
-        complete: () => console.info('Chiamata al backend completata'),
-      });
-    }
-  });
+  if (cardElement&&spanElement&&creaEventoBtn&&cancellaEventoBtn&&eliminaEventoBtn) {
+    cardElement.style.display = 'block';
+    creaEventoBtn.style.display = 'block';
+    cancellaEventoBtn.style.display = 'none';
+    eliminaEventoBtn.style.display = 'none';
+    //Titolo card
+    const startDate = new Date(selectInfo.start);
+    const formattedDate = startDate.toLocaleString('it-IT', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    spanElement.innerText = formattedDate;
+
+
+  } else {
+    console.error('Elemento con id "creaEvento" non trovato');
+  }
+
+
+ 
 }
 
-  //rimozione evento 
-  handleEventClick(clickInfo: any) {
-    console.log("ID dell'evento cliccato:", clickInfo.event);
-
+   // click bottone rimozione evento 
+   cancellaEvento(){
     if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
       if (confirm("Sei sicuro di voler eliminare questo evento?")) {
+
+
+        console.log("xxxxxx",   this.calendarOptions.events.find(event => event.id === this.clickInfoDelete.event.id));
         // Rimuovi l'evento dal calendario
         this.calendarOptions.events = this.calendarOptions.events.filter((event: any) => {
-          return event.id !== clickInfo.event.id;
+          return event.id !== this.clickInfoDelete.event.id;
+          
+
         });
-  
+        
         // Aggiorna il calendario
-        clickInfo.event.remove();
+        this.clickInfoDelete.event.remove();
   
         // Effettua la chiamata per eliminare l'evento dal backend
-        this.productService.deleteEvent(clickInfo.event.id).subscribe({
+        this.productService.deleteEvent(this.clickInfoDelete.event.id).subscribe({
           next: (response: any) => {
             console.log(response);
             this.showAlert("Evento cancellato")
@@ -330,7 +411,71 @@ handleDateSelect(selectInfo: any) {
         });
       }
     }
-  }
+   }
+
+
+  //rimozione evento 
+  handleEventClick(clickInfo: any) {
+    const c : any = document.getElementById('a.fc-timeline-event.fc-h-event.fc-event.'+ clickInfo.calEvent.id);      
+
+   if(c){
+    c.addClass('active-event');      
+
+   }
+
+    const cardElement = document.getElementById('creaEvento');
+    const spanElement = document.getElementById('creaEventoTitolo');
+    const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
+    const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
+    const creaEventoBtn = document.getElementById('creaEventoBtn');
+
+    this.clickInfoDelete = clickInfo;
+    console.log("ID dell'evento cliccato:", clickInfo.event.id);
+
+    let evento: any;
+
+    if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
+        evento = this.calendarOptions.events.find(event => event.id === clickInfo.event.id);
+    }
+
+    if (cardElement && spanElement && creaEventoBtn && cancellaEventoBtn && eliminaEventoBtn) {
+        cardElement.style.display = 'block';
+        creaEventoBtn.style.display = 'none';
+        cancellaEventoBtn.style.display = 'block';
+        eliminaEventoBtn.style.display = 'block';
+
+        // Titolo card
+        const startDate = clickInfo.event.start;
+        if (startDate) {
+            const formattedDate = startDate.toLocaleString('it-IT', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            spanElement.innerText = formattedDate;
+        } else {
+            console.error('Data di inizio evento non valida');
+        }
+
+        this.cliente = evento.title;
+        this.description = evento.description;
+    } else {
+        console.error('Elemento con id "creaEvento" non trovato');
+    }
+
+
+    console.log("EVENTO", this.fullcalendar.getApi().getEventById(clickInfo.event.id));
+    console.log("EVENTO", this.fullcalendar.getApi().getEventSourceById(clickInfo.event.id));
+}
+
+
+
+
+
+   
+  
   
   
   deleteEvent(eventId: string) {

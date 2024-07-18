@@ -1,194 +1,25 @@
 <div class="card d-inline-block m-auto w-fit-content">
   <div class="card-body">
-    <h3 class="card-title fw-bold">Scanner Prodotti</h3>
-    <div class="alert sc-primary d-flex align-items-center mt-4" role="alert">
-      <i
-        class="bx bx-info-circle align-middle me-2"
-        style="font-size: 30px"
-      ></i>
-      <div>
-        Scannerizza il Codice a barre del prodotto e aggiungilo al magazzino.
-      </div>
-    </div>
-    <div class="container">
-      <div class="col-xs-12 col-md-6 col-lg-4 col-xl-3 my-1">
-        <select
-          #select1
-          (change)="action.playDevice(select1.value)"
-          class="form-select form-select-sm"
-        >
-          <option [value]="null" selected>Select device</option>
-          <option
-            *ngFor="let c of action.devices.value; let i = index"
-            [value]="c.deviceId"
-            [selected]="i === action.deviceIndexActive"
-          >
-            {{ c.label }}
-          </option>
-        </select>
-      </div>
-      <!-- For camera -->
-      <div class="row">
-        <div class="col-9">
-          <ngx-scanner-qrcode
-            #action="scanner"
-            [config]="config"
-            (event)="onEvent($event, action)"
-          ></ngx-scanner-qrcode>
-        </div>
-        <div
-          class="col-3 d-flex flex-column justify-content-center align-items-center"
-        >
-          <div class="text-center d-flex flex-column justify-content-center">
-            <button
-              type="button"
-              class="btn"
-              [class.btn-dark]="!action.isStart"
-              [class.btn-warning]="action.isStart"
-              [disabled]="action.isLoading"
-              (click)="handle(action, action.isStart ? 'stop' : 'start')"
-            >
-              <img
-                [src]="
-                  action.isStart
-                    ? 'https://id1945.github.io/images/svg/camera-off.svg'
-                    : 'https://id1945.github.io/images/svg/camera-on.svg'
-                "
-                alt="Camera Icon"
-                width="30px"
-                [class.btn-white]="action.isStart"
-                style="filter: brightness(0) invert(1)"
-              />
-            </button>
-          </div>
-          <div class="text-center d-flex justify-content-center mt-2">
-            <p *ngIf="action.isLoading">⌛ Caricamento in corso...</p>
-          </div>
-        </div>
-      </div>
-      <!-- data  -->
-      <form #myForm="ngForm" (ngSubmit)="addProduct()">
-        <div *ngIf="!isEditing" class="row mt-3">
-          <div *ngIf="productId" class="col-3">
-            <p class="data"><strong>Codice:</strong> {{ productId }}</p>
-          </div>
-          <div *ngIf="apiCalled && !productIsPresent" class="col-3">
-            <label for="productName" class="fw-bold form-label"
-              >Nome prodotto</label
-            >
-            <input
-              type="text"
-              id="productName"
-              name="productName"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-              [(ngModel)]="productName"
-            />
-          </div>
-          <div *ngIf="apiCalled && !productIsPresent" class="col-3">
-            <label for="productPrize" class="fw-bold form-label">Prezzo</label>
-            <input
-              type="number"
-              id="productPrize"
-              name="productPrize"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-              [(ngModel)]="productPrize"
-            />
-          </div>
-          <div *ngIf="apiCalled && !productIsPresent" class="col-3">
-            <label for="quantity" class="fw-bold form-label">Quantità</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-default"
-              [(ngModel)]="quantity"
-            />
-          </div>
-          <div *ngIf="productId && productIsPresent" class="col-9">
-            <div
-              class="alert sc-primary d-flex align-items-center"
-              role="alert"
-            >
-              <i
-                class="bx bx-info-circle align-middle me-2"
-                style="font-size: 30px"
-              ></i>
-              <div>
-                Prodotto già registrato nel magazzino, per aggiornare la
-                quantità o modificare altri dati, procedere dall'elenco qui
-                sotto.
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="mt-3 text-center">
-      <button
-        type="button"
-        class="btn sc-primary"
-        [disabled]="isButtonDisabled || !areFieldsFilled()"
-        (click)="addProduct()"
-      >
-        Aggiungi
-      </button>
-    </div>
-    <!-- <h3 class="card-title fw-bold mt-3">Magazzino</h3>
+    <h3 class="card-title fw-bold">Sommario magazzino</h3>
     <div class="row mt-3">
       <div class="col-12">
         <table
           *ngIf="dataSource && dataSource.length > 0"
           class="table custom-table"
         >
-          <thead *ngIf="!isVerticalLayout">
+          <thead>
             <tr>
-              <th>Codice Prodotto</th>
-              <th>Nome Prodotto</th>
-              <th>Prezzo</th>
-              <th>Quantità</th>
-              <th></th>
-              <th></th>
+              <th class="sc-secondary">Codice Prodotto</th>
+              <th class="sc-secondary">Nome Prodotto</th>
+              <th class="sc-secondary">Prezzo</th>
+              <th class="sc-secondary">Quantità</th>
+              <th class="sc-secondary"></th>
+              <th class="sc-secondary"></th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let item of visibleData">
-              <div class="card mb-3 col-12" *ngIf="isVerticalLayout">
-                <div class="card-body">
-                  <p class="card-text">Codice Prodotto: {{ item.id }}</p>
-                  <p class="card-text">
-                    Nome Prodotto: {{ item.nomeProdotto }}
-                  </p>
-                  <p class="card-text">Prezzo: &euro; {{ item.prezzo }}</p>
-                  <p class="card-text">Quantità: {{ item.quantita }} pz</p>
-
-                  <div class="d-flex justify-content-end">
-                    <button
-                      class="btn sc-primary me-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editProductModal"
-                      (click)="selectProductForEdit(item.id)"
-                    >
-                      <i class="bx bxs-edit"></i>
-                    </button>
-                    <button
-                      data-bs-toggle="modal"
-                      data-bs-target="#editProductModal"
-                      class="btn sc-primary"
-                      (click)="confirmDeleteProduct(item.id.toString())"
-                    >
-                      <i class="bx bx-trash"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <tr *ngIf="!isVerticalLayout">
+              <tr>
                 <td class="align-middle">{{ item.id }}</td>
                 <td class="align-middle">{{ item.nomeProdotto }}</td>
                 <td class="align-middle">&euro; {{ item.prezzo }}</td>
@@ -218,8 +49,10 @@
             </ng-container>
           </tbody>
         </table>
+        <!-- Aggiungi la paginazione di Bootstrap qui -->
         <nav *ngIf="totalPages > 0" aria-label="Page navigation example">
           <ul class="pagination justify-content-center pt-3">
+            <!-- Codice corretto per il pulsante "Previous" -->
             <li
               class="fw-bold page-item"
               (click)="getPreviousPage()"
@@ -230,6 +63,7 @@
               <button class="page-link">Previous</button>
             </li>
 
+            <!-- Codice corretto per la lista di pagine -->
             <li
               *ngFor="let page of pages"
               class="fw-bold page-item"
@@ -241,6 +75,7 @@
               <button class="page-link sc-primary">{{ page }}</button>
             </li>
 
+            <!-- Codice corretto per il pulsante "Next" -->
             <li
               class="fw-bold page-item"
               (click)="getNextPage()"
@@ -263,6 +98,7 @@
           ></i>
           <div>Nessun prodotto presente nel magazzino.</div>
         </div>
+        <!-- Modal -->
         <div
           class="modal fade"
           id="editProductModal"
@@ -270,7 +106,7 @@
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header sc-primary">
                 <h5 class="modal-title" id="exampleModalLabel">
@@ -288,6 +124,7 @@
                 ></button>
               </div>
               <div class="modal-body">
+                <!-- Contenuto -->
                 <div *ngIf="!confirmDelete">
                   <div class="row mt-3">
                     <div class="col-12">
@@ -369,6 +206,6 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>

@@ -1,0 +1,298 @@
+<div class="card d-inline-block m-auto w-fit-content">
+  <div class="card-body">
+    <h3 class="card-title fw-bold">Dipendenti</h3>
+    <div *ngIf="!isLoading && showSuccessAlert">
+      <div
+        class="alert alert-success alert-dismissible alert-api-message fade show"
+        role="alert"
+      >
+        {{ successMessage }}
+      </div>
+
+      <!-- <div class="alert-backdrop fade show"></div> -->
+    </div>
+    <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
+      <div
+        class="spinner-border"
+        role="status"
+        style="width: 3rem; height: 3rem"
+      ></div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <table
+          *ngIf="!isLoading && dataSource && dataSource.length > 0"
+          class="table custom-table"
+        >
+          <thead>
+            <tr>
+              <th class="sc-secondary">Denominazione</th>
+              <th class="sc-secondary">Cellulare</th>
+              <th class="sc-secondary">Email</th>
+              <th class="sc-secondary text-center">Data Assunzione</th>
+              <th class="sc-secondary text-center">Data Scadenza</th>
+              <th class="sc-secondary"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of dataSource">
+              <tr>
+                <td class="align-middle">
+                  {{ item.nome + " " + item.cognome }}
+                </td>
+                <!-- <td class="col-md-1 align-middle">{{ item.ruolo }}</td> -->
+                <td class="align-middle">
+                  {{ item.cellulare ? item.cellulare : "-" }}
+                </td>
+                <td class="align-middle">
+                  {{ item.email ? item.email : "-" }}
+                </td>
+                <td class="align-middle text-center">
+                  {{
+                    item.dataAssunzione ? convertDate(item.dataAssunzione) : "-"
+                  }}
+                </td>
+                <td class="align-middle text-center">
+                  {{
+                    item.dataScadenzaContratto
+                      ? convertDate(item.dataScadenzaContratto)
+                      : "-"
+                  }}
+                </td>
+                <td class="align-middle text-end">
+                  <button
+                    class="btn btn-outline-primary me-2 btn-sm"
+                    (click)="openModal('EDIT', item)"
+                  >
+                    <i class="bx bxs-edit"></i>
+                  </button>
+                  <button
+                    title="Elimina prodotto"
+                    class="btn btn-outline-danger me-2 btn-sm"
+                    (click)="openModal('DELETE', item)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                  <!-- (click)="openDeleteModal(item)" -->
+                  <!-- <button
+                    title="Elimina prodotto"
+                    class="btn btn-outline-success btn-sm"
+                    
+                  >
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button> -->
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
+      <button
+        title="Aggiungi dipendente"
+        class="btn sc-primary btn-sm"
+        (click)="openModal('ADD')"
+      >
+        Aggiungi Dipendente
+      </button>
+    </div>
+
+    <app-sc-modal
+      *ngIf="isOpen"
+      [title]="modalTitle"
+      (action)="performAction()"
+      (closeModal)="closeModal()"
+    >
+      <div class="modal-body-content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'">
+            <div class="row mt-3">
+              <div class="col-6">
+                <label for="employeeName" class="fw-bold form-label"
+                  >Nome</label
+                >
+                <input
+                  type="text"
+                  id="employeeName"
+                  class="form-control"
+                  formControlName="nome"
+                  [ngClass]="{ 'is-invalid': submitted && f['nome'].errors }"
+                />
+                <div
+                  *ngIf="submitted && f['nome'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['nome'].errors?.['required']">
+                    Il nome è richiesto
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="employeeSurname" class="fw-bold form-label"
+                  >Cognome</label
+                >
+                <input
+                  type="text"
+                  id="employeeSurname"
+                  name="employeeSurname"
+                  class="form-control"
+                  formControlName="cognome"
+                  [ngClass]="{ 'is-invalid': submitted && f['cognome'].errors }"
+                />
+                <div
+                  *ngIf="submitted && f['cognome'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['cognome'].errors?.['required']">
+                    Il nome è richiesto
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6">
+                <label for="employeePhone" class="fw-bold form-label"
+                  >Numero di telefono</label
+                >
+                <input
+                  type="tel"
+                  id="employeePhone"
+                  name="employeePhone"
+                  class="form-control"
+                  pattern="(\+39|0039)?3[0-9]{9}"
+                  required
+                  formControlName="cellulare"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['cellulare'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['cellulare'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['cellulare'].errors?.['required']">
+                    Il cellulare è richiesto
+                  </div>
+                  <div *ngIf="f['cellulare'].errors?.['pattern']">
+                    Il cellulare non è valido
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="email" class="fw-bold form-label">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  formControlName="email"
+                  [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                />
+                <div
+                  *ngIf="submitted && f['email'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['email'].errors?.['required']">
+                    L'email è richiesta
+                  </div>
+                  <div *ngIf="f['email'].errors?.['email']">
+                    L'email non è valida
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6">
+                <label for="dataAssunzione" class="fw-bold form-label"
+                  >Data assunzione</label
+                >
+                <input
+                  type="date"
+                  id="dataAssunzione"
+                  name="dataAssunzione"
+                  class="form-control"
+                  formControlName="dataAssunzione"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['dataAssunzione'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['dataAssunzione'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['dataAssunzione'].errors?.['required']">
+                    La data di assunzione è richiesta
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="dataScadenzaContratto" class="fw-bold form-label"
+                  >Data scadenza</label
+                >
+                <input
+                  type="date"
+                  id="dataScadenzaContratto"
+                  name="dataScadenzaContratto"
+                  class="form-control"
+                  formControlName="dataScadenzaContratto"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['dataScadenzaContratto'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['dataScadenzaContratto'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['dataScadenzaContratto'].errors?.['required']">
+                    La data di scadenza contratto è richiesta
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div
+          *ngIf="modalActionType === 'DELETE'"
+          class="alert alert-danger mt-3"
+          role="alert"
+        >
+          <i class="fas fa-exclamation-triangle"></i>
+          <!-- Icona di avviso -->
+          <span class="ms-2"
+            >Sei sicuro di voler eliminare questo dipendente?</span
+          >
+        </div>
+      </div>
+      <div class="modal-footer-content">
+        <!-- Contenuto del footer della modale -->
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-2"
+          (click)="closeModal()"
+        >
+          Annulla
+        </button>
+        <button
+          *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'"
+          type="button"
+          class="btn btn-primary btn-sm"
+          (click)="onSubmit()"
+        >
+          Salva
+        </button>
+        <button
+          *ngIf="modalActionType === 'DELETE'"
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="onSubmit()"
+        >
+          Cancella
+        </button>
+      </div>
+    </app-sc-modal>
+  </div>
+</div>

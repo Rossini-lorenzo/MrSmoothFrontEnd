@@ -1,6 +1,25 @@
 
 
 
+
+a.fc-timeline-event.fc-h-event.fc-event.active-event {
+  background-color: 'red';
+}
+
+
+.highlighted-event {
+  background-color: yellow; /* Cambia questo colore come preferisci */
+  border-color: yellow; /* Cambia questo colore come preferisci */
+}
+
+
+
+
+
+  .card-header{
+    background-color: #add7f6;
+  }
+
   
   .card {
     height: 100%; /* Imposta l'altezza della card al 100% della sezione */
