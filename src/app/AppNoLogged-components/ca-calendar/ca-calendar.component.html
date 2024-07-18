@@ -49,27 +49,37 @@
                           </div>
                         </div>
                         <div class="card-footer">
-                          <div class="row">
-                            <div class="col-12" style="text-align: center;">
-                          <button class="btn btn-success" id="creaEventoBtn" style="display: none;"(click)="creaEvento()">
-                            Salva <i class="fas fa-save"></i>
-                          </button>
-                            </div>
-                            <div class="col-12" style="text-align: center;">
-                              <div class="col-6" style="text-align: center;">
+    <div class="row">
+        <!-- Bottone verde centrato -->
+        
 
-                          <button class="btn btn-warning" id="cancellaEventoBtn" style="display: none;"(click)="cancellaEvento()">
-                            Modifica <i class="fas fa-edit"></i>
-                          </button>
-                              </div>
-                              <div class="col-6" style="text-align: center;">
+        <!-- Bottone giallo e rosso -->
+        <div class="col-12">
+          
+        
+            <div class="row">
+              
+              <div class="col-12 text-center">
+                <button class="btn btn-success" id="creaEventoBtn" style="display: none;" (click)="creaEvento()">
+                    Salva <i class="fas fa-save"></i>
+                </button>
+            </div>
+                <div class="col-6 text-left">
+                    <button class="btn btn-warning" id="cancellaEventoBtn" style="display: none;" (click)="cancellaEvento()">
+                        Modifica <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+               
+                <div class="col-6 text-right">
+                    <button class="btn btn-danger" id="eliminaEventoBtn" style="display: none;" (click)="cancellaEvento()">
+                        Elimina <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                          <button class="btn btn-danger" id="eliminaEventoBtn" style="display: none;"(click)="creaEvento()">
-                            Salva <i class="fas fa-trash"></i>
-                          </button>
-                              </div>
-                            </div></div>
-                        </div>
                       </div>
                     </div>
 

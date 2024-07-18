@@ -351,14 +351,18 @@ handleDateSelect(selectInfo: any) {
   const cardElement = document.getElementById('creaEvento');
   const spanElement = document.getElementById('creaEventoTitolo');
   const creaEventoBtn = document.getElementById('creaEventoBtn');
+  const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
+  const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
 
   this.startDateCreateEvent = selectInfo.startStr;
   this.endDateCreateEvent =selectInfo.endStr;
 
 
-  if (cardElement&&spanElement&&creaEventoBtn) {
+  if (cardElement&&spanElement&&creaEventoBtn&&cancellaEventoBtn&&eliminaEventoBtn) {
     cardElement.style.display = 'block';
     creaEventoBtn.style.display = 'block';
+    cancellaEventoBtn.style.display = 'none';
+    eliminaEventoBtn.style.display = 'none';
     //Titolo card
     const startDate = new Date(selectInfo.start);
     const formattedDate = startDate.toLocaleString('it-IT', {
@@ -412,49 +416,66 @@ handleDateSelect(selectInfo: any) {
 
   //rimozione evento 
   handleEventClick(clickInfo: any) {
+    const c : any = document.getElementById('a.fc-timeline-event.fc-h-event.fc-event.'+ clickInfo.calEvent.id);      
+
+   if(c){
+    c.addClass('active-event');      
+
+   }
+
     const cardElement = document.getElementById('creaEvento');
     const spanElement = document.getElementById('creaEventoTitolo');
     const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
     const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
-    this.clickInfoDelete=clickInfo;
+    const creaEventoBtn = document.getElementById('creaEventoBtn');
+
+    this.clickInfoDelete = clickInfo;
     console.log("ID dell'evento cliccato:", clickInfo.event.id);
-  
-    let evento : any;
+
+    let evento: any;
 
     if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
-      console.log("xxxxxx",   this.calendarOptions.events.find(event => event.id === clickInfo.event.id));
-      evento  = this.calendarOptions.events.find(event => event.id === clickInfo.event.id);
+        evento = this.calendarOptions.events.find(event => event.id === clickInfo.event.id);
     }
-    
+
+    if (cardElement && spanElement && creaEventoBtn && cancellaEventoBtn && eliminaEventoBtn) {
+        cardElement.style.display = 'block';
+        creaEventoBtn.style.display = 'none';
+        cancellaEventoBtn.style.display = 'block';
+        eliminaEventoBtn.style.display = 'block';
+
+        // Titolo card
+        const startDate = clickInfo.event.start;
+        if (startDate) {
+            const formattedDate = startDate.toLocaleString('it-IT', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            spanElement.innerText = formattedDate;
+        } else {
+            console.error('Data di inizio evento non valida');
+        }
+
+        this.cliente = evento.title;
+        this.description = evento.description;
+    } else {
+        console.error('Elemento con id "creaEvento" non trovato');
+    }
 
 
-    if (cardElement&&spanElement&&eliminaEventoBtn&&cancellaEventoBtn) {
-      cardElement.style.display = 'block';
-      cancellaEventoBtn.style.display = 'block';
-      eliminaEventoBtn.style.display = 'block';
-    
-    //Titolo card
-    const startDate = new Date(clickInfo.start);
-    const formattedDate = startDate.toLocaleString('it-IT', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-    spanElement.innerText = formattedDate;
-    this.cliente=evento.title;
-    this.description=evento.description;
+    console.log("EVENTO", this.fullcalendar.getApi().getEventById(clickInfo.event.id));
+    console.log("EVENTO", this.fullcalendar.getApi().getEventSourceById(clickInfo.event.id));
+}
 
-  } else {
-    console.error('Elemento con id "creaEvento" non trovato');
-  }
 
 
 
 
    
-  }
+  
   
   
   deleteEvent(eventId: string) {
