@@ -31,8 +31,8 @@
                         </div>
                         <div class="card-body">
                           <div class="form-group">
-                            <label for="titleInput">Titolo</label>
-                            <input type="text" class="form-control" #titleInput name="titleInput" [(ngModel)]="title">
+                            <label for="titleInput">Cliente</label>
+                            <input type="text" class="form-control" #titleInput name="titleInput" [(ngModel)]="cliente">
                           </div>
                           <div class="form-group">
                             <label for="descriptionInput">Descrizione</label>
@@ -51,9 +51,23 @@
                         <div class="card-footer">
                           <div class="row">
                             <div class="col-12" style="text-align: center;">
-                          <button class="btn btn-primary" id="custom-btn" (click)="creaEvento()">
+                          <button class="btn btn-success" id="creaEventoBtn" style="display: none;"(click)="creaEvento()">
                             Salva <i class="fas fa-save"></i>
                           </button>
+                            </div>
+                            <div class="col-12" style="text-align: center;">
+                              <div class="col-6" style="text-align: center;">
+
+                          <button class="btn btn-warning" id="cancellaEventoBtn" style="display: none;"(click)="cancellaEvento()">
+                            Modifica <i class="fas fa-edit"></i>
+                          </button>
+                              </div>
+                              <div class="col-6" style="text-align: center;">
+
+                          <button class="btn btn-danger" id="eliminaEventoBtn" style="display: none;"(click)="creaEvento()">
+                            Salva <i class="fas fa-trash"></i>
+                          </button>
+                              </div>
                             </div></div>
                         </div>
                       </div>

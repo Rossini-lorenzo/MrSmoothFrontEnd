@@ -41,14 +41,16 @@ export class CaCalendarComponent {
 
   @ViewChild('fullcalendar', { static: false }) fullcalendar: FullCalendarComponent;
 
-  //Mat Calendar 
+  // Mat Calendar 
   selectedDate: Date;
   activeDate: Date; 
 
+  // Rimozione evento
+  clickInfoDelete: any
 
   // Cazione evento 
   selectedEmployee: any;
-  title: string = '';
+  cliente: string = '';
   description: string = '';
   employees: any= [];  
   startDateCreateEvent : any;
@@ -303,16 +305,17 @@ dateSelected(date: Date): void {
  
 
 
+  //Click bottone crea evento
   creaEvento(){
-    console.log(this.description +" " + this.title+ " "+this.selectedEmployee)
+    console.log(this.description +" " + this.cliente+ " "+this.selectedEmployee)
     const newEvent = {
-      title:this.title,
+      title:this.cliente,
       start: this.startDateCreateEvent,
       end: this.endDateCreateEvent,
       description : this.description,
     };
 
-    this.productService.createEvent(this.title, this.description,this.selectedEmployee
+    this.productService.createEvent(this.cliente, this.description,this.selectedEmployee
       ,  new Date(this.startDateCreateEvent).toISOString(),  new Date(this.endDateCreateEvent).toISOString()).subscribe({
       next: (response: any) => {
         const responseData = response.body;
@@ -325,6 +328,11 @@ dateSelected(date: Date): void {
         }
         this.showAlert("Evento creato")
         this.loadEvents();
+        const cardElement = document.getElementById('creaEvento');
+        if (cardElement){
+          cardElement.style.display = 'none';
+
+        }
       },
       error: (error) => {
         alert('Si è verificato un errore durante la chiamata al backend. Riprova più tardi.');
@@ -337,16 +345,20 @@ dateSelected(date: Date): void {
 
 // Creazione evento click sul calendario (NO click su eventi)
 handleDateSelect(selectInfo: any) {
+  this.cliente="";
+  this.description="";
 
   const cardElement = document.getElementById('creaEvento');
   const spanElement = document.getElementById('creaEventoTitolo');
+  const creaEventoBtn = document.getElementById('creaEventoBtn');
+
   this.startDateCreateEvent = selectInfo.startStr;
   this.endDateCreateEvent =selectInfo.endStr;
 
 
-  if (cardElement&&spanElement) {
+  if (cardElement&&spanElement&&creaEventoBtn) {
     cardElement.style.display = 'block';
-    
+    creaEventoBtn.style.display = 'block';
     //Titolo card
     const startDate = new Date(selectInfo.start);
     const formattedDate = startDate.toLocaleString('it-IT', {
@@ -367,22 +379,25 @@ handleDateSelect(selectInfo: any) {
  
 }
 
-  //rimozione evento 
-  handleEventClick(clickInfo: any) {
-    console.log("ID dell'evento cliccato:", clickInfo.event);
-
+   // click bottone rimozione evento 
+   cancellaEvento(){
     if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
       if (confirm("Sei sicuro di voler eliminare questo evento?")) {
+
+
+        console.log("xxxxxx",   this.calendarOptions.events.find(event => event.id === this.clickInfoDelete.event.id));
         // Rimuovi l'evento dal calendario
         this.calendarOptions.events = this.calendarOptions.events.filter((event: any) => {
-          return event.id !== clickInfo.event.id;
+          return event.id !== this.clickInfoDelete.event.id;
+          
+
         });
-  
+        
         // Aggiorna il calendario
-        clickInfo.event.remove();
+        this.clickInfoDelete.event.remove();
   
         // Effettua la chiamata per eliminare l'evento dal backend
-        this.productService.deleteEvent(clickInfo.event.id).subscribe({
+        this.productService.deleteEvent(this.clickInfoDelete.event.id).subscribe({
           next: (response: any) => {
             console.log(response);
             this.showAlert("Evento cancellato")
@@ -392,6 +407,53 @@ handleDateSelect(selectInfo: any) {
         });
       }
     }
+   }
+
+
+  //rimozione evento 
+  handleEventClick(clickInfo: any) {
+    const cardElement = document.getElementById('creaEvento');
+    const spanElement = document.getElementById('creaEventoTitolo');
+    const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
+    const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
+    this.clickInfoDelete=clickInfo;
+    console.log("ID dell'evento cliccato:", clickInfo.event.id);
+  
+    let evento : any;
+
+    if (this.calendarOptions.events && Array.isArray(this.calendarOptions.events)) {
+      console.log("xxxxxx",   this.calendarOptions.events.find(event => event.id === clickInfo.event.id));
+      evento  = this.calendarOptions.events.find(event => event.id === clickInfo.event.id);
+    }
+    
+
+
+    if (cardElement&&spanElement&&eliminaEventoBtn&&cancellaEventoBtn) {
+      cardElement.style.display = 'block';
+      cancellaEventoBtn.style.display = 'block';
+      eliminaEventoBtn.style.display = 'block';
+    
+    //Titolo card
+    const startDate = new Date(clickInfo.start);
+    const formattedDate = startDate.toLocaleString('it-IT', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    spanElement.innerText = formattedDate;
+    this.cliente=evento.title;
+    this.description=evento.description;
+
+  } else {
+    console.error('Elemento con id "creaEvento" non trovato');
+  }
+
+
+
+
+   
   }
   
   
