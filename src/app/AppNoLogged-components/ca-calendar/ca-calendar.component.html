@@ -25,23 +25,23 @@
                     </div>
 
                     <div class="col-12 mt-2">
-                      <div class="card" style="display: none;" id="creaEvento">
+                      <div class="card" style="display: none;font-size: 12px;" id="creaEvento" >
                         <div class="card-header">
                           <span id="creaEventoTitolo"></span>
                         </div>
                         <div class="card-body">
-                          <div class="form-group">
+                          <div class="div mb-0">
                             <label for="titleInput">Cliente</label>
-                            <input type="text" class="form-control" #titleInput name="titleInput" [(ngModel)]="cliente">
+                            <input type="text" class="form-control" #titleInput name="titleInput" [(ngModel)]="cliente"  style="font-size: 12px;">
                           </div>
-                          <div class="form-group">
+                          <div class="div">
                             <label for="descriptionInput">Descrizione</label>
-                            <textarea class="form-control" #descriptionInput name="descriptionInput"
+                            <textarea class="form-control" #descriptionInput name="descriptionInput"  style="font-size: 12px;height:32px;"
                               [(ngModel)]="description"></textarea>
                           </div>
-                          <div class="form-group">
+                          <div class="div">
                             <label for="employeeSelect">Dipendente</label>
-                            <select class="form-control" [(ngModel)]="selectedEmployee">
+                            <select class="form-control" [(ngModel)]="selectedEmployee" style="font-size: 12px;">
                               <option *ngFor="let employee of employees" [value]="employee.idDipendente">
                                 {{ employee.nomeDipendente }} {{ employee.cognomeDipendente }}
                               </option>
@@ -60,18 +60,18 @@
             <div class="row">
               
               <div class="col-12 text-center">
-                <button class="btn btn-success" id="creaEventoBtn" style="display: none;" (click)="creaEvento()">
+                <button class="btn btn-success" id="creaEventoBtn" style="display: none;font-size: 12px" (click)="creaEvento()">
                     Salva <i class="fas fa-save"></i>
                 </button>
             </div>
                 <div class="col-6 text-left">
-                    <button class="btn btn-warning" id="cancellaEventoBtn" style="display: none;" (click)="cancellaEvento()">
+                    <button class="btn btn-warning" id="cancellaEventoBtn" style="display: none;font-size: 12px" (click)="cancellaEvento()">
                         Modifica <i class="fas fa-edit"></i>
                     </button>
                 </div>
                
                 <div class="col-6 text-right">
-                    <button class="btn btn-danger" id="eliminaEventoBtn" style="display: none;" (click)="cancellaEvento()">
+                    <button class="btn btn-danger" id="eliminaEventoBtn" style="display: none;font-size: 12px" (click)="cancellaEvento()">
                         Elimina <i class="fas fa-trash"></i>
                     </button>
                 </div>

@@ -405,6 +405,11 @@ handleDateSelect(selectInfo: any) {
           next: (response: any) => {
             console.log(response);
             this.showAlert("Evento cancellato")
+            const cardElement = document.getElementById('creaEvento');
+            if (cardElement){
+              cardElement.style.display = 'none';
+    
+            }
           },
           error: (error) => alert(error),
           complete: () => console.info('complete'),
@@ -416,12 +421,9 @@ handleDateSelect(selectInfo: any) {
 
   //rimozione evento 
   handleEventClick(clickInfo: any) {
-    const c : any = document.getElementById('a.fc-timeline-event.fc-h-event.fc-event.'+ clickInfo.calEvent.id);      
+    //const c : any = document.getElementById('a.fc-timeline-event.fc-h-event.fc-event.'+ clickInfo.calEvent.id);      
 
-   if(c){
-    c.addClass('active-event');      
 
-   }
 
     const cardElement = document.getElementById('creaEvento');
     const spanElement = document.getElementById('creaEventoTitolo');
