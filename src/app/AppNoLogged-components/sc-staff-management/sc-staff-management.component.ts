@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
 
-interface Employee {
+export interface Employee {
   id: number;
   nome: string;
   cognome: string;
