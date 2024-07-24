@@ -77,11 +77,12 @@ export class CaChestComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       operator: ['', Validators.required],
+      productId: ['', Validators.required],
       productName: ['', Validators.required],
       productPrice: ['', Validators.required],
       productQuantity: ['', Validators.required],
       service: ['', Validators.required],
-      serviceId: ['', Validators.required], // Aggiungi questo campo
+      serviceId: ['', Validators.required],
       serviceQuantity: ['', Validators.required],
       servicePrice: ['', Validators.required],
       notes: ['', Validators.required],
@@ -140,11 +141,11 @@ export class CaChestComponent implements OnInit {
   addArticleInReceipt() {
     if (this.articleType === 'PRODUCT') {
       this.salesReceipt.push({
-        id: '8054754030242',
-        article: 'nome prodotto',
+        id: this.form.value.productId,
+        article: this.form.value.productName,
         articleQuantity: this.form.value.productQuantity,
-        articlePrice: 10,
-        type: this.form.value.type,
+        articlePrice: this.form.value.productPrice,
+        type: this.articleType,
       });
     } else {
       this.salesReceipt.push({
@@ -152,7 +153,7 @@ export class CaChestComponent implements OnInit {
         article: this.form.value.service,
         articleQuantity: this.form.value.serviceQuantity,
         articlePrice: this.form.value.servicePrice,
-        type: this.form.value.type,
+        type: this.articleType,
       });
     }
     this.onReset();
@@ -165,7 +166,7 @@ export class CaChestComponent implements OnInit {
     const soldProducts: string[] = [];
     const soldServices: number[] = [];
     this.salesReceipt.forEach((item) => {
-      if (this.articleType === 'PRODUCT') {
+      if (item.type === "PRODUCT") {
         soldProducts.push(item.id as string);
       } else {
         soldServices.push(item.id as number);
@@ -274,6 +275,18 @@ export class CaChestComponent implements OnInit {
         .get('servicePrice')
         ?.setValue(selectedService.servicePrice.toFixed(2).replace(',', '.'));
       this.form.get('serviceId')?.setValue(selectedService.id);
+    }
+  }
+
+  onProductChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedIndex = selectElement.selectedIndex;
+    const selectedService = this.productList[selectedIndex];
+    if (selectedService) {
+      this.form
+        .get('productPrice')
+        ?.setValue(selectedService.prezzo.toFixed(2).replace(',', '.'));
+      this.form.get('productId')?.setValue(selectedService.id);
     }
   }
 

@@ -99,7 +99,7 @@
             aria-label="Default select example"
             id="productName"
             formControlName="productName"
-            (change)="onServiceChange($event)"
+            (change)="onProductChange($event)"
             [ngClass]="{ 'is-invalid': submitted && f['productName'].errors }"
           >
             <option *ngFor="let product of productList" [value]="product.nomeProdotto">
@@ -116,20 +116,20 @@
           </div>
         </div>
         <div class="col-3 col-md-6 col-xl-3">
-          <label for="servicePrice" class="fw-bold form-label">Prezzo</label>
+          <label for="productPrice" class="fw-bold form-label">Prezzo</label>
           <input
             type="number"
-            id="servicePrice"
-            name="servicePrice"
+            id="productPrice"
+            name="productPrice"
             class="form-control"
-            formControlName="servicePrice"
-            [ngClass]="{ 'is-invalid': submitted && f['servicePrice'].errors }"
+            formControlName="productPrice"
+            [ngClass]="{ 'is-invalid': submitted && f['productPrice'].errors }"
           />
           <div
-            *ngIf="submitted && f['servicePrice'].errors"
+            *ngIf="submitted && f['productPrice'].errors"
             class="invalid-feedback"
           >
-            <div *ngIf="f['servicePrice'].errors?.['required']">
+            <div *ngIf="f['productPrice'].errors?.['required']">
               Campo obbligatorio
             </div>
           </div>
