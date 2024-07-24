@@ -154,7 +154,7 @@
     </div>
   </div>
 </nav> -->
-<header class="navbar-expand-lg sc-primary">
+<header class="navbar-expand-lg sc-primary fixed-top">
   <div class="container-fluid">
     <div class="row d-flex align-items-center" style="background-color: white;    border-bottom: 1px solid #dfdfdf;">
       <div class="col-2">
@@ -207,54 +207,17 @@
         </a>
       </div>
     </div>
-    <!-- <form class="d-flex">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Cerca"
-        aria-label="Cerca"
-      />
-      <button class="btn btn-secondary" type="submit">Cerca</button>
-    </form> -->
-    <!-- Navbar Links -->
-    <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div> -->
+  
+
+    
   </div>
 </header>
-<!-- <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <ol class="breadcrumb sc-primary">
-    <li class="breadcrumb-item">Home</li>
-    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-  </ol>
-</nav> -->
-<!-- <nav *ngIf="breadcrumbs && breadcrumbs.length > 0" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">{{ breadcrumb }}</li>
-  </ol>
-</nav> -->
-<div class="container-fluid">
+<div class="container-fluid" style="padding-top: 60px;">
   <div class="row">
-    <div class="col-2 p-0" style="background-color: #6aaad8; max-height: 100vh; min-height: 92vh;">
+    <div class="col-2 p-0" style="background-color: #6aaad8; max-height: 100vh; position: fixed; top: 60px; bottom: 0; overflow-y: auto;">
       <aside>
-        <div class="accordion accordion-flush" id="sidebarAccordion">
-          <div
-            class="accordion-item"
-            *ngFor="let menuItem of menuItems; let index = index"
-          >
+        <div class="accordion accordion-flush mb-5"  id="sidebarAccordion">
+          <div class="accordion-item" *ngFor="let menuItem of menuItems; let index = index">
             <ng-container *ngIf="menuItem.links.length > 1; else singleLink">
               <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
                 <button
@@ -330,19 +293,10 @@
         </div>
       </aside>
     </div>
-    
-    
 
-    <div class="col-10">
-
-      <!-- Navbar -->
-      <div class="content mt-2">
-        <router-outlet>
-       
-        
-          
-          
-      </router-outlet>
+    <div class="col-10" style="margin-left: 16.666667%;">
+      <div class="container-fluid mt-2 mb-5">
+        <router-outlet></router-outlet>
       </div>
     </div>
   </div>

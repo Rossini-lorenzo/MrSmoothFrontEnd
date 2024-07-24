@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, Inject, ViewChild } from '@angular/core';
+import { Component, LOCALE_ID, Inject, ViewChild, HostListener } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
@@ -11,6 +11,9 @@ import { environment } from 'src/environment/environment';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ProductServiceService } from 'src/app/service/product-service.service';
+import { ServicesServiceService } from 'src/app/service/services-service.service';
+import { CustomersServiceService } from 'src/app/service/customers-service.service';
+
 import { ActivatedRoute } from '@angular/router';
 import itLocale from '@fullcalendar/core/locales/it';
 import { MatDialog } from '@angular/material/dialog';
@@ -50,9 +53,15 @@ export class CaCalendarComponent {
 
   // Cazione evento 
   selectedEmployee: any;
-  cliente: string = '';
+  selectedService: any;
   description: string = '';
   employees: any= [];  
+  services: any= []; 
+  cliente: string = '';
+  customers: { nomeCliente: string; cognomeCliente: string }[] = [];
+  filteredSuggestions: { nomeCliente: string; cognomeCliente: string }[] = [];
+  isOpen: boolean = false; // Variabile per gestire la visibilità della lista dei suggerimenti
+
   startDateCreateEvent : any;
   endDateCreateEvent : any;
 
@@ -94,7 +103,8 @@ export class CaCalendarComponent {
   };
   
 
-  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,private dialog: MatDialog) {
+  constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,
+    private dialog: MatDialog,private servicesService :ServicesServiceService,private customersService :CustomersServiceService) {
      this.selectedDate = new Date();
      this.activeDate = this.selectedDate; // Inizializza activeDate con selectedDate
     }
@@ -105,6 +115,7 @@ export class CaCalendarComponent {
 
   ngOnInit(): void {
 
+    // IMPORTO TUTTI I DIPENDENTI PER LA SELECT DEI DIPENDENTI
     this.productService.getAllEmployee().subscribe({
       next: (response: any) => {
         
@@ -126,6 +137,49 @@ export class CaCalendarComponent {
       complete: () => {console.info('complete');console.log(this.employees)},
     });
 
+
+    //IMPORTO TUTTI I SERVIZI PER LA SELECT DEI SERVIZI
+    this.servicesService.getAllService().subscribe({
+      next: (response: any) => {
+        
+        const responseData = response.body; // Accesso al corpo della risposta
+        console.log("Response data:", responseData); // Logga i dati ricevuti
+        
+          for (const serv of responseData) {
+            const service = {
+              serviceName: serv.serviceName
+            };
+            this.services.push(service);
+          }
+        
+       
+      },
+      error: (error) => console.error(error),
+      complete: () => {console.info('complete');console.log(this.employees)},
+    });
+
+  //IMPORTO TUTTI I CLIENTI PER LA SELECT DEI CLIENTI
+  this.customersService.getAllCustomer().subscribe({
+    next: (response: any) => {
+      
+      const responseData = response.body; // Accesso al corpo della risposta
+      console.log("Response data:", responseData); // Logga i dati ricevuti
+      
+        for (const cust of responseData) {
+          const customer = {
+            nomeCliente: cust.nome,
+            cognomeCliente: cust.cognome
+          };
+          this.customers.push(customer);
+        }
+      
+    
+    },
+    error: (error) => console.error(error),
+    complete: () => {console.info('complete');console.log(this.employees)},
+  });
+    
+   console.log("CUST",this.customers);
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
@@ -206,7 +260,28 @@ dateSelected(date: Date): void {
 
 
 
+ //AUTOCOMPLETE 
+ onInputChange() {
+  const filterValue = this.cliente.toLowerCase();
+  this.filteredSuggestions = this.customers.filter(cliente =>
+    `${cliente.nomeCliente} ${cliente.cognomeCliente}`.toLowerCase().includes(filterValue)
+  );
+  this.isOpen = this.filteredSuggestions.length > 0; // Mostra la lista solo se ci sono suggerimenti
+}
 
+selectSuggestion(suggestion: { nomeCliente: string; cognomeCliente: string }) {
+  this.cliente = `${suggestion.nomeCliente} ${suggestion.cognomeCliente}`;
+  this.filteredSuggestions = [];
+  this.isOpen = false; // Chiude la lista dopo la selezione
+}
+
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (!target.closest('.autocomplete-container')) {
+    this.isOpen = false; // Chiude la lista se il clic è fuori dal contenitore
+  }
+}
 
 
 
@@ -270,9 +345,7 @@ dateSelected(date: Date): void {
     }
   }
 
-  authenticateWithSmartControl() {
 
-  }
   
   
  
@@ -343,10 +416,20 @@ dateSelected(date: Date): void {
   }
 
 
+  closeCard(){
+    const cardElement = document.getElementById('creaEvento');
+    if (cardElement){
+      cardElement.style.display = 'none';
+    }
+  }
+
 // Creazione evento click sul calendario (NO click su eventi)
 handleDateSelect(selectInfo: any) {
   this.cliente="";
   this.description="";
+  this.selectedService="";
+  this.selectedEmployee="";
+
 
   const cardElement = document.getElementById('creaEvento');
   const spanElement = document.getElementById('creaEventoTitolo');

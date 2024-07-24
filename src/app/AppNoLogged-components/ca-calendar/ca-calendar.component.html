@@ -17,7 +17,8 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-9">
-                    <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+                    <full-calendar #fullcalendar [options]="calendarOptions"
+                      style="height: 93%!important;"></full-calendar>
                   </div>
                   <div class="col-3">
                     <div class="col-12">
@@ -25,19 +26,39 @@
                     </div>
 
                     <div class="col-12 mt-2">
-                      <div class="card" style="display: none;font-size: 12px;" id="creaEvento" >
+                      <div class="card" style="display: none;font-size: 12px;" id="creaEvento">
                         <div class="card-header">
-                          <span id="creaEventoTitolo"></span>
+                          <div class="row align-items-center">
+                            <div class="col-10">
+                              <span id="creaEventoTitolo">Titolo della Card</span>
+                            </div>
+                            <div class="col-2 text-end">
+                              <button class="btn btn-secondary-outline close-btn" (click)="closeCard()">&times;</button>
+                            </div>
+                          </div>
                         </div>
                         <div class="card-body">
                           <div class="div mb-0">
-                            <label for="titleInput">Cliente</label>
-                            <input type="text" class="form-control" #titleInput name="titleInput" [(ngModel)]="cliente"  style="font-size: 12px;">
-                          </div>
-                          <div class="div">
-                            <label for="descriptionInput">Descrizione</label>
-                            <textarea class="form-control" #descriptionInput name="descriptionInput"  style="font-size: 12px;height:32px;"
-                              [(ngModel)]="description"></textarea>
+                            <!-- autocomplete.component.html -->
+                            <div class="autocomplete-container">
+                              <label for="titleInput">Cliente</label>
+                              <input type="text" class="form-control" id="titleInput" name="titleInput"
+                                [(ngModel)]="cliente" (input)="onInputChange()" style="font-size: 12px;">
+                              <ul *ngIf="isOpen" class="suggestions">
+                                <li *ngFor="let suggestion of filteredSuggestions"
+                                  (click)="selectSuggestion(suggestion)">
+                                  {{ suggestion.nomeCliente }} {{ suggestion.cognomeCliente }}
+                                </li>
+                              </ul>
+                            </div>
+
+
+                            <label for="serviceSelect">Servizio</label>
+                            <select class="form-control" [(ngModel)]="selectedService" style="font-size: 12px;">
+                              <option *ngFor="let service of services" [value]="service.serviceName">
+                                {{ service.serviceName }}
+                              </option>
+                            </select>
                           </div>
                           <div class="div">
                             <label for="employeeSelect">Dipendente</label>
@@ -49,36 +70,36 @@
                           </div>
                         </div>
                         <div class="card-footer">
-    <div class="row">
-        <!-- Bottone verde centrato -->
-        
+                          <div class="row">
 
-        <!-- Bottone giallo e rosso -->
-        <div class="col-12">
-          
-        
-            <div class="row">
-              
-              <div class="col-12 text-center">
-                <button class="btn btn-success" id="creaEventoBtn" style="display: none;font-size: 12px" (click)="creaEvento()">
-                    Salva <i class="fas fa-save"></i>
-                </button>
-            </div>
-                <div class="col-6 text-left">
-                    <button class="btn btn-warning" id="cancellaEventoBtn" style="display: none;font-size: 12px" (click)="cancellaEvento()">
-                        Modifica <i class="fas fa-edit"></i>
-                    </button>
-                </div>
-               
-                <div class="col-6 text-right">
-                    <button class="btn btn-danger" id="eliminaEventoBtn" style="display: none;font-size: 12px" (click)="cancellaEvento()">
-                        Elimina <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                            <div class="col-12">
+
+
+                              <div class="row">
+
+                                <div class="col-12 text-center">
+                                  <button class="btn btn-success" id="creaEventoBtn"
+                                    style="display: none;font-size: 12px" (click)="creaEvento()">
+                                    Salva <i class="fas fa-save"></i>
+                                  </button>
+                                </div>
+                                <div class="col-6 text-left">
+                                  <button class="btn btn-warning" id="cancellaEventoBtn"
+                                    style="display: none;font-size: 12px" (click)="cancellaEvento()">
+                                    Modifica <i class="fas fa-edit"></i>
+                                  </button>
+                                </div>
+
+                                <div class="col-6 text-right">
+                                  <button class="btn btn-danger" id="eliminaEventoBtn"
+                                    style="display: none;font-size: 12px" (click)="cancellaEvento()">
+                                    Elimina <i class="fas fa-trash"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
                       </div>
                     </div>
@@ -96,20 +117,26 @@
           <div class="container-fluid">
             <div class="row justify-content-center align-items-center" style="height: 60vh;">
               <div class="col-sm-5">
-                <div class="card text-center" style="  opacity: 0.95;border-radius: 0px;">
+                <div class="card text-center" style="border-radius: 4px;">
                   <div class="card-body">
                     <!-- Icona Calendario -->
                     <div>
-                      <img src="assets/google-calendar_5968499.png" style="height: 71px; width: 78px;"
+                      <img src="assets/google-calendar_5968499.png" style="height:50px; width: 50px;"
                         alt="La mia foto">
 
                     </div>
+                    <br> 
+
+
                     <!-- Messaggio -->
-                    <div class="mt-3">
-                      Accedi con Google per visualizzare il calendario
+                    <div class="mt-3 mb-3">
+
+                      Accedi per visualizzare gli appuntamenti di Google Calendar
                     </div>
+                    <hr style="opacity: 1;"> 
+
                     <!-- Bottone -->
-                    <div class="mt-3">
+                    <div class="mt-4">
                       <!-- Bottone -->
                       <button class="gsi-material-button" (click)="authenticateWithGoogleCalendar()">
                         <div class="gsi-material-button-state"></div>
@@ -132,21 +159,17 @@
                               <path fill="none" d="M0 0h48v48H0z"></path>
                             </svg>
                           </div>
+                          
+
+
                           <span class="gsi-material-button-contents">Accedi con Google</span>
+                          
                           <span style="display: none;">Accedi con Google</span>
                         </div>
                       </button>
                     </div>
-                    <hr>
-                    <button class="gsi-material-button" (click)="authenticateWithSmartControl()">
-                      <div class="gsi-material-button-state"></div>
-                      <div class="gsi-material-button-content-wrapper">
-                        <img src="../assets/SmartControl_logo.jpg" alt="Logo" width="30" height="30" class="me-3"
-                          style="height: 30px; width: 30px; border-radius: 50%" />
-                        <span class="gsi-material-button-contents">Accedi con SmartControl</span>
-                        <span style="display: none;">Accedi con SmartControl</span>
-                      </div>
-                    </button>
+
+                    
                   </div>
                 </div>
               </div>

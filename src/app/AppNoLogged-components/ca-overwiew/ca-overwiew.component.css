@@ -10,6 +10,7 @@
   padding: 1px 1px 1px 20px;
   margin: -1px -1px 0px -1px;
   font-weight: normal;
+  font-size: small;
 }
 
 /* contatori */
@@ -56,7 +57,7 @@
 
 .card-counter i{
   font-size: 4em;
-  opacity: 0.2;
+  opacity: 1;
 }
 
 .card-counter .count-numbers{
