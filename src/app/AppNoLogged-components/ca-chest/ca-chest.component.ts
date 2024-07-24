@@ -11,6 +11,8 @@ import { ServicesServiceService } from 'src/app/service/services-service.service
 import { Service } from '../sc-services-management/sc-services-management.component';
 import { Employee } from '../sc-staff-management/sc-staff-management.component';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
+import { Product } from '../sc-summary-warehouse/sc-summary-warehouse.component';
+import { ProductServiceService } from 'src/app/service/product-service.service';
 
 export interface Sale {
   date: string;
@@ -39,6 +41,7 @@ export class CaChestComponent implements OnInit {
   salesReceipt: SalesReceipt[] = [];
   serviceList: Service[] = [];
   employeeList: Employee[] = [];
+  productList: Product[] = [];
   service = '';
   quantity = 0;
   price = 0;
@@ -67,20 +70,25 @@ export class CaChestComponent implements OnInit {
     private salesService: SalesServiceService,
     private servicesService: ServicesServiceService,
     private employeeService: EmployeesServiceService,
+    private productService: ProductServiceService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       operator: ['', Validators.required],
+      productName: ['', Validators.required],
+      productPrice: ['', Validators.required],
       productQuantity: ['', Validators.required],
       service: ['', Validators.required],
+      serviceId: ['', Validators.required], // Aggiungi questo campo
       serviceQuantity: ['', Validators.required],
       servicePrice: ['', Validators.required],
       notes: ['', Validators.required],
     });
     this.getAllServicess();
     this.getAllEmployee();
+    this.getAllProducts();
   }
 
   public getAllServicess(): void {
@@ -113,6 +121,17 @@ export class CaChestComponent implements OnInit {
     });
   }
 
+  public getAllProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (response: any) => {
+        const responseData = response.body;
+        this.productList = responseData;
+      },
+      error: (error) => console.error(error),
+      complete: () => console.info('complete'),
+    });
+  }
+
   onEvent(event: ScannerQRCodeResult[], action: any): void {
     const scannedValue = event[0].value;
     this.productId = scannedValue;
@@ -129,14 +148,14 @@ export class CaChestComponent implements OnInit {
       });
     } else {
       this.salesReceipt.push({
-        id: 1,
+        id: this.form.value.serviceId,
         article: this.form.value.service,
         articleQuantity: this.form.value.serviceQuantity,
         articlePrice: this.form.value.servicePrice,
         type: this.form.value.type,
       });
     }
-    //this.onReset();
+    this.onReset();
   }
 
   registerNewSale() {
@@ -211,9 +230,28 @@ export class CaChestComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    // if (this.form.invalid) {
-    //   return;
-    // }
+    if (this.articleType === 'PRODUCT') {
+      // Se il tipo di articolo è 'PRODUCT', assicurati che solo i campi rilevanti siano validi
+      if (this.form.get('productQuantity')?.invalid) {
+        return;
+      }
+    } else if (this.articleType === 'SERVICE') {
+      // Se il tipo di articolo è 'SERVICE', assicurati che tutti i campi relativi ai servizi siano validi
+      const service = this.form.get('service');
+      const servicePrice = this.form.get('servicePrice');
+      const serviceQuantity = this.form.get('serviceQuantity');
+  
+      if (
+        !service || 
+        !servicePrice || 
+        !serviceQuantity || 
+        service.invalid || 
+        servicePrice.invalid || 
+        serviceQuantity.invalid
+      ) {
+        return;
+      }
+    }
     this.addArticleInReceipt();
   }
 
@@ -224,6 +262,7 @@ export class CaChestComponent implements OnInit {
       return;
     }
     this.articleType = type;
+    this.submitted = false;
   }
 
   onServiceChange(event: Event) {
@@ -234,12 +273,23 @@ export class CaChestComponent implements OnInit {
       this.form
         .get('servicePrice')
         ?.setValue(selectedService.servicePrice.toFixed(2).replace(',', '.'));
+      this.form.get('serviceId')?.setValue(selectedService.id);
     }
   }
 
   onReset(): void {
     this.submitted = false;
-    this.form.reset();
+    if (this.articleType === 'PRODUCT') {
+      this.form.get('productQuantity')?.reset();
+    } else if (this.articleType === 'SERVICE') {
+      this.form.get('service')?.reset();
+      this.form.get('serviceId')?.reset();
+      this.form.get('serviceQuantity')?.reset();
+      this.form.get('servicePrice')?.reset();
+    }
+
+    // Reset della variabile dell'articolo
+    this.articleType = '';
   }
 
   showSuccess(message: string): void {

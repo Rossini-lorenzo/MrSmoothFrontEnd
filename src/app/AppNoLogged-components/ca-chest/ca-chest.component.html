@@ -1,15 +1,14 @@
 <div class="card d-inline-block m-auto w-fit-content">
   <div class="card-body">
     <h3 class="card-title fw-bold">Cassa</h3>
-    <div class="alert sc-primary d-flex align-items-center mt-4" role="alert">
+    <!-- <div class="alert sc-primary d-flex align-items-center mt-4" role="alert">
       <i
         class="bx bx-info-circle align-middle me-2"
         style="font-size: 30px"
       ></i>
       <div>Scannerizza il Codice a barre del prodotto che devi vendere.</div>
-    </div>
-    <div class="container">
-      <!-- For camera -->
+    </div> -->
+    <!-- <div class="container">
       <div class="row">
         <div class="col-6">
           <ngx-scanner-qrcode
@@ -48,7 +47,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="row mt-5">
         <div class="col-3">
@@ -92,10 +91,48 @@
       </div>
       <div *ngIf="articleType === 'PRODUCT'" class="mt-5 row">
         <div class="col-3">
-          <p class="data"><strong>Codice:</strong> {{ productId }}</p>
+          <label for="productName" class="fw-bold form-label"
+            >Prodotto</label
+          >
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            id="productName"
+            formControlName="productName"
+            (change)="onServiceChange($event)"
+            [ngClass]="{ 'is-invalid': submitted && f['productName'].errors }"
+          >
+            <option *ngFor="let product of productList" [value]="product.nomeProdotto">
+              {{ product.nomeProdotto }}
+            </option>
+          </select>
+          <div
+            *ngIf="submitted && f['productName'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['productName'].errors?.['required']">
+              Campo obbligatorio
+            </div>
+          </div>
         </div>
-        <div class="col-3">
-          <p class="data"><strong>Nome prodotto:</strong> {{ productId }}</p>
+        <div class="col-3 col-md-6 col-xl-3">
+          <label for="servicePrice" class="fw-bold form-label">Prezzo</label>
+          <input
+            type="number"
+            id="servicePrice"
+            name="servicePrice"
+            class="form-control"
+            formControlName="servicePrice"
+            [ngClass]="{ 'is-invalid': submitted && f['servicePrice'].errors }"
+          />
+          <div
+            *ngIf="submitted && f['servicePrice'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['servicePrice'].errors?.['required']">
+              Campo obbligatorio
+            </div>
+          </div>
         </div>
         <div class="col-3">
           <label for="productQuantity" class="fw-bold form-label">Quantità</label>
@@ -124,11 +161,20 @@
             id="service"
             formControlName="service"
             (change)="onServiceChange($event)"
+            [ngClass]="{ 'is-invalid': submitted && f['service'].errors }"
           >
             <option *ngFor="let service of serviceList" [value]="service.serviceName">
               {{ service.serviceName }}
             </option>
           </select>
+          <div
+            *ngIf="submitted && f['service'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['service'].errors?.['required']">
+              Campo obbligatorio
+            </div>
+          </div>
         </div>
         <div class="col-3 col-md-6 col-xl-3">
           <label for="servicePrice" class="fw-bold form-label">Prezzo</label>
@@ -138,7 +184,16 @@
             name="servicePrice"
             class="form-control"
             formControlName="servicePrice"
+            [ngClass]="{ 'is-invalid': submitted && f['servicePrice'].errors }"
           />
+          <div
+            *ngIf="submitted && f['servicePrice'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['servicePrice'].errors?.['required']">
+              Campo obbligatorio
+            </div>
+          </div>
         </div>
         <div class="col-3 col-md-6 col-xl-3">
           <label for="serviceQuantity" class="fw-bold form-label">Quantità</label>
@@ -148,7 +203,16 @@
             name="serviceQuantity"
             class="form-control"
             formControlName="serviceQuantity"
+            [ngClass]="{ 'is-invalid': submitted && f['serviceQuantity'].errors }"
           />
+          <div
+            *ngIf="submitted && f['serviceQuantity'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['serviceQuantity'].errors?.['required']">
+              Campo obbligatorio
+            </div>
+          </div>
         </div>
         <div class="col-2 d-flex align-items-end">
           <button type="button" class="btn sc-primary btn-sm" (click)="onSubmit()">
@@ -156,15 +220,15 @@
           </button>
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-5">
         <div class="col-12">
-          <table *ngIf="salesReceipt && salesReceipt.length > 0" class="table">
+          <table *ngIf="salesReceipt && salesReceipt.length > 0" class="table custom-table">
             <thead>
               <tr>
-                <th>Articolo</th>
-                <th>Quantità</th>
-                <th>Prezzo</th>
-                <th>Tipo</th>
+                <th class="sc-secondary">Articolo</th>
+                <th class="sc-secondary">Quantità</th>
+                <th class="sc-secondary">Prezzo</th>
+                <th class="sc-secondary"></th>
               </tr>
             </thead>
             <tbody>
@@ -173,7 +237,15 @@
                   <td class="align-middle">{{ item.article }}</td>
                   <td class="align-middle">{{ item.articleQuantity }}</td>
                   <td class="align-middle">&euro; {{ item.articlePrice }}</td>
-                  <td class="align-middle">{{ item.type }}</td>
+                  <td class="align-middle text-end">
+                    <!-- (click)="openModal('DELETE', item)" -->
+                    <button
+                      title="Elimina prodotto"
+                      class="btn btn-outline-danger me-2 btn-sm"
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </td>
                 </tr>
               </ng-container>
             </tbody>
