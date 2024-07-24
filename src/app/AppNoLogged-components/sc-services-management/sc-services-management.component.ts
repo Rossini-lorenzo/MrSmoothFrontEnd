@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ServicesServiceService } from 'src/app/service/services-service.service';
 
-interface Service {
+export interface Service {
   id: number;
   serviceName: string;
   servicePrice: number;

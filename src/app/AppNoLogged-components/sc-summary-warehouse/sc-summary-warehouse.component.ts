@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 
 
-interface Product {
+export interface Product {
   id: string;
   prezzo: number;
   nomeProdotto: string;
