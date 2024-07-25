@@ -54,7 +54,7 @@ export class CaHomeComponent implements OnInit {
   }
 
   onMouseOver(event: Event) {
-    (event.target as HTMLElement).style.textDecoration = 'underline';
+    (event.target as HTMLElement).style.cursor = 'pointer';
   }
 
   onMouseOut(event: Event) {
@@ -62,7 +62,7 @@ export class CaHomeComponent implements OnInit {
   }
 
   onFocus(event: Event) {
-    (event.target as HTMLElement).style.textDecoration = 'underline';
+    (event.target as HTMLElement).style.cursor = 'pointer';
   }
 
   onBlur(event: Event) {

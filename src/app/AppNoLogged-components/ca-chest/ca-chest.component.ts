@@ -18,18 +18,23 @@ export interface Sale {
   date: string;
   operator: string;
   flValidity: string;
-  soldProducts: string[];
-  soldServices: number[];
+  soldProducts: SaleArticle[];
+  soldServices: SaleArticle[];
   total: number;
   notes: string;
 }
 
 interface SalesReceipt {
-  id: string | number;
+  id:  number;
   article: string;
   articleQuantity: number;
   articlePrice: number;
   type: string;
+}
+
+interface SaleArticle {
+  id :  number;
+  articleQuantity: number;
 }
 
 @Component({
@@ -163,13 +168,21 @@ export class CaChestComponent implements OnInit {
     const newSale: Sale = this.form.value;
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0]; // Formatta la data come YYYY-MM-DD
-    const soldProducts: string[] = [];
-    const soldServices: number[] = [];
+    const soldProducts: SaleArticle[] = [];
+    const soldServices: SaleArticle[] = [];
     this.salesReceipt.forEach((item) => {
       if (item.type === "PRODUCT") {
-        soldProducts.push(item.id as string);
+        
+        
+        soldProducts.push({
+          id : item.id,
+          articleQuantity : item.articleQuantity
+        });
       } else {
-        soldServices.push(item.id as number);
+        soldServices.push({
+          id : item.id,
+          articleQuantity : item.articleQuantity
+        });
       }
     });
     const dataToSave: Sale = {

@@ -221,7 +221,7 @@
             <ng-container *ngIf="menuItem.links.length > 1; else singleLink">
               <h2 class="accordion-header" [id]="'panelsStayOpen' + index">
                 <button
-                  style="color: white; background-color: #6aaad8;"
+                  style="color: white; background-color: #6aaad8;font-size: 14px;"
                   class="accordion-button sc-primary d-flex align-items-center"
                   type="button"
                   data-bs-toggle="collapse"
@@ -244,6 +244,7 @@
                 <div
                   *ngFor="let link of menuItem.links; let linkIndex = index"
                   class="accordion-body sc-secondary border"
+                  style="cursor: pointer;"
                   [class.selected]="selectedLink === link"
                   (click)="selectLink(link)"
                   [routerLink]="link.url"
@@ -251,7 +252,7 @@
                   <div class="row">
                     <div class="col-10">
                       <a
-                        style="text-decoration: none; color: black"
+                        style="text-decoration: none; color: black;font-size: 13px;"
                         (mouseover)="onMouseOver($event)"
                         (mouseout)="onMouseOut($event)"
                         (focus)="onFocus($event)"
@@ -274,7 +275,7 @@
                 <button
                   (click)="selectLink(menuItem.links[0])"
                   [routerLink]="menuItem.links[0].url"
-                  style="color: white; background-color: #6aaad8;"
+                  style="color: white; background-color: #6aaad8;font-size: 14px;"
                   class="accordion-button sc-primary d-flex align-items-center"
                   type="button"
                   data-bs-toggle="collapse"

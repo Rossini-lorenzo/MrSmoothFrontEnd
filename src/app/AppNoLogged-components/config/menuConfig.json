@@ -1,7 +1,7 @@
 [
   {
     "title": "Home",
-    "icon": "fa-solid fa-house-user fa-lg",
+    "icon": "fa-solid fa-house-user fa-xl",
     "links": [
       {
         "label": "Dashboard",
@@ -12,7 +12,7 @@
   },
   {
     "title": "Negozio",
-    "icon": "fa-solid fa-basket-shopping fa-lg",
+    "icon": "fa-solid fa-basket-shopping fa-xl",
     "links": [
       {
         "label": "Dipendenti",
@@ -59,7 +59,7 @@
   },
   {
     "title": "Appuntamenti",
-    "icon": "fa-solid fa-calendar-days fa-lg",
+    "icon": "fa-solid fa-calendar fa-xl",
     "links": [
       {
         "label": "Agenda",
@@ -75,7 +75,7 @@
   },
   {
     "title": "Vendite",
-    "icon": "fa-solid fa-cash-register fa-lg",
+    "icon": "fa-solid fa-cash-register fa-xl",
     "links": [
       {
         "label": "Cassa",
