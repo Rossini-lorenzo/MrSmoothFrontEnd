@@ -25,7 +25,7 @@ export interface Sale {
 }
 
 interface SalesReceipt {
-  id:  number;
+  id: number;
   article: string;
   articleQuantity: number;
   articlePrice: number;
@@ -33,7 +33,7 @@ interface SalesReceipt {
 }
 
 interface SaleArticle {
-  id :  number;
+  id: number;
   articleQuantity: number;
 }
 
@@ -171,17 +171,15 @@ export class CaChestComponent implements OnInit {
     const soldProducts: SaleArticle[] = [];
     const soldServices: SaleArticle[] = [];
     this.salesReceipt.forEach((item) => {
-      if (item.type === "PRODUCT") {
-        
-        
+      if (item.type === 'PRODUCT') {
         soldProducts.push({
-          id : item.id,
-          articleQuantity : item.articleQuantity
+          id: item.id,
+          articleQuantity: item.articleQuantity,
         });
       } else {
         soldServices.push({
-          id : item.id,
-          articleQuantity : item.articleQuantity
+          id: item.id,
+          articleQuantity: item.articleQuantity,
         });
       }
     });
@@ -254,13 +252,13 @@ export class CaChestComponent implements OnInit {
       const service = this.form.get('service');
       const servicePrice = this.form.get('servicePrice');
       const serviceQuantity = this.form.get('serviceQuantity');
-  
+
       if (
-        !service || 
-        !servicePrice || 
-        !serviceQuantity || 
-        service.invalid || 
-        servicePrice.invalid || 
+        !service ||
+        !servicePrice ||
+        !serviceQuantity ||
+        service.invalid ||
+        servicePrice.invalid ||
         serviceQuantity.invalid
       ) {
         return;

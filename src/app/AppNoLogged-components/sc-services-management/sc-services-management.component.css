@@ -9,6 +9,10 @@
   overflow: auto;
 }
 
+.card-header {
+  padding: 8px;
+}
+
 .custom-table {
   border: 1px solid #dee2e6; /* bordo esterno */
 }

@@ -1,6 +1,8 @@
 <div class="card d-inline-block m-auto w-fit-content">
-  <div class="card-body">
-    <h3 class="card-title fw-bold">Cassa</h3>
+  <div class="card-header fw-bold sc-primary">
+    <i class="fa-solid fa-cash-register fa-lg me-2" ></i
+    >Cassa
+  </div>  <div class="card-body">
     <!-- <div class="alert sc-primary d-flex align-items-center mt-4" role="alert">
       <i
         class="bx bx-info-circle align-middle me-2"
@@ -49,7 +51,7 @@
       </div>
     </div> -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="row mt-5">
+      <div class="row mt-3">
         <div class="col-3">
           <label for="operator" class="fw-bold form-label">Operatore</label>
           <select
@@ -74,26 +76,24 @@
         </div>
         <div class="col-6 d-flex align-items-end">
           <button
-          type="button"
-          class="btn sc-primary btn-sm me-3"
-          (click)="checkOperator('PRODUCT')"
-        >
-          Aggiungi prodotto
-        </button>
-        <button
-          type="button"
-          class="btn sc-primary btn-sm"
-          (click)="checkOperator('SERVICE')"
-        >
-          Aggiungi servizio
-        </button>
+            type="button"
+            class="btn sc-primary btn-sm me-3"
+            (click)="checkOperator('PRODUCT')"
+          >
+            Aggiungi prodotto
+          </button>
+          <button
+            type="button"
+            class="btn sc-primary btn-sm"
+            (click)="checkOperator('SERVICE')"
+          >
+            Aggiungi servizio
+          </button>
         </div>
       </div>
       <div *ngIf="articleType === 'PRODUCT'" class="mt-5 row">
         <div class="col-3">
-          <label for="productName" class="fw-bold form-label"
-            >Prodotto</label
-          >
+          <label for="productName" class="fw-bold form-label">Prodotto</label>
           <select
             class="form-select"
             aria-label="Default select example"
@@ -102,7 +102,10 @@
             (change)="onProductChange($event)"
             [ngClass]="{ 'is-invalid': submitted && f['productName'].errors }"
           >
-            <option *ngFor="let product of productList" [value]="product.nomeProdotto">
+            <option
+              *ngFor="let product of productList"
+              [value]="product.nomeProdotto"
+            >
               {{ product.nomeProdotto }}
             </option>
           </select>
@@ -135,7 +138,9 @@
           </div>
         </div>
         <div class="col-3">
-          <label for="productQuantity" class="fw-bold form-label">Quantità</label>
+          <label for="productQuantity" class="fw-bold form-label"
+            >Quantità</label
+          >
           <input
             type="number"
             id="productQuantity"
@@ -145,7 +150,11 @@
           />
         </div>
         <div class="col-2 d-flex align-items-end">
-          <button type="button" class="btn sc-primary btn-sm" (click)="onSubmit()">
+          <button
+            type="button"
+            class="btn sc-primary btn-sm"
+            (click)="onSubmit()"
+          >
             Aggiungi
           </button>
         </div>
@@ -163,7 +172,10 @@
             (change)="onServiceChange($event)"
             [ngClass]="{ 'is-invalid': submitted && f['service'].errors }"
           >
-            <option *ngFor="let service of serviceList" [value]="service.serviceName">
+            <option
+              *ngFor="let service of serviceList"
+              [value]="service.serviceName"
+            >
               {{ service.serviceName }}
             </option>
           </select>
@@ -196,14 +208,18 @@
           </div>
         </div>
         <div class="col-3 col-md-6 col-xl-3">
-          <label for="serviceQuantity" class="fw-bold form-label">Quantità</label>
+          <label for="serviceQuantity" class="fw-bold form-label"
+            >Quantità</label
+          >
           <input
             type="number"
             id="serviceQuantity"
             name="serviceQuantity"
             class="form-control"
             formControlName="serviceQuantity"
-            [ngClass]="{ 'is-invalid': submitted && f['serviceQuantity'].errors }"
+            [ngClass]="{
+              'is-invalid': submitted && f['serviceQuantity'].errors
+            }"
           />
           <div
             *ngIf="submitted && f['serviceQuantity'].errors"
@@ -215,14 +231,21 @@
           </div>
         </div>
         <div class="col-2 d-flex align-items-end">
-          <button type="button" class="btn sc-primary btn-sm" (click)="onSubmit()">
+          <button
+            type="button"
+            class="btn sc-primary btn-sm"
+            (click)="onSubmit()"
+          >
             Aggiungi
           </button>
         </div>
       </div>
       <div class="row mt-5">
         <div class="col-12">
-          <table *ngIf="salesReceipt && salesReceipt.length > 0" class="table custom-table">
+          <table
+            *ngIf="salesReceipt && salesReceipt.length > 0"
+            class="table custom-table"
+          >
             <thead>
               <tr>
                 <th class="sc-secondary">Articolo</th>
@@ -250,6 +273,20 @@
               </ng-container>
             </tbody>
           </table>
+        </div>
+      </div>
+      <div *ngIf="salesReceipt && salesReceipt.length > 0" class="row mt-5">
+        <div class="col-12">
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              placeholder="Leave a comment here"
+              id="floatingTextarea2"
+              style="height: 100px"
+              formControlName="notes"
+            ></textarea>
+            <label for="floatingTextarea2">Note e commenti</label>
+          </div>
         </div>
       </div>
       <div *ngIf="salesReceipt && salesReceipt.length > 0" class="row mt-3">
