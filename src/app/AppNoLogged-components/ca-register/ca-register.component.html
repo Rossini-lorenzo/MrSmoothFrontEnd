@@ -1,5 +1,128 @@
 <div class="card d-inline-block m-auto w-fit-content">
   <div class="card-body">
     <h3 class="card-title fw-bold">Registro vendite</h3>
+    <div class="row mx-0 mt-4">
+      <div class="col-12">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              <th class="sc-secondary">ID Vendita</th>
+              <th class="sc-secondary">Data</th>
+              <th class="sc-secondary">Cliente</th>
+              <th class="sc-secondary">Operatore</th>
+              <th class="sc-secondary">Validità</th>
+              <th class="sc-secondary">Dettagli</th>
+              <th class="sc-secondary"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of saleList; let i = index">
+              <tr class="align-center">
+                <td class="align-middle">{{ item.id }}</td>
+                <td class="align-middle">{{ item.date }}</td>
+                <td class="align-middle">Mario Rossi</td>
+                <td class="align-middle">{{ item.operator }}</td>
+                <td class="align-middle">
+                  <i
+                    *ngIf="item.flValidity === 'VALID'"
+                    class="fa-solid fa-circle-check fa-xl text-success"
+                    title="Vendita convalidata"
+                  ></i>
+                  <i
+                    *ngIf="item.flValidity === 'NOT_VALID'"
+                    class="fa-solid fa-circle-xmark fa-xl text-danger"
+                    title="Vendita non valida"
+                  ></i>
+                  <i
+                    *ngIf="
+                      item.flValidity !== 'VALID' &&
+                      item.flValidity !== 'NOT_VALID'
+                    "
+                    class="fa-solid fa-circle-exclamation fa-xl text-warning"
+                    title="Vendita modificata"
+                  ></i>
+                </td>
+                <td>
+                  <button
+                    class="btn sc-primary btn-sm"
+                    type="button"
+                    (click)="toggleDetails(i)"
+                    [attr.aria-expanded]="expandedItem === i"
+                    [attr.aria-controls]="'collapseExample1-' + i"
+                  >
+                    Dettagli Vendita
+                  </button>
+                </td>
+                <td>
+                  <div *ngIf="item.flValidity === 'VALID'">
+                    <button
+                      class="btn btn-outline-primary btn-sm me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProductModal"
+                      title="Modifica prodotto"
+                    >
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button
+                      class="btn btn-outline-danger btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProductModal"
+                      title="Elimina prodotto"
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="expandedItem === i">
+                <td colspan="7" class="p-0">
+                  <div
+                    class="collapse show custom-collapse m-3"
+                    [attr.id]="'collapseExample1-' + i"
+                  >
+                    <table class="table custom-table">
+                      <thead>
+                        <tr>
+                          <th class="sc-secondary">Prodotto/Servizio</th>
+                          <th class="sc-secondary">Quantità</th>
+                          <th class="sc-secondary">Prezzo Unitario</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of item.soldProducts">
+                          <td>{{ product.nomeProdotto }}</td>
+                          <td>{{ product.quantita }}</td>
+                          <td>{{ product.prezzo }}</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td class="text-end fw-bold">Totale:</td>
+                          <td class="fw-bold">{{ item.total }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div *ngIf="item.flValidity !== 'VALID'" class="row mt-3">
+                      <div class="col-12">
+                        <div class="form-floating">
+                          <textarea
+                            class="form-control"
+                            placeholder="Leave a comment here"
+                            id="floatingTextarea2"
+                            style="height: 100px"
+                            [(ngModel)]="item.notes"
+                            disabled
+                          ></textarea>
+                          <label for="floatingTextarea2">Note e commenti</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

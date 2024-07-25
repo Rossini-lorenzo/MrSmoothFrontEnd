@@ -11,6 +11,16 @@ export class SalesServiceService {
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
+  getAllSale(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'userSale/getAllSales',
+      { headers, observe: 'response' }
+    );
+  }
+
   addSale(sale: any): Observable<HttpResponse<Object>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', tokenStr);
