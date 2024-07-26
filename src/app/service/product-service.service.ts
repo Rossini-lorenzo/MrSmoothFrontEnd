@@ -187,6 +187,16 @@ deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
       );
     }
 
+    getServiziVenduti(): Observable<HttpResponse<Object[]>> {
+      const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  
+      const headers = new HttpHeaders().set('Authorization', tokenStr);
+      return this.httpClient.get<Object[]>(
+        this.apiUrl + 'dashboard/getServiziVenduti',
+        { headers, observe: 'response' }
+      );
+    }
+
     getGuadagniMensili(): Observable<HttpResponse<Object[]>> {
       const tokenStr = 'Bearer ' + localStorage.getItem('token');
   

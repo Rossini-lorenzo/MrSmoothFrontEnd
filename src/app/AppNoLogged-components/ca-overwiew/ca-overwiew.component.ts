@@ -15,12 +15,15 @@ export class CaOverwiewComponent implements OnInit {
   customersCounter: number = 0;
   eventsCounter: number = 0;
   labelConteggioProdotti:any = [];
+  labelConteggioServizi:any = [];
   valuesConteggioProdotti: any = [];
+  valuesConteggioServizi: any = [];
   labelConteggioTagli: any = [];
   valuesConteggioTagli: any = [];
   
   labelGuadagniMensili: any = [];
   valuesGuadagniMensili: any = [];
+  chart4: any = [];
   chart3: any = [];
   chart2: any = [];
   chart1: any = [];
@@ -142,6 +145,64 @@ export class CaOverwiewComponent implements OnInit {
 				complete: () => console.info('Complete')
 			  });
 // ---------------------------------- END GRAFICO CONTEGGIO PRODOTTI VENDUTI ----------------------------------
+// ---------------------------------- START GRAFICO CONTEGGIO Servizi VENDUTI ----------------------------------
+this.productService.getServiziVenduti().subscribe({
+	next: (response: any) => {
+	  const responseData = response.body; 
+	  responseData.map((item: any) => {
+		  this.labelConteggioServizi.push( item[0]);
+		  this.valuesConteggioServizi.push( item[1]);
+	  });  
+	  
+	  this.chart4 = new Chart('canvas4', {
+		  type: 'bar',
+		  
+		  data: {
+			labels: this.labelConteggioServizi,
+			
+			datasets: [
+			  {
+				
+				label: 'Prodotti',
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.8)',   // Colore per la prima barra
+					'rgba(54, 162, 235, 0.8)',   // Colore per la seconda barra
+					'rgba(255, 206, 86, 0.8)',   // Colore per la terza barra
+					'rgba(75, 192, 192, 0.8)',   // Colore per la quarta barra
+					'rgba(153, 102, 255, 0.8)',  // Colore per la quinta barra
+					'rgba(255, 159, 64, 0.8)',   // Colore per la sesta barra
+					// Puoi aggiungere ulteriori colori per altre barre se necessario
+				  ],
+				  borderColor: [
+					'rgba(255, 99, 132, 1)',     // Colore del bordo per la prima barra
+					'rgba(54, 162, 235, 1)',     // Colore del bordo per la seconda barra
+					'rgba(255, 206, 86, 1)',     // Colore del bordo per la terza barra
+					'rgba(75, 192, 192, 1)',     // Colore del bordo per la quarta barra
+					'rgba(153, 102, 255, 1)',    // Colore del bordo per la quinta barra
+					'rgba(255, 159, 64, 1)',     // Colore del bordo per la sesta barra
+					// Puoi aggiungere ulteriori colori del bordo per altre barre se necessario
+				  ],
+				data: this.valuesConteggioServizi,
+				borderWidth: 1,
+			  },
+			],
+		  },
+		  options: {
+			responsive: true,
+			maintainAspectRatio: false, 
+			plugins: {
+				legend: {
+				  display: false,
+				},
+		  },
+		  
+		  },
+		});
+	},
+	error: (error) => console.error(error),
+	complete: () => console.info('Complete')
+  });
+// ---------------------------------- END GRAFICO CONTEGGIO Servizi VENDUTI ----------------------------------
 // ---------------------------------- START GRAFICO GUADAGNI MENSILI ----------------------------------
 this.productService.getGuadagniMensili().subscribe({
 	next: (response: any) => {
