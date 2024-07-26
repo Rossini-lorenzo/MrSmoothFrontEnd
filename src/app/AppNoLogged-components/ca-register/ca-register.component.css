@@ -1,13 +1,4 @@
-.section {
-    padding-left: 280px;
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    height: 100vh; /* Imposta l'altezza della sezione al 100% della finestra */
-    display: flex;
-  }
-  
-  .card {
+.card {
     height: 100%; /* Imposta l'altezza della card al 100% della sezione */
     width: 100%;
     flex-grow: 1;
@@ -16,6 +7,10 @@
   .card-body {
     height: 100%;
     overflow: auto;
+  }
+
+  .card-header {
+    padding: 8px;
   }
 
   .custom-table {

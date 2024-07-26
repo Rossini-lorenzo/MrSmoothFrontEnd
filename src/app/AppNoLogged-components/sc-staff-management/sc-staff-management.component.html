@@ -1,6 +1,9 @@
 <div class="card d-inline-block m-auto w-fit-content">
+  <div class="card-header fw-bold sc-primary">
+    <i class="fa-solid fa-users fa-lg me-2"></i
+    >Dipendenti
+  </div>
   <div class="card-body">
-    <h3 class="card-title fw-bold">Dipendenti</h3>
     <div *ngIf="!isLoading && showSuccessAlert">
       <div
         class="alert alert-success alert-dismissible alert-api-message fade show"
@@ -92,7 +95,7 @@
     <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
       <button
         title="Aggiungi dipendente"
-        class="btn sc-primary btn-sm"
+        class="btn btn-success btn-sm"
         (click)="openModal('ADD')"
       >
         Aggiungi Dipendente
@@ -279,7 +282,7 @@
         <button
           *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'"
           type="button"
-          class="btn btn-primary btn-sm"
+          class="btn btn-success btn-sm"
           (click)="onSubmit()"
         >
           Salva

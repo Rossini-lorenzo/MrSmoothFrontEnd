@@ -1,16 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { SalesServiceService } from 'src/app/service/sales-service.service';
-import { Product } from '../sc-summary-warehouse/sc-summary-warehouse.component';
-import { Service } from '../sc-services-management/sc-services-management.component';
 
+export interface SoldProducts {
+  id: number;
+  saleProductId: number;
+  saleProductQuantity: number;
+}
+
+export interface SoldServices {
+  id: number;
+  saleServiceId: number;
+  saleServiceQuantity: number;
+}
 export interface Sale {
   id: number;
   date: string;
   operator: string;
   flValidity: string;
-  soldProducts: Product[];
-  soldServices: Service[];
+  soldProducts: SoldProducts[];
+  soldServices: SoldServices[];
   total: number;
   notes: string;
 }
