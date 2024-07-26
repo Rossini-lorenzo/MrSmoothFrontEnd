@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -51,6 +51,11 @@ import { FooterComponent } from './AppNoLogged-components/footer/footer.componen
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { authInterceptor } from './auth.interceptor';
+
+
+//Interceptor per jwt
+
 
 @NgModule({
   declarations: [
@@ -102,7 +107,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   providers: [
     AuthGuard,
     { provide: LOCALE_ID, useValue: 'it-IT' },
-    MatDialog, // Assicurati di includere questo provider
+    MatDialog,
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
   bootstrap: [AppComponent],
 })
