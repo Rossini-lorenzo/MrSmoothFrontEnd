@@ -10,6 +10,9 @@
         style="width: 3rem; height: 3rem"
       ></div>
     </div>
+    <div *ngIf="isLoading" class="row mx-0 mt-2 justify-content-center">
+      <div class="text-center">⌛ Caricamento registro vendite in corso...</div>
+    </div>
     <div class="row mt-3">
       <div class="col-12">
         <table
@@ -23,15 +26,15 @@
               <th class="sc-secondary">Cliente</th>
               <th class="sc-secondary">Operatore</th>
               <th class="sc-secondary text-center">Validità</th>
-              <th class="sc-secondary">Dettagli</th>
-              <th class="sc-secondary"></th>
+              <th class="sc-secondary text-center">Azioni</th>
+              <th class="sc-secondary text-center">Dettagli</th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let item of saleList; let i = index">
               <tr class="align-center">
                 <td class="align-middle">{{ item.id }}</td>
-                <td class="align-middle">{{ item.date }}</td>
+                <td class="align-middle">{{ convertDate(item.date) }}</td>
                 <td class="align-middle">Mario Rossi</td>
                 <td class="align-middle">{{ item.operator }}</td>
                 <td class="align-middle text-center">
@@ -54,18 +57,7 @@
                     title="Vendita modificata"
                   ></i>
                 </td>
-                <td>
-                  <button
-                    class="btn sc-primary btn-sm"
-                    type="button"
-                    (click)="toggleDetails(i)"
-                    [attr.aria-expanded]="expandedItem === i"
-                    [attr.aria-controls]="'collapseExample1-' + i"
-                  >
-                    Dettagli Vendita
-                  </button>
-                </td>
-                <td class="text-end">
+                <td class="text-center">
                   <button
                     class="btn btn-outline-primary btn-sm me-2"
                     data-bs-toggle="modal"
@@ -81,6 +73,26 @@
                     title="Elimina prodotto"
                   >
                     <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+                <td class="text-center">
+                  <button
+                    class="btn btn-sm"
+                    type="button"
+                    (click)="toggleDetails(i)"
+                    [attr.aria-expanded]="expandedItem === i"
+                    [attr.aria-controls]="'collapseExample1-' + i"
+                  >
+                    <i
+                      *ngIf="expandedItem !== i"
+                      class="fa-solid fa-angle-down fa-xl"
+                      title="Vendita modificata"
+                    ></i>
+                    <i
+                      *ngIf="expandedItem === i"
+                      class="fa-solid fa-angle-up fa-xl"
+                      title="Vendita modificata"
+                    ></i>
                   </button>
                   <!-- <div *ngIf="item.flValidity === 'VALID'">
                     
@@ -103,14 +115,25 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let product of item.soldProducts">
-                          <td>{{ product.saleProductId }}</td>
+                          <td>{{ product.saleProductName }}</td>
                           <td>{{ product.saleProductQuantity }}</td>
-                          <td>{{ product.id }}</td>
+                          <td>
+                            &euro; {{ product.saleProductPrice.toFixed(2) }}
+                          </td>
+                        </tr>
+                        <tr *ngFor="let service of item.soldServices">
+                          <td>{{ service.saleServiceName }}</td>
+                          <td>{{ service.saleServiceQuantity }}</td>
+                          <td>
+                            &euro; {{ service.saleServicePrice.toFixed(2) }}
+                          </td>
                         </tr>
                         <tr>
                           <td></td>
                           <td class="text-end fw-bold">Totale:</td>
-                          <td class="fw-bold">{{ item.total }}</td>
+                          <td class="fw-bold">
+                            &euro; {{ item.total.toFixed(2) }}
+                          </td>
                         </tr>
                       </tbody>
                     </table>

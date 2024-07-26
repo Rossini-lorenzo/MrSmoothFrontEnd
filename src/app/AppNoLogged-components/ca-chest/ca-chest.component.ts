@@ -34,6 +34,8 @@ interface SalesReceipt {
 
 interface SaleArticle {
   id: number;
+  articleName: string;
+  articlePrice: number;
   articleQuantity: number;
 }
 
@@ -174,11 +176,15 @@ export class CaChestComponent implements OnInit {
       if (item.type === 'PRODUCT') {
         soldProducts.push({
           id: item.id,
+          articleName: item.article,
+          articlePrice: item.articlePrice,
           articleQuantity: item.articleQuantity,
         });
       } else {
         soldServices.push({
           id: item.id,
+          articleName: item.article,
+          articlePrice: item.articlePrice,
           articleQuantity: item.articleQuantity,
         });
       }

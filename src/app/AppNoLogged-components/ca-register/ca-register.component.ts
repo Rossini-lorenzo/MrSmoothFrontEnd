@@ -5,12 +5,16 @@ import { SalesServiceService } from 'src/app/service/sales-service.service';
 export interface SoldProducts {
   id: number;
   saleProductId: number;
+  saleProductName: string;
+  saleProductPrice: number;
   saleProductQuantity: number;
 }
 
 export interface SoldServices {
   id: number;
   saleServiceId: number;
+  saleServiceName: string;
+  saleServicePrice: number;
   saleServiceQuantity: number;
 }
 export interface Sale {
@@ -61,6 +65,14 @@ export class CaRegisterComponent implements OnInit {
         console.info('complete');
       },
     });
+  }
+
+  convertDate(dateString: string) {
+    const parts = dateString.split('-');
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+    return `${day}/${month}/${year}`;
   }
 
 }
