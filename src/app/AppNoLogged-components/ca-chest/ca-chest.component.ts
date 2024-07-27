@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,6 +13,8 @@ import { Employee } from '../sc-staff-management/sc-staff-management.component';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
 import { Product } from '../sc-summary-warehouse/sc-summary-warehouse.component';
 import { ProductServiceService } from 'src/app/service/product-service.service';
+import { Customer } from '../sc-customers-management/sc-customers-management.component';
+import { CustomersServiceService } from 'src/app/service/customers-service.service';
 
 export interface Sale {
   date: string;
@@ -49,6 +51,8 @@ export class CaChestComponent implements OnInit {
   serviceList: Service[] = [];
   employeeList: Employee[] = [];
   productList: Product[] = [];
+  customerList: Customer[] = [];
+  filteredSuggestions: Customer[] = [];
   service = '';
   quantity = 0;
   price = 0;
@@ -72,78 +76,129 @@ export class CaChestComponent implements OnInit {
       },
     },
   };
+  isOpen: boolean;
+  customerFocused = false; // Variabile per tracciare il focus
 
   constructor(
     private salesService: SalesServiceService,
     private servicesService: ServicesServiceService,
     private employeeService: EmployeesServiceService,
     private productService: ProductServiceService,
+    private customersService: CustomersServiceService,
     private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.form = this.formBuilder.group({
       operator: ['', Validators.required],
+      customer: ['', [Validators.required, this.customerValidator.bind(this)]],
       productId: ['', Validators.required],
       productName: ['', Validators.required],
       productPrice: ['', Validators.required],
-      productQuantity: ['', Validators.required],
+      productQuantity: [
+        '',
+        [Validators.required, this.articleQuantityValidator.bind(this)],
+      ],
       service: ['', Validators.required],
       serviceId: ['', Validators.required],
       serviceQuantity: ['', Validators.required],
       servicePrice: ['', Validators.required],
       notes: ['', Validators.required],
     });
-    this.getAllServicess();
-    this.getAllEmployee();
-    this.getAllProducts();
+    try {
+      await Promise.all([
+        this.getAllCustomers(),
+        this.getAllServices(),
+        this.getAllEmployee(),
+        this.getAllProducts(),
+      ]);
+    } catch (error) {
+      console.error('Error during initialization:', error);
+    } finally {
+      this.isLoading = false; // Imposta `isLoading` su false quando tutte le chiamate sono complete
+    }
   }
 
-  public getAllServicess(): void {
+  async getAllCustomers(): Promise<void> {
     this.isLoading = true;
-    this.servicesService.getAllService().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
-        this.serviceList = responseData;
-      },
-      error: (error) => console.error(error),
-      complete: () => {
-        this.isLoading = false;
-        console.info('complete');
-      },
+    return new Promise<void>((resolve, reject) => {
+      this.customersService.getAllCustomer().subscribe({
+        next: (response: any) => {
+          this.customerList = response.body;
+        },
+        error: (error) => {
+          console.error(error);
+          reject(error);
+        },
+        complete: () => {
+          resolve();
+          console.info('getAllCustomers complete');
+        },
+      });
     });
   }
 
-  public getAllEmployee(): void {
+  async getAllServices(): Promise<void> {
     this.isLoading = true;
-    this.employeeService.getAllEmployee().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
-        this.employeeList = responseData;
-      },
-      error: (error) => console.error(error),
-      complete: () => {
-        this.isLoading = false;
-        console.info('complete');
-      },
+    return new Promise<void>((resolve, reject) => {
+      this.servicesService.getAllService().subscribe({
+        next: (response: any) => {
+          this.serviceList = response.body;
+        },
+        error: (error) => {
+          console.error(error);
+          reject(error);
+        },
+        complete: () => {
+          resolve();
+          console.info('getAllServices complete');
+        },
+      });
     });
   }
 
-  public getAllProducts(): void {
-    this.productService.getAllProducts().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
-        this.productList = responseData;
-      },
-      error: (error) => console.error(error),
-      complete: () => console.info('complete'),
+  async getAllEmployee(): Promise<void> {
+    this.isLoading = true;
+    return new Promise<void>((resolve, reject) => {
+      this.employeeService.getAllEmployee().subscribe({
+        next: (response: any) => {
+          this.employeeList = response.body;
+        },
+        error: (error) => {
+          console.error(error);
+          reject(error);
+        },
+        complete: () => {
+          resolve();
+          console.info('getAllEmployee complete');
+        },
+      });
     });
   }
 
-  onEvent(event: ScannerQRCodeResult[], action: any): void {
-    const scannedValue = event[0].value;
-    this.productId = scannedValue;
+  async getAllProducts(): Promise<void> {
+    this.isLoading = true;
+    return new Promise<void>((resolve, reject) => {
+      this.productService.getAllProducts().subscribe({
+        next: (response: any) => {
+          this.productList = response.body;
+        },
+        error: (error) => {
+          console.error(error);
+          reject(error);
+        },
+        complete: () => {
+          resolve();
+          console.info('getAllProducts complete');
+        },
+      });
+    });
   }
+
+  // onEvent(event: ScannerQRCodeResult[], action: any): void {
+  //   const scannedValue = event[0].value;
+  //   this.productId = scannedValue;
+  // }
 
   addArticleInReceipt() {
     if (this.articleType === 'PRODUCT') {
@@ -209,14 +264,14 @@ export class CaChestComponent implements OnInit {
     });
   }
 
-  // removeSale(serviceValue: string) {
-  //   const index = this.salesList.findIndex(
-  //     (sale) => sale.service === serviceValue
-  //   );
-  //   if (index !== -1) {
-  //     this.salesList.splice(index, 1);
-  //   }
-  // }
+  removeArticleFromReceipt(deleteArticleId: number) {
+    const index = this.salesReceipt.findIndex(
+      (article) => article.id === deleteArticleId
+    );
+    if (index !== -1) {
+      this.salesReceipt.splice(index, 1);
+    }
+  }
 
   calculateTotal(): string {
     let total = 0;
@@ -228,23 +283,23 @@ export class CaChestComponent implements OnInit {
     return total.toFixed(2);
   }
 
-  public handle(action: any, fn: string): void {
-    const playDeviceFacingBack = (devices: any[]): void => {
-      const device = devices.find((f) =>
-        /back|rear|environment/gi.test(f.label)
-      );
-      action.playDevice(device ? device.deviceId : devices[0].deviceId);
-    };
+  // public handle(action: any, fn: string): void {
+  //   const playDeviceFacingBack = (devices: any[]): void => {
+  //     const device = devices.find((f) =>
+  //       /back|rear|environment/gi.test(f.label)
+  //     );
+  //     action.playDevice(device ? device.deviceId : devices[0].deviceId);
+  //   };
 
-    if (fn === 'start') {
-      action[fn](playDeviceFacingBack).subscribe(
-        (r: any) => console.log(fn, r),
-        alert
-      );
-    } else {
-      action[fn]().subscribe((r: any) => console.log(fn, r), alert);
-    }
-  }
+  //   if (fn === 'start') {
+  //     action[fn](playDeviceFacingBack).subscribe(
+  //       (r: any) => console.log(fn, r),
+  //       alert
+  //     );
+  //   } else {
+  //     action[fn]().subscribe((r: any) => console.log(fn, r), alert);
+  //   }
+  // }
 
   onSubmit() {
     this.submitted = true;
@@ -273,12 +328,33 @@ export class CaChestComponent implements OnInit {
     this.addArticleInReceipt();
   }
 
-  checkOperator(type: string) {
+  checkOperatorAndCustomer(type: string) {
     this.submitted = true;
-    const campo = this.form.get('operator');
-    if (campo && campo.invalid) {
+    const operatorField = this.form.get('operator');
+    const customerField = this.form.get('customer');
+
+    // Verifica se ci sono errori per i campi
+    const operatorInvalid = operatorField?.invalid;
+    const customerInvalid = customerField?.invalid;
+
+    // Verifica se ci sono errori specifici per il campo customer
+    const customerRequired = customerField?.hasError('required');
+    const customerInvalidCustomer = customerField?.hasError('invalidCustomer');
+
+    // Se ci sono errori specifici per il campo customer
+    if (operatorInvalid || customerInvalid) {
+      // Mostra errori specifici per il campo customer se è invalid
+      if (customerInvalid) {
+        if (customerRequired) {
+          console.log('Campo obbligatorio');
+        } else if (customerInvalidCustomer) {
+          console.log('Campo non valido');
+        }
+      }
       return;
     }
+
+    // Se non ci sono errori, esegui l'azione desiderata
     this.articleType = type;
     this.submitted = false;
   }
@@ -310,6 +386,8 @@ export class CaChestComponent implements OnInit {
   onReset(): void {
     this.submitted = false;
     if (this.articleType === 'PRODUCT') {
+      this.form.get('productName')?.reset();
+      this.form.get('productPrice')?.reset();
       this.form.get('productQuantity')?.reset();
     } else if (this.articleType === 'SERVICE') {
       this.form.get('service')?.reset();
@@ -317,8 +395,6 @@ export class CaChestComponent implements OnInit {
       this.form.get('serviceQuantity')?.reset();
       this.form.get('servicePrice')?.reset();
     }
-
-    // Reset della variabile dell'articolo
     this.articleType = '';
   }
 
@@ -332,5 +408,76 @@ export class CaChestComponent implements OnInit {
 
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.autocomplete-container')) {
+      this.isOpen = false; // Chiude la lista se il clic è fuori dal contenitore
+    }
+  }
+
+  onInputChange() {
+    const filterValue = this.form.value.customer.toLowerCase();
+    this.filteredSuggestions = this.customerList.filter((cliente) =>
+      `${cliente.nome} ${cliente.cognome}`.toLowerCase().includes(filterValue)
+    );
+    this.isOpen = this.filteredSuggestions.length > 0; // Mostra la lista solo se ci sono suggerimenti
+  }
+
+  selectSuggestion(suggestion: any) {
+    if (suggestion && suggestion.nome && suggestion.cognome) {
+      const customerDenomination = suggestion.nome + ' ' + suggestion.cognome;
+      const customerField = this.form.get('customer');
+      if (customerField) {
+        customerField.setValue(customerDenomination);
+        customerField.markAsTouched(); // Assicurati che il campo sia contrassegnato come toccato
+        customerField.updateValueAndValidity(); // Aggiorna la validità del campo
+      }
+      this.filteredSuggestions = []; // Pulisce la lista dei suggerimenti
+      this.isOpen = false; // Chiude la lista dei suggerimenti
+    }
+  }
+
+  customerValidator(control: AbstractControl) {
+    const value = control.value?.toLowerCase();
+    if (
+      this.customerList.some(
+        (cliente) =>
+          `${cliente.nome} ${cliente.cognome}`.toLowerCase() === value
+      )
+    ) {
+      return null; // Valido
+    }
+    return { invalidCustomer: true }; // Non valido
+  }
+
+  articleQuantityValidator(control: AbstractControl) {
+    const value = control.value;
+    // Verifica se il valore è un numero e maggiore di 0
+    if (value === null || value === undefined || value <= 0) {
+      return { positiveNumber: { value } };
+    }
+    return null; // Non valido
+  }
+
+  onCustomerBlur() {
+    this.customerFocused = false;
+    const customerField = this.form.get('customer');
+    if (customerField) {
+      customerField.markAsTouched(); // Contrassegna il campo come toccato
+      customerField.updateValueAndValidity(); // Forza l'aggiornamento della validità
+    }
+  }
+
+  onCustomerFocus() {
+    this.customerFocused = true;
+  }
+
+  resetChest() {
+    this.form.reset();
+    this.salesReceipt = [];
+    this.articleType = '';
   }
 }
