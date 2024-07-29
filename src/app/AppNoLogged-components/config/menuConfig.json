@@ -67,7 +67,7 @@
         "icon": "fa-solid fa-calendar-days fa-lg"
       },
       {
-        "label": "Gestisci messaggi",
+        "label": "Gestisci messaggi automatici",
         "url": "manage-automatic-message",
         "icon": "fa-solid fa-comment-sms fa-lg"
       }

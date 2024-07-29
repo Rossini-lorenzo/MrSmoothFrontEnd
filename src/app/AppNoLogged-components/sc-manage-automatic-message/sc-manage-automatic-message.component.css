@@ -9,6 +9,10 @@
   overflow: auto;
 }
 
+.card-header {
+  padding: 8px;
+}
+
 .custom-table {
   border: 1px solid #dee2e6; /* bordo esterno */
 }
@@ -16,13 +20,4 @@
 .table th,
 .table td {
   border-bottom: 1px solid #dee2e6 !important;
-}
-
-@media (max-width: 820px) {
-  .table th,
-  .table td {
-    white-space: nowrap; /* Impedisce il testo di andare a capo nelle celle */
-    overflow: hidden; /* Nasconde il contenuto in eccesso */
-    text-overflow: ellipsis; /* Aggiunge "..." se il contenuto è troppo lungo */
-  }
 }

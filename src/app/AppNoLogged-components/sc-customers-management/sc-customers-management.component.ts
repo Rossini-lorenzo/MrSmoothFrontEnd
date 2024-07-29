@@ -71,8 +71,8 @@ export class ScCustomersManagementComponent implements OnInit {
   public getAllCustomers(): void {
     this.isLoading = true;
     this.customersService.getAllCustomer().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
+      next: (response: Customer[]) => {
+        const responseData = response;
         this.dataSource = responseData;
       },
       error: (error) => console.error(error),

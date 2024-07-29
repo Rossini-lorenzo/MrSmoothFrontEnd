@@ -123,8 +123,8 @@ export class CaChestComponent implements OnInit {
     this.isLoading = true;
     return new Promise<void>((resolve, reject) => {
       this.customersService.getAllCustomer().subscribe({
-        next: (response: any) => {
-          this.customerList = response.body;
+        next: (response: Customer[]) => {
+          this.customerList = response;
         },
         error: (error) => {
           console.error(error);

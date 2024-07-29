@@ -16,11 +16,11 @@
     <div class="row mt-3">
       <div class="col-12">
         <table
-          *ngIf="!isLoading && saleList && saleList.length > 0"
+          
           class="table custom-table"
         >
           <thead>
-            <tr>
+            <tr *ngIf="!isLoading">
               <th class="sc-secondary">ID Vendita</th>
               <th class="sc-secondary">Data</th>
               <th class="sc-secondary">Cliente</th>
@@ -32,7 +32,7 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let item of saleList; let i = index">
-              <tr class="align-center">
+              <tr *ngIf="!isLoading && saleList && saleList.length > 0" class="align-center">
                 <td class="align-middle">{{ item.id }}</td>
                 <td class="align-middle">{{ convertDate(item.date) }}</td>
                 <td class="align-middle">Mario Rossi</td>
@@ -152,6 +152,16 @@
                         </div>
                       </div>
                     </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="!isLoading && saleList && saleList.length === 0">
+              <tr>
+                <td colspan="7">
+                  <div class="alert alert-warning mt-3 text-center" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="ms-2">Nessuna vendita disponibile a sistema.</span>
                   </div>
                 </td>
               </tr>
