@@ -315,36 +315,25 @@ onDocumentClick(event: MouseEvent) {
 
   
   authenticateWithGoogleCalendar() {
-    const accessToken = localStorage.getItem('googleAuthCode');
-     console.log("AUT",accessToken);
-    if (accessToken) {
-      
-
-      // Se l'utente è già autenticato, carica gli eventi
-      this.loadEvents();
-      window.location.reload();
-    } else {
-      console.log("Elese",event);
-
-      // Altrimenti, procedi con l'autenticazione
-      const authUrl = "http://localhost:8080/googleCalendar/login/google";
+    let urlLoginGoogle = '';
   
-      // Apri una finestra popup per l'autenticazione
-      const popup = window.open(authUrl, '_blank', 'width=600,height=600');
-  
-      // Attendi il risultato dell'autenticazione
-      window.addEventListener('message', (event) => {
-        console.log("E",event);
-        if (event.data.type === 'authorization_response') {
-          localStorage.setItem('googleAuthCode', event.data.code);
-          this.loadEvents(); // Carica gli eventi dopo l'autenticazione
+    this.productService.getCodeAuth().subscribe({
+      next: (response: any) => {
+        const responseData = response;
+        console.log("responseurlredirect", responseData);
+        urlLoginGoogle = responseData;
+        console.info('complete in ', response);
+      },
+      error: (error) => console.error(error),
+      complete: () => {
+        console.info('complete in ', urlLoginGoogle);
+        if (urlLoginGoogle) {
+          // Reindirizza l'utente all'URL di autenticazione
+          window.location.href = urlLoginGoogle;
         }
-      });
-      window.location.reload();
-
-    }
+      },
+    });
   }
-
 
   
   
