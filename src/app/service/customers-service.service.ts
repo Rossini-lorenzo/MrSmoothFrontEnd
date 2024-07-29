@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { Customer } from '../AppNoLogged-components/sc-customers-management/sc-customers-management.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,12 @@ export class CustomersServiceService {
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
-  getAllCustomer(): Observable<HttpResponse<Object[]>> {
+  getAllCustomer(): Observable<Customer[]> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-
     const headers = new HttpHeaders().set('Authorization', tokenStr);
-    return this.httpClient.get<Object[]>(
+    return this.httpClient.get<Customer[]>(
       this.apiUrl + 'userProduct/getAllCustomer',
-      { headers, observe: 'response' }
+      { headers }
     );
   }
 
@@ -27,7 +27,7 @@ export class CustomersServiceService {
     cognome: string,
     email: string,
     cellulare: number,
-    dataDiNascita: string,
+    dataDiNascita: string
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
@@ -57,7 +57,7 @@ export class CustomersServiceService {
     cognome: string,
     email: string,
     cellulare: number,
-    dataDiNascita: string,
+    dataDiNascita: string
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 

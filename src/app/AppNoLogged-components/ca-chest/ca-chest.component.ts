@@ -59,6 +59,7 @@ export class CaChestComponent implements OnInit {
   productId: string;
 
   isLoading = false;
+  isOnSaving = false;
 
   form: FormGroup;
   submitted = false;
@@ -123,8 +124,8 @@ export class CaChestComponent implements OnInit {
     this.isLoading = true;
     return new Promise<void>((resolve, reject) => {
       this.customersService.getAllCustomer().subscribe({
-        next: (response: any) => {
-          this.customerList = response.body;
+        next: (response: Customer[]) => {
+          this.customerList = response;
         },
         error: (error) => {
           console.error(error);
@@ -222,6 +223,8 @@ export class CaChestComponent implements OnInit {
   }
 
   registerNewSale() {
+    this.isLoading = true;
+    this.isOnSaving = true;
     const newSale: Sale = this.form.value;
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0]; // Formatta la data come YYYY-MM-DD
@@ -260,8 +263,17 @@ export class CaChestComponent implements OnInit {
       error: (error) => console.error(error),
       complete: () => {
         console.log('COMPLETE');
+        this.resetChestAfterSale();
+        this.isLoading = false;
+        this.isOnSaving = false;
       },
     });
+  }
+
+  resetChestAfterSale() {
+    this.salesReceipt = [];
+    this.form.get('operator')?.reset();
+    this.form.get('customer')?.reset();
   }
 
   removeArticleFromReceipt(deleteArticleId: number) {

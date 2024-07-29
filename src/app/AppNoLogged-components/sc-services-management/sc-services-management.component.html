@@ -21,14 +21,17 @@
         style="width: 3rem; height: 3rem"
       ></div>
     </div>
+    <div *ngIf="isLoading" class="row mx-0 mt-2 justify-content-center">
+      <div class="text-center">⌛ Caricamento servizi in corso...</div>
+    </div>
     <div class="row mt-3">
       <div class="col-12">
         <table
-          *ngIf="!isLoading && dataSource && dataSource.length > 0"
+          
           class="table custom-table"
         >
           <thead>
-            <tr>
+            <tr *ngIf="!isLoading">
               <th class="sc-secondary">Servizio</th>
               <th class="sc-secondary">Prezzo</th>
               <th class="sc-secondary"></th>
@@ -36,7 +39,7 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let item of dataSource">
-              <tr>
+              <tr *ngIf="!isLoading && dataSource && dataSource.length > 0">
                 <td class="align-middle">
                   {{ item.serviceName }}
                 </td>
@@ -48,7 +51,7 @@
                     class="btn btn-outline-primary me-2 btn-sm"
                     (click)="openModal('EDIT', item)"
                   >
-                    <i class="bx bxs-edit"></i>
+                    <i class="fa-solid fa-pen-to-square"></i>
                   </button>
                   <button
                     title="Elimina prodotto"
@@ -60,6 +63,16 @@
                 </td>
               </tr>
             </ng-container>
+            <ng-container *ngIf="!isLoading && dataSource && dataSource.length === 0">
+              <tr>
+                <td colspan="6">
+                  <div class="alert alert-warning mt-3 text-center" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="ms-2">Nessun servizio disponibile a sistema.</span>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>
@@ -68,7 +81,7 @@
     <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
       <button
         title="Aggiungi dipendente"
-        class="btn sc-primary btn-sm"
+        class="btn btn-success btn-sm"
         (click)="openModal('ADD')"
       >
         Aggiungi Servizio
@@ -153,7 +166,7 @@
         <button
           *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'"
           type="button"
-          class="btn btn-primary btn-sm"
+          class="btn btn-success btn-sm"
           (click)="onSubmit()"
         >
           Salva
