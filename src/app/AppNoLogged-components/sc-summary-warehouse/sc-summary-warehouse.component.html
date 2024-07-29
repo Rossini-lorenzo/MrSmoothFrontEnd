@@ -34,7 +34,7 @@
               <tr *ngIf="!isLoading && dataSource && dataSource.length > 0">
                 <td class="align-middle">{{ item.id }}</td>
                 <td class="align-middle">{{ item.nomeProdotto }}</td>
-                <td class="align-middle">&euro; {{ item.prezzo }}</td>
+                <td class="align-middle">&euro; {{ item.prezzo.toFixed(2) }}</td>
                 <td class="align-middle">{{ item.quantita }} pz</td>
 
                 <td class="align-middle text-end">

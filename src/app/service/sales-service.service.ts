@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { Sale } from '../AppNoLogged-components/ca-chest/ca-chest.component';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +22,15 @@ export class SalesServiceService {
     );
   }
 
-  addSale(sale: any): Observable<HttpResponse<Object>> {
+  addSale(sale: any): Observable<HttpResponse<any>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', tokenStr);
-
-    return this.httpClient.post<Object>(this.apiUrl + 'userSale/newSale', sale, {
+  
+    return this.httpClient.post(this.apiUrl + 'userSale/newSale', sale, {
       headers: headers,
       observe: 'response',
+      responseType: 'text' as 'json'  // Necessario per evitare conflitti di tipo
     });
   }
+  
 }
