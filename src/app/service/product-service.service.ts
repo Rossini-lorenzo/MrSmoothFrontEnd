@@ -115,6 +115,13 @@ export class ProductServiceService {
     );
   }
 
+
+  getCodeAuth(): Observable<any> {
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'googleCalendar/login/google',
+      {   responseType: 'text' as 'json' }
+    );
+  }
   putCodeAuth(code: string): Observable<HttpResponse<Object[]>> {
     return this.httpClient.get<Object[]>(
       this.apiUrl + 'googleCalendar/login/google?code=' + code,
