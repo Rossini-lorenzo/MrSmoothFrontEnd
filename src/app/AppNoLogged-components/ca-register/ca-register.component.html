@@ -35,7 +35,7 @@
               <tr *ngIf="!isLoading && saleList && saleList.length > 0" class="align-center">
                 <td class="align-middle">{{ item.id }}</td>
                 <td class="align-middle">{{ convertDate(item.date) }}</td>
-                <td class="align-middle">Mario Rossi</td>
+                <td class="align-middle">{{ item.customer }}</td>
                 <td class="align-middle">{{ item.operator }}</td>
                 <td class="align-middle text-center">
                   <i
@@ -137,7 +137,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <div *ngIf="item.flValidity !== 'VALID'" class="row mt-3">
+                    <div *ngIf="item.flValidity" class="row mt-3">
                       <div class="col-12">
                         <div class="form-floating">
                           <textarea

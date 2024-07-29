@@ -21,6 +21,7 @@ export interface Sale {
   id: number;
   date: string;
   operator: string;
+  customer: string;
   flValidity: string;
   soldProducts: SoldProducts[];
   soldServices: SoldServices[];

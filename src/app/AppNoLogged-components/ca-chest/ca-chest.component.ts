@@ -19,6 +19,7 @@ import { CustomersServiceService } from 'src/app/service/customers-service.servi
 export interface Sale {
   date: string;
   operator: string;
+  customer: string;
   flValidity: string;
   soldProducts: SaleArticle[];
   soldServices: SaleArticle[];
@@ -79,6 +80,7 @@ export class CaChestComponent implements OnInit {
   };
   isOpen: boolean;
   customerFocused = false; // Variabile per tracciare il focus
+  selectedCustomerId: number;
 
   constructor(
     private salesService: SalesServiceService,
@@ -250,7 +252,8 @@ export class CaChestComponent implements OnInit {
     const dataToSave: Sale = {
       date: formattedDate,
       operator: newSale.operator,
-      flValidity: 'Valid',
+      customer: this.selectedCustomerId.toString(),
+      flValidity: 'VALID',
       soldProducts: soldProducts,
       soldServices: soldServices,
       total: parseFloat(this.calculateTotal()),
@@ -438,7 +441,7 @@ export class CaChestComponent implements OnInit {
     this.isOpen = this.filteredSuggestions.length > 0; // Mostra la lista solo se ci sono suggerimenti
   }
 
-  selectSuggestion(suggestion: any) {
+  selectSuggestion(suggestion: Customer) {
     if (suggestion && suggestion.nome && suggestion.cognome) {
       const customerDenomination = suggestion.nome + ' ' + suggestion.cognome;
       const customerField = this.form.get('customer');
@@ -448,6 +451,7 @@ export class CaChestComponent implements OnInit {
         customerField.updateValueAndValidity(); // Aggiorna la validità del campo
       }
       this.filteredSuggestions = []; // Pulisce la lista dei suggerimenti
+      this.selectedCustomerId = suggestion.id;
       this.isOpen = false; // Chiude la lista dei suggerimenti
     }
   }
