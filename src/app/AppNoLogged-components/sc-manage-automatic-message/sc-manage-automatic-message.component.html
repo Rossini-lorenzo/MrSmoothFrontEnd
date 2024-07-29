@@ -3,5 +3,191 @@
     <i class="fa-solid fa-comment-sms fa-lg me-2"></i>Gestisci messaggi
     automatici
   </div>
-  <div class="card-body"></div>
+  <div class="card-body">
+    <div *ngIf="!isLoading && showSuccessAlert">
+      <div
+        class="alert alert-success alert-dismissible alert-api-message fade show"
+        role="alert"
+      >
+        {{ successMessage }}
+      </div>
+
+      <!-- <div class="alert-backdrop fade show"></div> -->
+    </div>
+    <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
+      <div
+        class="spinner-border"
+        role="status"
+        style="width: 3rem; height: 3rem"
+      ></div>
+    </div>
+    <div *ngIf="isLoading" class="row mx-0 mt-2 justify-content-center">
+      <div class="text-center">⌛ Caricamento messaggi in corso...</div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <table class="table custom-table">
+          <thead>
+            <tr *ngIf="!isLoading">
+              <th class="sc-secondary">Nome messaggio</th>
+              <th class="sc-secondary">Testo messaggio</th>
+              <th class="sc-secondary"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let item of dataSource">
+              <tr *ngIf="!isLoading && dataSource && dataSource.length > 0">
+                <td class="align-middle">
+                  {{ item.serviceName }}
+                </td>
+                <td class="align-middle">
+                  &euro;{{ " " + item.servicePrice.toFixed(2) }}
+                </td>
+                <td class="align-middle text-end">
+                  <button
+                    title="Modifica messaggio"
+                    class="btn btn-outline-primary me-2 btn-sm"
+                    (click)="openModal('EDIT', item)"
+                  >
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button
+                    title="Elimina messaggio"
+                    class="btn btn-outline-danger me-2 btn-sm"
+                    (click)="openModal('DELETE', item)"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-container
+              *ngIf="!isLoading && dataSource && dataSource.length === 0"
+            >
+              <tr>
+                <td colspan="6">
+                  <div
+                    class="alert alert-warning mt-3 text-center"
+                    role="alert"
+                  >
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="ms-2"
+                      >Nessun messaggio disponibile a sistema.</span
+                    >
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading" class="mb-3 mt-3 d-flex justify-content-center">
+      <button
+        title="Aggiungi messaggio"
+        class="btn btn-success btn-sm"
+        (click)="openModal('ADD')"
+      >
+        Aggiungi Messaggio
+      </button>
+    </div>
+
+    <app-sc-modal
+      *ngIf="isOpen"
+      [title]="modalTitle"
+      (action)="performAction()"
+      (closeModal)="closeModal()"
+    >
+      <div class="modal-body-content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'">
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="employeeName" class="fw-bold form-label"
+                  >Nome messaggio</label
+                >
+                <input
+                  type="text"
+                  id="employeeName"
+                  class="form-control"
+                  formControlName="serviceName"
+                  [ngClass]="{
+                    'is-invalid': submitted && f['serviceName'].errors
+                  }"
+                />
+                <div
+                  *ngIf="submitted && f['serviceName'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['serviceName'].errors?.['required']">
+                    Campo obbligatorio
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <label for="messageText">Testo messaggio</label>
+                <div class="form-floating">
+                  <textarea
+                    class="form-control"
+                    placeholder="Leave a comment here"
+                    id="messageText"
+                    style="height: 100px"
+                    formControlName="messageText"
+                  ></textarea>
+                </div>
+                <div
+                  *ngIf="submitted && f['servicePrice'].errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="f['servicePrice'].errors?.['required']">
+                    Campo obbligatorio
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div
+          *ngIf="modalActionType === 'DELETE'"
+          class="alert alert-danger mt-3"
+          role="alert"
+        >
+          <i class="fas fa-exclamation-triangle"></i>
+          <!-- Icona di avviso -->
+          <span class="ms-2"
+            >Sei sicuro di voler eliminare questo messaggio?</span
+          >
+        </div>
+      </div>
+      <div class="modal-footer-content">
+        <!-- Contenuto del footer della modale -->
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm me-2"
+          (click)="closeModal()"
+        >
+          Annulla
+        </button>
+        <button
+          *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'"
+          type="button"
+          class="btn btn-success btn-sm"
+          (click)="onSubmit()"
+        >
+          Salva
+        </button>
+        <button
+          *ngIf="modalActionType === 'DELETE'"
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="onSubmit()"
+        >
+          Cancella
+        </button>
+      </div>
+    </app-sc-modal>
+  </div>
 </div>
