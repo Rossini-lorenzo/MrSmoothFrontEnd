@@ -13,6 +13,7 @@ import { CaScanComponent } from './AppNoLogged-components/ca-scan/ca-scan.compon
 import { CaOverwiewComponent } from './AppNoLogged-components/ca-overwiew/ca-overwiew.component';
 import { CaChestComponent } from './AppNoLogged-components/ca-chest/ca-chest.component';
 import { CaRegisterComponent } from './AppNoLogged-components/ca-register/ca-register.component';
+import { ScSalesArchiveComponent } from './AppNoLogged-components/sc-sales-archive/sc-sales-archive.component';
 import { ScStaffManagementComponent } from './AppNoLogged-components/sc-staff-management/sc-staff-management.component';
 import { ScCustomersManagementComponent } from './AppNoLogged-components/sc-customers-management/sc-customers-management.component';
 import { ScProductsManagementComponent } from './AppNoLogged-components/sc-products-management/sc-products-management.component';
@@ -91,6 +92,11 @@ const routes: Routes = [
       {
         path: 'sales-register',
         component: CaRegisterComponent,
+        data: { breadcrumb: 'Vendite / Registro giornaliero' },
+      },
+      {
+        path: 'sales-archive',
+        component: ScSalesArchiveComponent,
         data: { breadcrumb: 'Vendite / Registro giornaliero' },
       },
       {

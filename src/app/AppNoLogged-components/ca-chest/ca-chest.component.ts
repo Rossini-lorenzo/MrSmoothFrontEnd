@@ -18,8 +18,8 @@ import { CustomersServiceService } from 'src/app/service/customers-service.servi
 
 export interface Sale {
   date: string;
-  operator: string;
-  customer: string;
+  operator: number;
+  customer: number;
   flValidity: string;
   soldProducts: SaleArticle[];
   soldServices: SaleArticle[];
@@ -252,13 +252,14 @@ export class CaChestComponent implements OnInit {
     const dataToSave: Sale = {
       date: formattedDate,
       operator: newSale.operator,
-      customer: this.selectedCustomerId.toString(),
+      customer: this.selectedCustomerId,
       flValidity: 'VALID',
       soldProducts: soldProducts,
       soldServices: soldServices,
       total: parseFloat(this.calculateTotal()),
       notes: newSale.notes,
     };
+    console.log(dataToSave);
     this.salesService.addSale(dataToSave).subscribe({
       next: (response: any) => {
         this.showSuccess(response);

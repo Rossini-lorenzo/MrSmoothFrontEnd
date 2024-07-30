@@ -1,6 +1,6 @@
 <div class="card d-inline-block m-auto w-fit-content">
   <div class="card-header fw-bold sc-primary">
-    <i class="fa-solid fa-book fa-lg me-2"></i>Registro giornaliero
+    <i class="fa-solid fa-box-archive fa-lg me-2"></i>Archivio
   </div>
   <div class="card-body">
     <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
@@ -11,14 +11,22 @@
       ></div>
     </div>
     <div *ngIf="isLoading" class="row mx-0 mt-2 justify-content-center">
-      <div class="text-center">⌛ Caricamento registro vendite in corso...</div>
+      <div class="text-center">⌛ Caricamento archivio in corso...</div>
+    </div>
+    <div
+      *ngIf="!isLoading && saleList.length > 0"
+      class="d-flex justify-content-end align-items-center mb-3 mt-3"
+    >
+      <span
+        >Elementi visualizzati: {{ (currentPage - 1) * pageSize + 1 }}-{{
+          (currentPage - 1) * pageSize + saleList.length
+        }}
+        di {{ totalElements }}</span
+      >
     </div>
     <div class="row mt-3">
       <div class="col-12">
-        <table
-          
-          class="table custom-table"
-        >
+        <table class="table custom-table">
           <thead>
             <tr *ngIf="!isLoading">
               <th class="sc-secondary">ID Vendita</th>
@@ -32,7 +40,10 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let item of saleList; let i = index">
-              <tr *ngIf="!isLoading && saleList && saleList.length > 0" class="align-center">
+              <tr
+                *ngIf="!isLoading && saleList && saleList.length > 0"
+                class="align-center"
+              >
                 <td class="align-middle">{{ item.id }}</td>
                 <td class="align-middle">{{ convertDate(item.date) }}</td>
                 <td class="align-middle">{{ item.customer }}</td>
@@ -95,8 +106,8 @@
                     ></i>
                   </button>
                   <!-- <div *ngIf="item.flValidity === 'VALID'">
-                    
-                  </div> -->
+                      
+                    </div> -->
                 </td>
               </tr>
               <tr *ngIf="expandedItem === i">
@@ -156,18 +167,67 @@
                 </td>
               </tr>
             </ng-container>
-            <ng-container *ngIf="!isLoading && saleList && saleList.length === 0">
+            <ng-container
+              *ngIf="!isLoading && saleList && saleList.length === 0"
+            >
               <tr>
                 <td colspan="7">
-                  <div class="alert alert-warning mt-3 text-center" role="alert">
+                  <div
+                    class="alert alert-warning mt-3 text-center"
+                    role="alert"
+                  >
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span class="ms-2">Nessuna vendita disponibile a sistema per la giornata odierna.</span>
+                    <span class="ms-2"
+                      >Nessuna vendita disponibile a sistema.</span
+                    >
                   </div>
                 </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
+        <nav
+          *ngIf="!isLoading && totalPages > 0"
+          aria-label="Page navigation example"
+        >
+          <ul class="pagination justify-content-center pt-3">
+            <!-- Pulsante "Precedente" -->
+            <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+              <button
+                class="page-link"
+                (click)="getPreviousPage()"
+                [disabled]="currentPage === 1"
+              >
+                Precedente
+              </button>
+            </li>
+
+            <!-- Numeri di pagina -->
+            <li
+              *ngFor="let page of pages"
+              class="page-item"
+              [ngClass]="{ active: page === currentPage }"
+            >
+              <button class="page-link" (click)="getPagesData(page)">
+                {{ page }}
+              </button>
+            </li>
+
+            <!-- Pulsante "Successivo" -->
+            <li
+              class="page-item"
+              [ngClass]="{ disabled: currentPage === totalPages }"
+            >
+              <button
+                class="page-link"
+                (click)="getNextPage()"
+                [disabled]="currentPage === totalPages"
+              >
+                Successivo
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

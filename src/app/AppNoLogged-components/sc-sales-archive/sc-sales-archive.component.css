@@ -1,0 +1,32 @@
+.card {
+  height: 100%; /* Imposta l'altezza della card al 100% della sezione */
+  width: 100%;
+  flex-grow: 1;
+}
+
+.card-body {
+  height: 100%;
+  overflow: auto;
+}
+
+.card-header {
+  padding: 8px;
+}
+
+.custom-table {
+  border: 1px solid #dee2e6; /* bordo esterno */
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid #dee2e6 !important;
+}
+
+.no-animation {
+  transform: none !important;
+}
+
+.collapse,
+.collapsing {
+  transform: none !important;
+}

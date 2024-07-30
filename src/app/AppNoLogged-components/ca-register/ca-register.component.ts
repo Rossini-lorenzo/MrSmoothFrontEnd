@@ -50,12 +50,27 @@ export class CaRegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllSales();
+    this.getTodaySales();
   }
 
-  public getAllSales(): void {
+  public getTodaySales(): void {
     this.isLoading = true;
-    this.salesService.getAllSale().subscribe({
+    this.salesService.getTodaySales().subscribe({
+      next: (response: any) => {
+        const responseData = response.body;
+        this.saleList = responseData;
+      },
+      error: (error) => console.error(error),
+      complete: () => {
+        this.isLoading = false;
+        console.info('complete');
+      },
+    });
+  }
+
+  public getPaginatedSalesArchive(): void {
+    this.isLoading = true;
+    this.salesService.getTodaySales().subscribe({
       next: (response: any) => {
         const responseData = response.body;
         this.saleList = responseData;

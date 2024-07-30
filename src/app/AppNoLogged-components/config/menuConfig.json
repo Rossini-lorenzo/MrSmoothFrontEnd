@@ -89,7 +89,7 @@
       },
       {
         "label": "Archivio",
-        "url": "sales-register",
+        "url": "sales-archive",
         "icon": "fa-solid fa-box-archive fa-lg"
       }
     ]
