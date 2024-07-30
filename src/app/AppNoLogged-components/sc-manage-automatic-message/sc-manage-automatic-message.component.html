@@ -29,19 +29,19 @@
         <table class="table custom-table">
           <thead>
             <tr *ngIf="!isLoading">
-              <th class="sc-secondary">Nome messaggio</th>
-              <th class="sc-secondary">Testo messaggio</th>
-              <th class="sc-secondary"></th>
+              <th class="sc-secondary col-3">Nome messaggio</th>
+              <th class="sc-secondary col-7">Testo messaggio</th>
+              <th class="sc-secondary col-2"></th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let item of dataSource">
               <tr *ngIf="!isLoading && dataSource && dataSource.length > 0">
                 <td class="align-middle">
-                  {{ item.serviceName }}
+                  {{ item.messageName }}
                 </td>
-                <td class="align-middle">
-                  &euro;{{ " " + item.servicePrice.toFixed(2) }}
+                <td class="align-middle message-text">
+                  {{ item.messageText }}
                 </td>
                 <td class="align-middle text-end">
                   <button
@@ -104,23 +104,23 @@
           <div *ngIf="modalActionType === 'EDIT' || modalActionType === 'ADD'">
             <div class="row mt-3">
               <div class="col-12">
-                <label for="employeeName" class="fw-bold form-label"
+                <label for="messageName" class="form-label"
                   >Nome messaggio</label
                 >
                 <input
                   type="text"
-                  id="employeeName"
+                  id="messageName"
                   class="form-control"
-                  formControlName="serviceName"
+                  formControlName="messageName"
                   [ngClass]="{
-                    'is-invalid': submitted && f['serviceName'].errors
+                    'is-invalid': submitted && f['messageName'].errors
                   }"
                 />
                 <div
-                  *ngIf="submitted && f['serviceName'].errors"
+                  *ngIf="submitted && f['messageName'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['serviceName'].errors?.['required']">
+                  <div *ngIf="f['messageName'].errors?.['required']">
                     Campo obbligatorio
                   </div>
                 </div>
@@ -139,10 +139,10 @@
                   ></textarea>
                 </div>
                 <div
-                  *ngIf="submitted && f['servicePrice'].errors"
+                  *ngIf="submitted && f['messageText'].errors"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="f['servicePrice'].errors?.['required']">
+                  <div *ngIf="f['messageText'].errors?.['required']">
                     Campo obbligatorio
                   </div>
                 </div>

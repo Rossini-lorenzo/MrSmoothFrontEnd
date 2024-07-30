@@ -91,7 +91,7 @@ const routes: Routes = [
       {
         path: 'sales-register',
         component: CaRegisterComponent,
-        data: { breadcrumb: 'Vendite / Registro vendite' },
+        data: { breadcrumb: 'Vendite / Registro giornaliero' },
       },
       {
         path: 'shop-performance',

@@ -21,3 +21,8 @@
 .table td {
   border-bottom: 1px solid #dee2e6 !important;
 }
+
+.message-text {
+  white-space: pre-wrap; /* Mantiene gli spazi e le nuove linee */
+}
+

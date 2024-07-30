@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { ServicesServiceService } from 'src/app/service/services-service.service';
-
-export interface Service {
+import { MessagesServiceService } from 'src/app/service/messages-service.service';
+export interface Message {
   id: number;
-  serviceName: string;
-  servicePrice: number;
+  messageName: string;
+  messageText: string;
 }
 
 @Component({
@@ -14,13 +13,13 @@ export interface Service {
   styleUrl: './sc-manage-automatic-message.component.css'
 })
 export class ScManageAutomaticMessageComponent implements OnInit {
-  dataSource: Service[] = [];
+  dataSource: Message[] = [];
   isLoading = false;
 
-  selectedCustomer: Service = {
+  selectedMessage: Message = {
     id: 0,
-    serviceName: '',
-    servicePrice: 0,
+    messageName: '',
+    messageText: '',
   };
 
   employeeToDelete = 0;
@@ -37,24 +36,24 @@ export class ScManageAutomaticMessageComponent implements OnInit {
   successMessage = '';
 
   constructor(
-    private servicesService: ServicesServiceService,
+    private messagesService: MessagesServiceService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.getAllServicess();
+    this.getAllMessages();
     this.form = this.formBuilder.group({
-      serviceName: ['', Validators.required],
+      messageName: ['', Validators.required],
       messageText: ['', Validators.required],
     });
     // Se è stata selezionata una riga per la modifica, prepopola il form
   }
 
-  public getAllServicess(): void {
+  public getAllMessages(): void {
     this.isLoading = true;
-    this.servicesService.getAllService().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
+    this.messagesService.getAllMessage().subscribe({
+      next: (response: Message[]) => {
+        const responseData = response;
         this.dataSource = responseData;
       },
       error: (error) => console.error(error),
@@ -65,13 +64,13 @@ export class ScManageAutomaticMessageComponent implements OnInit {
     });
   }
 
-  public addNewService(): void {
+  public addNewMessage(): void {
     this.isLoading = true;
-    const newCustomer: Service = this.form.value;
-    this.servicesService
-      .addService(
-        newCustomer.serviceName,
-        newCustomer.servicePrice,
+    const newCustomer: Message = this.form.value;
+    this.messagesService
+      .addMessage(
+        newCustomer.messageName,
+        newCustomer.messageText,
       )
       .subscribe({
         next: (response: any) => {
@@ -79,24 +78,24 @@ export class ScManageAutomaticMessageComponent implements OnInit {
         },
         error: (error) => console.error(error),
         complete: () => {
-          this.getAllServicess();
+          this.getAllMessages();
         },
       });
   }
 
-  public updateCustomer(): void {
+  public updateMessage(): void {
     this.isLoading = true;
-    this.selectedCustomer = {
-      ...this.selectedCustomer,
+    this.selectedMessage = {
+      ...this.selectedMessage,
       ...this.form.value,
     };
-    if (!this.selectedCustomer) return;
+    if (!this.selectedMessage) return;
 
-    this.servicesService
-      .updateService(
-        this.selectedCustomer.id,
-        this.selectedCustomer.serviceName,
-        this.selectedCustomer.servicePrice,
+    this.messagesService
+      .updateMessage(
+        this.selectedMessage.id,
+        this.selectedMessage.messageName,
+        encodeURIComponent(this.selectedMessage.messageText),
       )
       .subscribe({
         next: (response: any) => {
@@ -104,39 +103,39 @@ export class ScManageAutomaticMessageComponent implements OnInit {
         },
         error: (error) => console.error(error),
         complete: () => {
-          this.getAllServicess();
+          this.getAllMessages();
         },
       });
   }
 
-  public deleteService(id: number): void {
+  public deleteMessage(id: number): void {
     this.isLoading = true;
-    this.servicesService.deleteService(id).subscribe({
+    this.messagesService.deleteMessage(id).subscribe({
       next: (response: any) => {
         this.showSuccess(response);
       },
       error: (error) => console.error(error),
       complete: () => {
-        this.getAllServicess();
+        this.getAllMessages();
       },
     });
   }
 
-  openModal(actionType: string, selectedEmployee?: Service) {
+  openModal(actionType: string, selectedMessage?: Message) {
     this.modalActionType = actionType;
-    if (selectedEmployee) this.employeeToDelete = selectedEmployee.id;
+    if (selectedMessage) this.employeeToDelete = selectedMessage.id;
     this.isOpen = true;
     this.setModalTitle();
-    this.initializeForm(selectedEmployee);
+    this.initializeForm(selectedMessage);
   }
 
-  initializeForm(selectedEmployee?: Service) {
+  initializeForm(selectedMessage?: Message) {
     switch (this.modalActionType) {
       case 'EDIT':
-        if (selectedEmployee) this.selectedCustomer = { ...selectedEmployee };
+        if (selectedMessage) this.selectedMessage = { ...selectedMessage };
         this.form.patchValue({
-          serviceName: this.selectedCustomer.serviceName,
-          servicePrice: this.selectedCustomer.servicePrice.toFixed(2),
+          messageName: this.selectedMessage.messageName,
+          messageText: this.selectedMessage.messageText,
         });
         break;
       case 'ADD':
@@ -168,13 +167,13 @@ export class ScManageAutomaticMessageComponent implements OnInit {
     // Esegui azioni in base al tipo di azione
     switch (this.modalActionType) {
       case 'EDIT':
-        this.updateCustomer();
+        this.updateMessage();
         break;
       case 'ADD':
-        this.addNewService();
+        this.addNewMessage();
         break;
       case 'DELETE':
-        this.deleteService(this.employeeToDelete);
+        this.deleteMessage(this.employeeToDelete);
         break;
       default:
         console.error('Azione non supportata');
