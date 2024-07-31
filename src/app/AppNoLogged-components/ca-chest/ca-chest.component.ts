@@ -262,7 +262,7 @@ export class CaChestComponent implements OnInit {
     console.log(dataToSave);
     this.salesService.addSale(dataToSave).subscribe({
       next: (response: any) => {
-        this.showSuccess(response);
+        this.showSuccess(response.body);
       },
       error: (error) => console.error(error),
       complete: () => {

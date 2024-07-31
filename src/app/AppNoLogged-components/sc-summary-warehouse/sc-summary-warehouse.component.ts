@@ -19,10 +19,13 @@ export interface Product {
   styleUrl: './sc-summary-warehouse.component.css',
 })
 export class ScSummaryWarehouseComponent implements OnInit {
-  itemsPerPage = 10; // Numero di elementi per pagina
-  currentPage = 1; // Pagina corrente
   dataSource: Product[] = [];
   isLoading = false;
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 0;
+  totalElements = 0;
+  pages: number[] = [];
 
   selectedProduct: Product = {
     id: '',
@@ -50,7 +53,7 @@ export class ScSummaryWarehouseComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllProducts();
+    this.getPaginatedSummaryWarehouse();
     this.form = this.formBuilder.group({
       prezzo: ['', Validators.required],
       nomeProdotto: ['', Validators.required],
@@ -58,12 +61,21 @@ export class ScSummaryWarehouseComponent implements OnInit {
     });
   }
 
-  public getAllProducts(): void {
+  public getPaginatedSummaryWarehouse(): void {
     this.isLoading = true;
-    this.productService.getAllProducts().subscribe({
+    this.productService.getPaginatedSummaryWarehouse(this.currentPage - 1, this.pageSize).subscribe({
       next: (response: any) => {
-        const responseData = response.body;
-        this.dataSource = responseData;
+        const responseData = response.body; // Se 'observe: response' è impostato nel servizio
+          if (responseData) {
+            this.dataSource = responseData.content;
+            this.totalPages = responseData.totalPages;
+            this.totalElements = responseData.totalElements;
+            this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+          } else {
+            console.error(
+              "Formato della risposta non corretto o 'content' non presente."
+            );
+          }
       },
       error: (error) => console.error(error),
       complete: () => {
@@ -81,7 +93,7 @@ export class ScSummaryWarehouseComponent implements OnInit {
       },
       error: (error) => console.error(error),
       complete: () => {
-        this.getAllProducts();
+        this.getPaginatedSummaryWarehouse();
       },
     });
   }
@@ -107,7 +119,7 @@ export class ScSummaryWarehouseComponent implements OnInit {
         },
         error: (error) => console.error(error),
         complete: () => {
-          this.getAllProducts();
+          this.getPaginatedSummaryWarehouse();
         },
       });
   }
@@ -207,51 +219,22 @@ export class ScSummaryWarehouseComponent implements OnInit {
     this.showSuccessAlert = false;
   }
 
-  /// Calcola il numero totale di pagine sulla base dei dati disponibili
-  get totalPages(): number {
-    return Math.ceil(this.dataSource.length / this.itemsPerPage);
-  }
-
-  // Calcola l'array di pagine da visualizzare nella paginazione
-  get pages(): number[] {
-    const pagesArray = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      pagesArray.push(i);
-    }
-    return pagesArray;
-  }
-
-  // Ottieni i dati per la pagina corrente
-  getPagesData(pageNumber: number): void {
-    this.currentPage = pageNumber;
-  }
-
-  // Ottieni i dati della pagina precedente
   getPreviousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.getPaginatedSummaryWarehouse();
     }
   }
 
-  // Ottieni i dati della pagina successiva
   getNextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.getPaginatedSummaryWarehouse();
     }
   }
 
-  // Verifica se la pagina è attiva per applicare lo stile corretto
-  isActive(pageNumber: number): string {
-    return pageNumber === this.currentPage ? 'active' : '';
-  }
-
-  // Metodo per paginare i dati e ottenere solo quelli per la pagina corrente
-  get visibleData(): any[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = Math.min(
-      startIndex + this.itemsPerPage,
-      this.dataSource.length
-    );
-    return this.dataSource.slice(startIndex, endIndex);
+  getPagesData(page: number): void {
+    this.currentPage = page;
+    this.getPaginatedSummaryWarehouse();
   }
 }

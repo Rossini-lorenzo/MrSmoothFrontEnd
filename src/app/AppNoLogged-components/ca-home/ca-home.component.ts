@@ -13,7 +13,10 @@ export class CaHomeComponent implements OnInit {
   menuItems = MenuConfig;
   isOpen: boolean[] = [];
   selectedLink: any = null; // Proprietà per tenere traccia del link selezionato
-  isAnimating: boolean = false;
+  isAnimating = false;
+
+  isOpenModal = false;
+  modalTitle = '';
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: AroundClientService) {}
 
@@ -72,5 +75,14 @@ export class CaHomeComponent implements OnInit {
   selectLink(link: any) {
     this.selectedLink = link;
     console.log(link);
+  }
+
+  openModal() {
+    this.isOpenModal = true;
+    this.modalTitle = "Notifiche";
+  }
+
+  closeModal() {
+    this.isOpenModal = false;
   }
 }

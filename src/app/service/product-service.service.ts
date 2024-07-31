@@ -11,10 +11,7 @@ export class ProductServiceService {
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
-
-
-
-// PRODOTTI MAGAZZINO START
+  // PRODOTTI MAGAZZINO START
 
   checkProduct(id: string): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
@@ -22,6 +19,19 @@ export class ProductServiceService {
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
       this.apiUrl + 'userProduct/checkProduct?id=' + id,
+      { headers, observe: 'response' }
+    );
+  }
+
+  getPaginatedSummaryWarehouse(
+    page?: number,
+    size?: number
+  ): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      `${this.apiUrl}userProduct/getPaginatedSummaryWarehouse?page=${page}&size=${size}`,
       { headers, observe: 'response' }
     );
   }
@@ -98,10 +108,7 @@ export class ProductServiceService {
     );
   }
 
- // PRODOTTI MAGAZZINO END
-
-
-
+  // PRODOTTI MAGAZZINO END
 
   // EVENTI  CALENDARIO GOOGLE START
 
@@ -111,108 +118,120 @@ export class ProductServiceService {
     const headers = new HttpHeaders();
     return this.httpClient.get<Object[]>(
       this.apiUrl + 'googleCalendar/get-events',
-      {  observe: 'response' }
+      { observe: 'response' }
     );
   }
-
 
   getCodeAuth(): Observable<any> {
     return this.httpClient.get<Object[]>(
       this.apiUrl + 'googleCalendar/login/google',
-      {   responseType: 'text' as 'json' }
+      { responseType: 'text' as 'json' }
     );
   }
   putCodeAuth(code: string): Observable<HttpResponse<Object[]>> {
     return this.httpClient.get<Object[]>(
       this.apiUrl + 'googleCalendar/login/google?code=' + code,
-      {  observe: 'response' }
+      { observe: 'response' }
     );
   }
 
-  createEvent(titolo: any, descrizione: any,idDipendente: any, startDate: any, endDate: any): Observable<HttpResponse<Object[]>> {
+  createEvent(
+    titolo: any,
+    descrizione: any,
+    idDipendente: any,
+    startDate: any,
+    endDate: any
+  ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().append('Authorization', tokenStr);
-    
+
     return this.httpClient.post<any>(
-      "http://localhost:8080/googleCalendar/create-event?&titolo=" + titolo + "&descrizione=" + descrizione +"&idDipendente="+ idDipendente +"&startDate="+startDate+"&endDate="+endDate,
+      'http://localhost:8080/googleCalendar/create-event?&titolo=' +
+        titolo +
+        '&descrizione=' +
+        descrizione +
+        '&idDipendente=' +
+        idDipendente +
+        '&startDate=' +
+        startDate +
+        '&endDate=' +
+        endDate,
       null,
       { headers: headers, responseType: 'text' as 'json' } // Aggiunto observe: 'response' per ottenere l'intera risposta HTTP
     );
   }
-  
 
-deleteEvent(id:any): Observable<HttpResponse<Object[]>> {
-  const tokenStr = 'Bearer ' + localStorage.getItem('token');
+  deleteEvent(id: any): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
-  const headers = new HttpHeaders().append('Authorization', tokenStr);
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
 
-  return this.httpClient.delete<any>("http://localhost:8080/googleCalendar/delete-event?&eventId=" + id ,
-   { headers: headers,  responseType: 'text' as 'json' });
-}
+    return this.httpClient.delete<any>(
+      'http://localhost:8080/googleCalendar/delete-event?&eventId=' + id,
+      { headers: headers, responseType: 'text' as 'json' }
+    );
+  }
   // EVENTI  CALENDARIO GOOGLE END
 
-
   //START DASHBOARD
-    getAllEmployee(): Observable<HttpResponse<Object[]>> {
-      const tokenStr = 'Bearer ' + localStorage.getItem('token');
-  
-      const headers = new HttpHeaders().set('Authorization', tokenStr);
-      return this.httpClient.get<Object[]>(
-        this.apiUrl + 'dashboard/getAllEmployee',
-        { headers, observe: 'response' }
-      );
-    }
+  getAllEmployee(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
-    
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'dashboard/getAllEmployee',
+      { headers, observe: 'response' }
+    );
+  }
 
-    getAllCounters(): Observable<HttpResponse<Object[]>> {
-      const tokenStr = 'Bearer ' + localStorage.getItem('token');
-  
-      const headers = new HttpHeaders().set('Authorization', tokenStr);
-      return this.httpClient.get<Object[]>(
-        this.apiUrl + 'dashboard/getAllCounter',
-        { headers, observe: 'response' }
-      );
-    }
+  getAllCounters(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
-    getTagliPerDipendente(): Observable<HttpResponse<Object[]>> {
-      const tokenStr = 'Bearer ' + localStorage.getItem('token');
-  
-      const headers = new HttpHeaders().set('Authorization', tokenStr);
-      return this.httpClient.get<Object[]>(
-        this.apiUrl + 'dashboard/getTagliPerDipendente',
-        { headers, observe: 'response' }
-      );
-    }
-    getProdottiVenduti(): Observable<HttpResponse<Object[]>> {
-      const tokenStr = 'Bearer ' + localStorage.getItem('token');
-  
-      const headers = new HttpHeaders().set('Authorization', tokenStr);
-      return this.httpClient.get<Object[]>(
-        this.apiUrl + 'dashboard/getProdottiVenduti',
-        { headers, observe: 'response' }
-      );
-    }
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'dashboard/getAllCounter',
+      { headers, observe: 'response' }
+    );
+  }
 
-    getServiziVenduti(): Observable<HttpResponse<Object[]>> {
-      const tokenStr = 'Bearer ' + localStorage.getItem('token');
-  
-      const headers = new HttpHeaders().set('Authorization', tokenStr);
-      return this.httpClient.get<Object[]>(
-        this.apiUrl + 'dashboard/getServiziVenduti',
-        { headers, observe: 'response' }
-      );
-    }
+  getTagliPerDipendente(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
-    getGuadagniMensili(): Observable<HttpResponse<Object[]>> {
-      const tokenStr = 'Bearer ' + localStorage.getItem('token');
-  
-      const headers = new HttpHeaders().set('Authorization', tokenStr);
-      return this.httpClient.get<Object[]>(
-        this.apiUrl + 'dashboard/getGuadagnimensili',
-        { headers, observe: 'response' }
-      );
-    }
-    
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'dashboard/getTagliPerDipendente',
+      { headers, observe: 'response' }
+    );
+  }
+  getProdottiVenduti(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'dashboard/getProdottiVenduti',
+      { headers, observe: 'response' }
+    );
+  }
+
+  getServiziVenduti(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'dashboard/getServiziVenduti',
+      { headers, observe: 'response' }
+    );
+  }
+
+  getGuadagniMensili(): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'dashboard/getGuadagnimensili',
+      { headers, observe: 'response' }
+    );
+  }
+
   //END DASHBOARD
 }

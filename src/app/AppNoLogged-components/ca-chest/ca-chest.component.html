@@ -3,6 +3,16 @@
     <i class="fa-solid fa-cash-register fa-lg me-2"></i>Cassa
   </div>
   <div class="card-body">
+    <div *ngIf="!isLoading && showSuccessAlert">
+      <div
+        class="alert alert-success alert-dismissible alert-api-message fade show"
+        role="alert"
+      >
+        {{ successMessage }}
+      </div>
+
+      <!-- <div class="alert-backdrop fade show"></div> -->
+    </div>
     <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
       <div
         class="spinner-border"
@@ -11,8 +21,12 @@
       ></div>
     </div>
     <div *ngIf="isLoading" class="row mx-0 mt-2 justify-content-center">
-      <div *ngIf="!isOnSaving" class="text-center">⌛ Caricamento cassa in corso...</div>
-      <div *ngIf="isOnSaving" class="text-center">⌛ Salvataggio vendita in corso...</div>
+      <div *ngIf="!isOnSaving" class="text-center">
+        ⌛ Caricamento cassa in corso...
+      </div>
+      <div *ngIf="isOnSaving" class="text-center">
+        ⌛ Salvataggio vendita in corso...
+      </div>
     </div>
     <!-- <div class="alert sc-primary d-flex align-items-center mt-4" role="alert">
       <i
@@ -93,6 +107,7 @@
               class="form-control"
               id="customer"
               formControlName="customer"
+              autocomplete="off"
               (input)="onInputChange()"
               (blur)="onCustomerBlur()"
               (focus)="onCustomerFocus()"

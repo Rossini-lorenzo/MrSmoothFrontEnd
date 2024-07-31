@@ -1,7 +1,6 @@
 <div class="card d-inline-block m-auto w-fit-content">
   <div class="card-header fw-bold sc-primary">
-    <i class="fa-solid fa-warehouse fa-lg me-2"></i
-    >Sommario magazzino
+    <i class="fa-solid fa-warehouse fa-lg me-2"></i>Sommario magazzino
   </div>
   <div class="card-body">
     <div *ngIf="isLoading" class="row mx-0 mt-3 justify-content-center">
@@ -12,14 +11,24 @@
       ></div>
     </div>
     <div *ngIf="isLoading" class="row mx-0 mt-2 justify-content-center">
-      <div class="text-center">⌛ Caricamento sommario magazzino in corso...</div>
+      <div class="text-center">
+        ⌛ Caricamento sommario magazzino in corso...
+      </div>
+    </div>
+    <div
+      *ngIf="!isLoading && dataSource.length > 0"
+      class="d-flex justify-content-end align-items-center mb-3 mt-3"
+    >
+      <span
+        >Elementi visualizzati: {{ (currentPage - 1) * pageSize + 1 }}-{{
+          (currentPage - 1) * pageSize + dataSource.length
+        }}
+        di {{ totalElements }}</span
+      >
     </div>
     <div class="row mt-3">
       <div class="col-12">
-        <table
-          
-          class="table custom-table"
-        >
+        <table class="table custom-table">
           <thead>
             <tr *ngIf="!isLoading">
               <th class="sc-secondary">Codice Prodotto</th>
@@ -30,11 +39,13 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let item of visibleData">
+            <ng-container *ngFor="let item of dataSource">
               <tr *ngIf="!isLoading && dataSource && dataSource.length > 0">
                 <td class="align-middle">{{ item.id }}</td>
                 <td class="align-middle">{{ item.nomeProdotto }}</td>
-                <td class="align-middle">&euro; {{ item.prezzo.toFixed(2) }}</td>
+                <td class="align-middle">
+                  &euro; {{ item.prezzo.toFixed(2) }}
+                </td>
                 <td class="align-middle">{{ item.quantita }} pz</td>
 
                 <td class="align-middle text-end">
@@ -62,53 +73,64 @@
                 </td>
               </tr>
             </ng-container>
-            <ng-container *ngIf="!isLoading && dataSource && dataSource.length === 0">
+            <ng-container
+              *ngIf="!isLoading && dataSource && dataSource.length === 0"
+            >
               <tr>
                 <td colspan="6">
-                  <div class="alert alert-warning mt-3 text-center" role="alert">
+                  <div
+                    class="alert alert-warning mt-3 text-center"
+                    role="alert"
+                  >
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span class="ms-2">Nessun servizio disponibile a sistema.</span>
+                    <span class="ms-2"
+                      >Nessun servizio disponibile a sistema.</span
+                    >
                   </div>
                 </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
-        <!-- Aggiungi la paginazione di Bootstrap qui -->
-        <nav *ngIf="!isLoading && totalPages > 0" aria-label="Page navigation example">
+        <nav
+          *ngIf="!isLoading && totalPages > 0"
+          aria-label="Page navigation example"
+        >
           <ul class="pagination justify-content-center pt-3">
-            <!-- Codice corretto per il pulsante "Previous" -->
-            <li
-              class="fw-bold page-item"
-              (click)="getPreviousPage()"
-              (keydown.enter)="getPreviousPage()"
-              [ngClass]="{ disabled: currentPage === 1 }"
-              tabindex="0"
-            >
-              <button class="page-link">Precedente</button>
+            <!-- Pulsante "Precedente" -->
+            <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+              <button
+                class="page-link"
+                (click)="getPreviousPage()"
+                [disabled]="currentPage === 1"
+              >
+                Precedente
+              </button>
             </li>
 
-            <!-- Codice corretto per la lista di pagine -->
+            <!-- Numeri di pagina -->
             <li
               *ngFor="let page of pages"
-              class="fw-bold page-item"
-              (click)="getPagesData(page)"
-              (keydown.enter)="getPagesData(page)"
+              class="page-item"
               [ngClass]="{ active: page === currentPage }"
-              tabindex="0"
             >
-              <button class="page-link sc-primary">{{ page }}</button>
+              <button class="page-link" (click)="getPagesData(page)">
+                {{ page }}
+              </button>
             </li>
 
-            <!-- Codice corretto per il pulsante "Next" -->
+            <!-- Pulsante "Successivo" -->
             <li
-              class="fw-bold page-item"
-              (click)="getNextPage()"
-              (keydown.enter)="getNextPage()"
+              class="page-item"
               [ngClass]="{ disabled: currentPage === totalPages }"
-              tabindex="0"
             >
-              <button class="page-link">Successivo</button>
+              <button
+                class="page-link"
+                (click)="getNextPage()"
+                [disabled]="currentPage === totalPages"
+              >
+                Successivo
+              </button>
             </li>
           </ul>
         </nav>
@@ -168,8 +190,8 @@
             </div>
             <div class="row mt-3">
               <div class="col-6">
-                <label for="employeePhone" class="fw-bold form-label"
-                  > Quantità</label
+                <label for="employeePhone" class="fw-bold form-label">
+                  Quantità</label
                 >
                 <input
                   type="number"
