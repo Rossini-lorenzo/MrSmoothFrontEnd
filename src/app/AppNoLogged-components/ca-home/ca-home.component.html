@@ -198,8 +198,8 @@
       </div>
       <div class="col-3 d-flex justify-content-end">
         <span class="fw"
-          ><i class="fa-solid fa-user fa-lg me-2"></i>
-          MR. SMOOTH | SC00001</span
+          ><i class="fa-solid fa-user fa-lg me-2"></i> MR. SMOOTH |
+          SC00001</span
         >
       </div>
       <div class="col-2 d-flex justify-content-center position-relative">
@@ -212,17 +212,13 @@
           <span class="fw-bold">NOTIFICHE (2)</span>
         </button>
       </div>
-      
 
       <div class="col-1 d-flex justify-content-center">
         <!-- <button class="sc-primary">
             <i class="fa-solid fa-right-from-bracket fa-lg"></i>
         </button> -->
         <a style="color: black" href="#">
-          <i
-            class="fa-solid fa-right-from-bracket fa-lg me-2"
-            
-          ></i>
+          <i class="fa-solid fa-right-from-bracket fa-lg me-2"></i>
           <span class="fw-bold">ESCI</span>
         </a>
       </div>
@@ -276,12 +272,14 @@
                 [attr.aria-labelledby]="'heading' + index"
               >
                 <div
-                  *ngFor="let link of menuItem.links; let linkIndex = index"
-                  class="accordion-body sc-secondary border"
-                  style="cursor: pointer"
-                  [class.selected]="selectedLink === link"
-                  (click)="selectLink(link)"
-                  [routerLink]="link.url"
+                *ngFor="let link of menuItem.links; let linkIndex = index"
+                class="accordion-body sc-secondary border"
+                style="cursor: pointer"
+                [class.selected]="selectedLink === link"
+                (click)="selectLink(link)"
+                (keydown.enter)="selectLink(link)"
+                tabindex="0"
+                [routerLink]="link.url"
                 >
                   <div class="row">
                     <div class="col-10">

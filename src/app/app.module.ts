@@ -35,6 +35,7 @@ import { ScStaffPerformanceComponent } from './AppNoLogged-components/sc-staff-p
 import { ScShopInvoicesComponent } from './AppNoLogged-components/sc-shop-invoices/sc-shop-invoices.component';
 import { ScSalesArchiveComponent } from './AppNoLogged-components/sc-sales-archive/sc-sales-archive.component';
 import { ScModalComponent } from './sc-ui/sc-modal/sc-modal.component';
+import { ScAlertComponent } from './sc-ui/sc-alert/sc-alert.component';
 
 // Full Calendar
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -81,6 +82,7 @@ import { authInterceptor } from './auth.interceptor';
     ScShopInvoicesComponent,
     ScSalesArchiveComponent,
     ScModalComponent,
+    ScAlertComponent,
     EventDialogContentComponent,
     FooterComponent,
   ],

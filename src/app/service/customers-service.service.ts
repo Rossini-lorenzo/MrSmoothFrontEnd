@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
-import { Customer } from '../AppNoLogged-components/sc-customers-management/sc-customers-management.component';
+import { CustomerListModel } from '../sc-models/sc-models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +12,10 @@ export class CustomersServiceService {
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
-  getAllCustomer(): Observable<Customer[]> {
+  getAllCustomer(): Observable<CustomerListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', tokenStr);
-    return this.httpClient.get<Customer[]>(
+    return this.httpClient.get<CustomerListModel>(
       this.apiUrl + 'userProduct/getAllCustomer',
       { headers }
     );
@@ -28,7 +28,7 @@ export class CustomersServiceService {
     email: string,
     cellulare: number,
     dataDiNascita: string
-  ): Observable<HttpResponse<Object[]>> {
+  ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
@@ -58,7 +58,7 @@ export class CustomersServiceService {
     email: string,
     cellulare: number,
     dataDiNascita: string
-  ): Observable<HttpResponse<Object[]>> {
+  ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
@@ -80,7 +80,7 @@ export class CustomersServiceService {
     );
   }
 
-  deleteCustomer(id: number): Observable<HttpResponse<Object[]>> {
+  deleteCustomer(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);

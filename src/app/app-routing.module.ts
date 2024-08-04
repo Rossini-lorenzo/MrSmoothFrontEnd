@@ -97,7 +97,7 @@ const routes: Routes = [
       {
         path: 'sales-archive',
         component: ScSalesArchiveComponent,
-        data: { breadcrumb: 'Vendite / Registro giornaliero' },
+        data: { breadcrumb: 'Vendite / Archivio' },
       },
       {
         path: 'shop-performance',

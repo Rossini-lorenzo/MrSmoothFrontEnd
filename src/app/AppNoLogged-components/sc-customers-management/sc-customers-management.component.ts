@@ -5,16 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { CustomerListModel, CustomerModel } from 'src/app/sc-models/sc-models';
 import { CustomersServiceService } from 'src/app/service/customers-service.service';
-
-export interface Customer {
-  id: number;
-  nome: string;
-  cognome: string;
-  cellulare: number;
-  email: string;
-  dataNascita: string;
-}
 
 @Component({
   selector: 'app-sc-customers-management',
@@ -22,10 +14,10 @@ export interface Customer {
   styleUrl: './sc-customers-management.component.css'
 })
 export class ScCustomersManagementComponent implements OnInit {
-  dataSource: Customer[] = [];
+  dataSource: CustomerListModel = [];
   isLoading = false;
 
-  selectedCustomer: Customer = {
+  selectedCustomer: CustomerModel = {
     id: 0,
     nome: '',
     cognome: '',
@@ -71,7 +63,7 @@ export class ScCustomersManagementComponent implements OnInit {
   public getAllCustomers(): void {
     this.isLoading = true;
     this.customersService.getAllCustomer().subscribe({
-      next: (response: Customer[]) => {
+      next: (response: CustomerListModel) => {
         const responseData = response;
         this.dataSource = responseData;
       },
@@ -85,7 +77,7 @@ export class ScCustomersManagementComponent implements OnInit {
 
   public addNewCustomer(): void {
     this.isLoading = true;
-    const newCustomer: Customer = this.form.value;
+    const newCustomer: CustomerModel = this.form.value;
     this.customersService
       .addCustomer(
         newCustomer.nome,
@@ -95,7 +87,7 @@ export class ScCustomersManagementComponent implements OnInit {
         newCustomer.dataNascita,
       )
       .subscribe({
-        next: (response: any) => {
+        next: (response: string) => {
           this.showSuccess(response);
         },
         error: (error) => console.error(error),
@@ -123,7 +115,7 @@ export class ScCustomersManagementComponent implements OnInit {
         this.selectedCustomer.dataNascita,
       )
       .subscribe({
-        next: (response: any) => {
+        next: (response: string) => {
           this.showSuccess(response);
         },
         error: (error) => console.error(error),
@@ -136,7 +128,7 @@ export class ScCustomersManagementComponent implements OnInit {
   public deleteCustomer(id: number): void {
     this.isLoading = true;
     this.customersService.deleteCustomer(id).subscribe({
-      next: (response: any) => {
+      next: (response: string) => {
         this.showSuccess(response);
       },
       error: (error) => console.error(error),
@@ -146,7 +138,7 @@ export class ScCustomersManagementComponent implements OnInit {
     });
   }
 
-  openModal(actionType: string, selectedEmployee?: Customer) {
+  openModal(actionType: string, selectedEmployee?: CustomerModel) {
     this.modalActionType = actionType;
     if (selectedEmployee) this.employeeToDelete = selectedEmployee.id;
     this.isOpen = true;
@@ -154,7 +146,7 @@ export class ScCustomersManagementComponent implements OnInit {
     this.initializeForm(selectedEmployee);
   }
 
-  initializeForm(selectedEmployee?: Customer) {
+  initializeForm(selectedEmployee?: CustomerModel) {
     switch (this.modalActionType) {
       case 'EDIT':
         if (selectedEmployee) this.selectedCustomer = { ...selectedEmployee };

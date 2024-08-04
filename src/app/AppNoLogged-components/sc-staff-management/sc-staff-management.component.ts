@@ -5,18 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { EmployeeListModel, EmployeeModel } from 'src/app/sc-models/sc-models';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
-
-export interface Employee {
-  id: number;
-  nome: string;
-  cognome: string;
-  ruolo: string;
-  cellulare: number;
-  email: string;
-  dataAssunzione: string;
-  dataScadenzaContratto: string;
-}
 
 @Component({
   selector: 'app-sc-staff-management',
@@ -24,10 +14,10 @@ export interface Employee {
   styleUrls: ['./sc-staff-management.component.css'],
 })
 export class ScStaffManagementComponent implements OnInit {
-  dataSource: Employee[] = [];
+  dataSource: EmployeeListModel = [];
   isLoading = false;
 
-  selectedEmployee: Employee = {
+  selectedEmployee: EmployeeModel = {
     id: 0,
     nome: '',
     cognome: '',
@@ -47,9 +37,12 @@ export class ScStaffManagementComponent implements OnInit {
   form: FormGroup;
   submitted = false;
 
+  today: string;
+
   // Variabili per l'alert di successo
-  showSuccessAlert = false;
-  successMessage = '';
+  showAlert = false;
+  alertMessage = '';
+  alertMessageType = '';
 
   constructor(
     private employeeService: EmployeesServiceService,
@@ -70,16 +63,25 @@ export class ScStaffManagementComponent implements OnInit {
       dataScadenzaContratto: ['', Validators.required],
     });
     // Se è stata selezionata una riga per la modifica, prepopola il form
+
+    const todayDate = new Date();
+    const year = todayDate.getFullYear();
+    const month = (todayDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = todayDate.getDate().toString().padStart(2, '0');
+    this.today = `${year}-${month}-${day}`;
   }
 
-  public getAllEmployee(): void {
+  public getAllEmployee() {
     this.isLoading = true;
-    this.employeeService.getAllEmployee().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
+    this.employeeService.getAllEmployeeAPI().subscribe({
+      next: (response: EmployeeListModel) => {
+        const responseData = response;
         this.dataSource = responseData;
       },
-      error: (error) => console.error(error),
+      error: (error) => {
+        console.error(error);
+        this.isLoading = false;
+      },
       complete: () => {
         this.isLoading = false;
         console.info('complete');
@@ -89,7 +91,7 @@ export class ScStaffManagementComponent implements OnInit {
 
   public addNewEmployee(): void {
     this.isLoading = true;
-    const newEmployee: Employee = this.form.value;
+    const newEmployee: EmployeeModel = this.form.value;
     this.employeeService
       .addEmployee(
         newEmployee.nome,
@@ -100,10 +102,15 @@ export class ScStaffManagementComponent implements OnInit {
         newEmployee.dataAssunzione
       )
       .subscribe({
-        next: (response: any) => {
-          this.showSuccess(response);
+        next: (response: string) => {
+          this.alertMessageType = "SUCCESS";
+          this.onShowAlert(response);
         },
-        error: (error) => console.error(error),
+        error: (error) => {
+          this.isLoading = false;
+          this.alertMessageType = "ERROR";
+          this.onShowAlert(error.error);
+        },
         complete: () => {
           this.getAllEmployee();
         },
@@ -129,10 +136,15 @@ export class ScStaffManagementComponent implements OnInit {
         this.selectedEmployee.dataAssunzione
       )
       .subscribe({
-        next: (response: any) => {
-          this.showSuccess(response);
+        next: (response: string) => {
+          this.alertMessageType = "SUCCESS";
+          this.onShowAlert(response);
         },
-        error: (error) => console.error(error),
+        error: (error) => {
+          this.isLoading = false;
+          this.alertMessageType = "ERROR";
+          this.onShowAlert(error.error);
+        },
         complete: () => {
           this.getAllEmployee();
         },
@@ -142,17 +154,22 @@ export class ScStaffManagementComponent implements OnInit {
   public deleteEmployee(id: number): void {
     this.isLoading = true;
     this.employeeService.deleteEmployee(id).subscribe({
-      next: (response: any) => {
-        this.showSuccess(response);
+      next: (response: string) => {
+        this.alertMessageType = "SUCCESS";
+        this.onShowAlert(response);
       },
-      error: (error) => console.error(error),
+      error: (error) => {
+        this.isLoading = false;
+        this.alertMessageType = "ERROR";
+        this.onShowAlert(error.error);
+      },
       complete: () => {
         this.getAllEmployee();
       },
     });
   }
 
-  openModal(actionType: string, selectedEmployee?: Employee) {
+  openModal(actionType: string, selectedEmployee?: EmployeeModel) {
     this.modalActionType = actionType;
     if (selectedEmployee) this.employeeToDelete = selectedEmployee.id;
     this.isOpen = true;
@@ -160,7 +177,7 @@ export class ScStaffManagementComponent implements OnInit {
     this.initializeForm(selectedEmployee);
   }
 
-  initializeForm(selectedEmployee?: Employee) {
+  initializeForm(selectedEmployee?: EmployeeModel) {
     switch (this.modalActionType) {
       case 'EDIT':
         if (selectedEmployee) this.selectedEmployee = { ...selectedEmployee };
@@ -249,15 +266,11 @@ export class ScStaffManagementComponent implements OnInit {
     this.form.reset();
   }
 
-  showSuccess(message: string): void {
-    this.successMessage = message;
-    this.showSuccessAlert = true;
+  onShowAlert(message: string): void {
+    this.alertMessage = message;
+    this.showAlert = true;
     setTimeout(() => {
-      this.showSuccessAlert = false;
+      this.showAlert = false;
     }, 3000);
-  }
-
-  closeSuccessAlert(): void {
-    this.showSuccessAlert = false;
   }
 }

@@ -5,13 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ServiceListModel, ServiceModel } from 'src/app/sc-models/sc-models';
 import { ServicesServiceService } from 'src/app/service/services-service.service';
-
-export interface Service {
-  id: number;
-  serviceName: string;
-  servicePrice: number;
-}
 
 @Component({
   selector: 'app-sc-services-management',
@@ -19,10 +14,10 @@ export interface Service {
   styleUrl: './sc-services-management.component.css'
 })
 export class ScServicesManagementComponent implements OnInit {
-  dataSource: Service[] = [];
+  dataSource: ServiceListModel = [];
   isLoading = false;
 
-  selectedCustomer: Service = {
+  selectedCustomer: ServiceModel = {
     id: 0,
     serviceName: '',
     servicePrice: 0,
@@ -58,8 +53,8 @@ export class ScServicesManagementComponent implements OnInit {
   public getAllServicess(): void {
     this.isLoading = true;
     this.servicesService.getAllService().subscribe({
-      next: (response: any) => {
-        const responseData = response.body;
+      next: (response: ServiceListModel) => {
+        const responseData = response;
         this.dataSource = responseData;
       },
       error: (error) => console.error(error),
@@ -72,14 +67,14 @@ export class ScServicesManagementComponent implements OnInit {
 
   public addNewService(): void {
     this.isLoading = true;
-    const newCustomer: Service = this.form.value;
+    const newCustomer: ServiceModel = this.form.value;
     this.servicesService
       .addService(
         newCustomer.serviceName,
         newCustomer.servicePrice,
       )
       .subscribe({
-        next: (response: any) => {
+        next: (response: string) => {
           this.showSuccess(response);
         },
         error: (error) => console.error(error),
@@ -104,7 +99,7 @@ export class ScServicesManagementComponent implements OnInit {
         this.selectedCustomer.servicePrice,
       )
       .subscribe({
-        next: (response: any) => {
+        next: (response: string) => {
           this.showSuccess(response);
         },
         error: (error) => console.error(error),
@@ -117,7 +112,7 @@ export class ScServicesManagementComponent implements OnInit {
   public deleteService(id: number): void {
     this.isLoading = true;
     this.servicesService.deleteService(id).subscribe({
-      next: (response: any) => {
+      next: (response: string) => {
         this.showSuccess(response);
       },
       error: (error) => console.error(error),
@@ -127,7 +122,7 @@ export class ScServicesManagementComponent implements OnInit {
     });
   }
 
-  openModal(actionType: string, selectedEmployee?: Service) {
+  openModal(actionType: string, selectedEmployee?: ServiceModel) {
     this.modalActionType = actionType;
     if (selectedEmployee) this.employeeToDelete = selectedEmployee.id;
     this.isOpen = true;
@@ -135,7 +130,7 @@ export class ScServicesManagementComponent implements OnInit {
     this.initializeForm(selectedEmployee);
   }
 
-  initializeForm(selectedEmployee?: Service) {
+  initializeForm(selectedEmployee?: ServiceModel) {
     switch (this.modalActionType) {
       case 'EDIT':
         if (selectedEmployee) this.selectedCustomer = { ...selectedEmployee };
