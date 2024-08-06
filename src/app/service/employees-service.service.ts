@@ -14,11 +14,12 @@ export class EmployeesServiceService {
 
   getAllEmployeeAPI(): Observable<EmployeeListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-
+    const piva = localStorage.getItem('piva');
     const headers = new HttpHeaders().set('Authorization', tokenStr);
-    return this.httpClient.get<Object[]>(
-      this.apiUrl + 'userProduct/getAllEmployee',
-      { headers, observe: 'response' }
+    return this.httpClient.get<EmployeeListModel>(
+      this.apiUrl + 'userProduct/getAllEmployee'+
+      '?piva='+piva,
+      { headers }
     );
   }
 
@@ -56,17 +57,17 @@ export class EmployeesServiceService {
     );
   }
 
+
   addEmployee(
     nome: string,
     cognome: string,
     email: string,
     cellulare: number,
     dataScadenzaContratto: string,
-    dataAssunzione: string,
-  ): Observable<HttpResponse<Object[]>> {
+    dataAssunzione: string
+  ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-    const piva = localStorage.getItem('piva');
-
+    let piva : any  = localStorage.getItem('piva');
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
@@ -82,12 +83,14 @@ export class EmployeesServiceService {
         '&dataScadenzaContratto=' +
         dataScadenzaContratto +
         '&dataAssunzione=' +
-        dataAssunzione+
-        '&piva='+piva,
+        dataAssunzione
+        +'&piva='+piva,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
   }
+ 
+  
 
   deleteEmployee(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
