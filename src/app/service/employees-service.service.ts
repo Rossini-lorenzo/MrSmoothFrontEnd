@@ -2,23 +2,22 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { EmployeeListModel } from '../sc-models/sc-models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EmployeesServiceService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
-  getAllEmployee(): Observable<HttpResponse<Object[]>> {
+  getAllEmployeeAPI(): Observable<EmployeeListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'userProduct/getAllEmployee?piva='+piva,
+      this.apiUrl + 'userProduct/getAllEmployee',
       { headers, observe: 'response' }
     );
   }
@@ -30,8 +29,8 @@ export class EmployeesServiceService {
     email: string,
     cellulare: number,
     dataScadenzaContratto: string,
-    dataAssunzione: string,
-  ): Observable<HttpResponse<Object[]>> {
+    dataAssunzione: string
+  ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
@@ -43,13 +42,13 @@ export class EmployeesServiceService {
         '&nome=' +
         nome +
         '&cognome=' +
-        cognome + 
+        cognome +
         '&email=' +
-        email + 
+        email +
         '&cellulare=' +
-        cellulare + 
+        cellulare +
         '&dataScadenzaContratto=' +
-        dataScadenzaContratto + 
+        dataScadenzaContratto +
         '&dataAssunzione=' +
         dataAssunzione,
       null,
@@ -63,7 +62,7 @@ export class EmployeesServiceService {
     email: string,
     cellulare: number,
     dataScadenzaContratto: string,
-    dataAssunzione: string
+    dataAssunzione: string,
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const piva = localStorage.getItem('piva');
@@ -75,13 +74,13 @@ export class EmployeesServiceService {
         'userProduct/newEmployee?nome=' +
         nome +
         '&cognome=' +
-        cognome + 
+        cognome +
         '&email=' +
-        email + 
+        email +
         '&cellulare=' +
-        cellulare + 
+        cellulare +
         '&dataScadenzaContratto=' +
-        dataScadenzaContratto + 
+        dataScadenzaContratto +
         '&dataAssunzione=' +
         dataAssunzione+
         '&piva='+piva,
@@ -90,7 +89,7 @@ export class EmployeesServiceService {
     );
   }
 
-  deleteEmployee(id: number): Observable<HttpResponse<Object[]>> {
+  deleteEmployee(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);

@@ -8,13 +8,11 @@ import {
 import { ScannerQRCodeConfig, ScannerQRCodeResult } from 'ngx-scanner-qrcode';
 import { SalesServiceService } from 'src/app/service/sales-service.service';
 import { ServicesServiceService } from 'src/app/service/services-service.service';
-import { Service } from '../sc-services-management/sc-services-management.component';
-import { Employee } from '../sc-staff-management/sc-staff-management.component';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';
 import { Product } from '../sc-summary-warehouse/sc-summary-warehouse.component';
 import { ProductServiceService } from 'src/app/service/product-service.service';
-import { Customer } from '../sc-customers-management/sc-customers-management.component';
 import { CustomersServiceService } from 'src/app/service/customers-service.service';
+import { CustomerListModel, CustomerModel, EmployeeListModel, ServiceListModel } from 'src/app/sc-models/sc-models';
 
 export interface Sale {
   date: string;
@@ -49,11 +47,11 @@ interface SaleArticle {
 })
 export class CaChestComponent implements OnInit {
   salesReceipt: SalesReceipt[] = [];
-  serviceList: Service[] = [];
-  employeeList: Employee[] = [];
+  serviceList: ServiceListModel = [];
+  employeeList: EmployeeListModel = [];
   productList: Product[] = [];
-  customerList: Customer[] = [];
-  filteredSuggestions: Customer[] = [];
+  customerList: CustomerListModel = [];
+  filteredSuggestions: CustomerListModel = [];
   service = '';
   quantity = 0;
   price = 0;
@@ -126,7 +124,7 @@ export class CaChestComponent implements OnInit {
     this.isLoading = true;
     return new Promise<void>((resolve, reject) => {
       this.customersService.getAllCustomer().subscribe({
-        next: (response: Customer[]) => {
+        next: (response: CustomerListModel) => {
           this.customerList = response;
         },
         error: (error) => {
@@ -145,8 +143,8 @@ export class CaChestComponent implements OnInit {
     this.isLoading = true;
     return new Promise<void>((resolve, reject) => {
       this.servicesService.getAllService().subscribe({
-        next: (response: any) => {
-          this.serviceList = response.body;
+        next: (response: ServiceListModel) => {
+          this.serviceList = response;
         },
         error: (error) => {
           console.error(error);
@@ -163,9 +161,9 @@ export class CaChestComponent implements OnInit {
   async getAllEmployee(): Promise<void> {
     this.isLoading = true;
     return new Promise<void>((resolve, reject) => {
-      this.employeeService.getAllEmployee().subscribe({
-        next: (response: any) => {
-          this.employeeList = response.body;
+      this.employeeService.getAllEmployeeAPI().subscribe({
+        next: (response: EmployeeListModel) => {
+          this.employeeList = response;
         },
         error: (error) => {
           console.error(error);
@@ -442,7 +440,7 @@ export class CaChestComponent implements OnInit {
     this.isOpen = this.filteredSuggestions.length > 0; // Mostra la lista solo se ci sono suggerimenti
   }
 
-  selectSuggestion(suggestion: Customer) {
+  selectSuggestion(suggestion: CustomerModel) {
     if (suggestion && suggestion.nome && suggestion.cognome) {
       const customerDenomination = suggestion.nome + ' ' + suggestion.cognome;
       const customerField = this.form.get('customer');

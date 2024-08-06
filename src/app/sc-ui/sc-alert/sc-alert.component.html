@@ -1,0 +1,19 @@
+<div
+  *ngIf="isVisible"
+  [ngClass]="{
+    'alert-success': type === 'success',
+    'alert-danger': type === 'danger',
+    'alert-warning': type === 'warning',
+    'alert-info': type === 'info'
+  }"
+  class="alert mt-3"
+  role="alert"
+>
+  <ng-content></ng-content>
+  <!-- <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="isVisible = false"
+  ></button> -->
+</div>

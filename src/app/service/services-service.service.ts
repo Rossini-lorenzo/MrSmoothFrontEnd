@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { ServiceListModel } from '../sc-models/sc-models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,12 @@ export class ServicesServiceService {
 
   apiUrl = `${environment.apiBaseUrl}/`;
 
-  getAllService(): Observable<HttpResponse<Object[]>> {
+  getAllService(): Observable<ServiceListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-
     const headers = new HttpHeaders().set('Authorization', tokenStr);
-    return this.httpClient.get<Object[]>(
+    return this.httpClient.get<ServiceListModel>(
       this.apiUrl + 'userProduct/getAllService',
-      { headers, observe: 'response' }
+      { headers }
     );
   }
 
@@ -26,7 +26,7 @@ export class ServicesServiceService {
     id: number,
     serviceName: string,
     servicePrice: number,
-  ): Observable<HttpResponse<Object[]>> {
+  ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
@@ -47,7 +47,7 @@ export class ServicesServiceService {
   addService(
     serviceName: string,
     servicePrice: number,
-  ): Observable<HttpResponse<Object[]>> {
+  ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
@@ -63,7 +63,7 @@ export class ServicesServiceService {
     );
   }
 
-  deleteService(id: number): Observable<HttpResponse<Object[]>> {
+  deleteService(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
