@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 import { ProductServiceService } from 'src/app/service/product-service.service';
 import { ServicesServiceService } from 'src/app/service/services-service.service';
 import { CustomersServiceService } from 'src/app/service/customers-service.service';
+import { MessagesServiceService } from 'src/app/service/messages-service.service';
 
 import { ActivatedRoute } from '@angular/router';
 import itLocale from '@fullcalendar/core/locales/it';
@@ -53,12 +54,14 @@ export class CaCalendarComponent {
 
   // Cazione evento 
   selectedEmployee: any;
+  selectedMessage: any;
   selectedService: any;
   description: string = '';
   employees: any= [];  
   services: any= []; 
+  messages: any= []; 
   cliente: string = '';
-  customers: { nomeCliente: string; cognomeCliente: string }[] = [];
+  customers: { nomeCliente: string; cognomeCliente: string;id :number }[] = [];
   filteredSuggestions: { nomeCliente: string; cognomeCliente: string }[] = [];
   isOpen: boolean = false; // Variabile per gestire la visibilità della lista dei suggerimenti
 
@@ -75,10 +78,17 @@ export class CaCalendarComponent {
     initialView: 'timeGridWeek',
     eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
     slotMinTime: '07:00', // Imposta l'ora minima a 8:00 di mattina
-    slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
+    slotMaxTime: '22:00', // Imposta l'ora massima a 21:00 di sera
     slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
     allDaySlot: false, // Disabilita lo slot "All-day"
     titleFormat: { year: 'numeric', month: 'long' },
+    eventContent: function(info) {
+      return {
+        html: `<div class="custom-event-content">
+                 <div class="event-title">${info.event.title}</div>
+                 <div class="event-details">${info.event.title || ''}</div>
+               </div>`
+      };},
     dayHeaderContent: function (args) {
       return {
          html: '<div class="custom-day-header" style=" text-decoration: none!important; ">' +
@@ -93,7 +103,7 @@ export class CaCalendarComponent {
     },
     locale: 'it', // Imposta la lingua italiana direttamente tramite l'opzione locale
 
-    slotMinWidth: 50, // Puoi regolare questo valore in base alle tue esigenze
+    slotMinWidth: 100, // Puoi regolare questo valore in base alle tue esigenze
 
     selectable: true,
     select: this.handleDateSelect.bind(this),
@@ -104,7 +114,8 @@ export class CaCalendarComponent {
   
 
   constructor(private route: ActivatedRoute,private httpClient: HttpClient,private productService: ProductServiceService,
-    private dialog: MatDialog,private servicesService :ServicesServiceService,private customersService :CustomersServiceService) {
+    private dialog: MatDialog,private servicesService :ServicesServiceService,private customersService :CustomersServiceService,
+    private messageService :MessagesServiceService) {
      this.selectedDate = new Date();
      this.activeDate = this.selectedDate; // Inizializza activeDate con selectedDate
     }
@@ -147,7 +158,8 @@ export class CaCalendarComponent {
         
           for (const serv of responseData) {
             const service = {
-              serviceName: serv.serviceName
+              serviceName: serv.serviceName,
+              serviceId:serv.id
             };
             this.services.push(service);
           }
@@ -161,14 +173,17 @@ export class CaCalendarComponent {
   //IMPORTO TUTTI I CLIENTI PER LA SELECT DEI CLIENTI
   this.customersService.getAllCustomer().subscribe({
     next: (response: any) => {
-      
-      const responseData = response.body; // Accesso al corpo della risposta
-      console.log("Response data:", responseData); // Logga i dati ricevuti
+
+
+      const responseData = response; // Accesso al corpo della risposta
       
         for (const cust of responseData) {
+          console.log("Response clienti:", cust); // Logga i dati ricevuti
+
           const customer = {
             nomeCliente: cust.nome,
-            cognomeCliente: cust.cognome
+            cognomeCliente: cust.cognome,
+            id:cust.id
           };
           this.customers.push(customer);
         }
@@ -179,17 +194,47 @@ export class CaCalendarComponent {
     complete: () => {console.info('complete');console.log(this.employees)},
   });
     
-   console.log("CUST",this.customers);
+
+  
+    //IMPORTO TUTTI I MESSAGGI PER LA SELECT DEI SERVIZI
+    this.messageService.getAllMessage().subscribe({
+      next: (response: any) => {
+        console.log("Response message:", response); // Logga i dati ricevuti
+
+        const responseData = response; // Accesso al corpo della risposta
+        
+          for (const mess of responseData) {
+            const message = {
+              idMessaggio: mess.id,
+              nomeMessaggio:mess.messageName
+            };
+            this.messages.push(message);
+          }
+        
+       
+      },
+      error: (error) => console.error(error),
+      complete: () => {console.info('complete');console.log(this.messages)},
+    });
+
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
       initialView: 'timeGridWeek',
       initialDate: this.selectedDate, // Imposta la data iniziale alla data selezionata
       eventDisplay: 'block', // Imposta la visualizzazione degli eventi come blocchi
       slotMinTime: '07:00', // Imposta l'ora minima a 8:00 di mattina
-      slotMaxTime: '21:00', // Imposta l'ora massima a 21:00 di sera
+      slotMaxTime: '22:30', // Imposta l'ora massima a 21:00 di sera
       slotDuration: '00:30:00', // Imposta la durata degli slot a 15 minuti
       allDaySlot: false, // Disabilita lo slot "All-day"
       titleFormat: { year: 'numeric', month: 'long' },
+      eventContent: function(info) {
+        return {
+          html: `<div class="d-flex align-items-center justify-content-between" style="font-size:10px; white-space: nowrap;" data-bs-toggle="tooltip" data-bs-placement="top" title="${info.event.title}">
+          <i class="fa-solid fa-clock" aria-hidden="true" style="margin-right: 0px;font-size:7px;"></i>
+          <div class="flex-grow-1 text-trunca te ms-2" style="text-align: left;font-size:7px;margin-left: 4px !important">${info.timeText}</div>
+          <div class="flex-grow-1 text-truncate ms-2"style="text-align: left;font-size:7px;margin-left: 4px !important">${info.event.title || ''}</div>
+        </div>`
+        };},
       dayHeaderContent: function (args) {
         return {
            html: '<div class="custom-day-header" style=" text-decoration: none!important; ">' +
@@ -204,7 +249,7 @@ export class CaCalendarComponent {
       },
       locale: 'it', // Imposta la lingua italiana direttamente tramite l'opzione locale
 
-      slotMinWidth: 50, // Puoi regolare questo valore in base alle tue esigenze
+      slotMinWidth: 100, // Puoi regolare questo valore in base alle tue esigenze
 
       selectable: true,
       select: this.handleDateSelect.bind(this),
@@ -299,6 +344,8 @@ onDocumentClick(event: MouseEvent) {
             start: item.start.dateTime,
             end: item.end.dateTime,
             description: item.description,
+            backgroundColor: '#ff1e29', // Colore di sfondo
+
             classNames: ['my-custom-event']
           }));
           console.log('Formatted Events:', events);
@@ -370,6 +417,7 @@ onDocumentClick(event: MouseEvent) {
   //Click bottone crea evento
   creaEvento(){
     console.log(this.description +" " + this.cliente+ " "+this.selectedEmployee)
+    console.log("messagio",this.selectedMessage)
     const newEvent = {
       title:this.cliente,
       start: this.startDateCreateEvent,
@@ -378,7 +426,7 @@ onDocumentClick(event: MouseEvent) {
     };
 
     this.productService.createEvent(this.cliente, this.description,this.selectedEmployee
-      ,  new Date(this.startDateCreateEvent).toISOString(),  new Date(this.endDateCreateEvent).toISOString()).subscribe({
+      ,  new Date(this.startDateCreateEvent).toISOString(),  new Date(this.endDateCreateEvent).toISOString(),this.selectedMessage,this.selectedService).subscribe({
       next: (response: any) => {
         const responseData = response.body;
         console.log("RESP", response);
@@ -414,27 +462,30 @@ onDocumentClick(event: MouseEvent) {
 
 // Creazione evento click sul calendario (NO click su eventi)
 handleDateSelect(selectInfo: any) {
+  console.log("CLICK");
   this.cliente="";
   this.description="";
   this.selectedService="";
   this.selectedEmployee="";
-
+  this.selectedMessage="";
 
   const cardElement = document.getElementById('creaEvento');
   const spanElement = document.getElementById('creaEventoTitolo');
   const creaEventoBtn = document.getElementById('creaEventoBtn');
   const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
   const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
+  const nuovoClienteBtn = document.getElementById('nuovoClienteBtn');
 
   this.startDateCreateEvent = selectInfo.startStr;
   this.endDateCreateEvent =selectInfo.endStr;
 
 
-  if (cardElement&&spanElement&&creaEventoBtn&&cancellaEventoBtn&&eliminaEventoBtn) {
+  if (cardElement&&spanElement&&creaEventoBtn&&cancellaEventoBtn&&eliminaEventoBtn&&nuovoClienteBtn) {
     cardElement.style.display = 'block';
     creaEventoBtn.style.display = 'block';
     cancellaEventoBtn.style.display = 'none';
     eliminaEventoBtn.style.display = 'none';
+    nuovoClienteBtn.style.display = 'block';
     //Titolo card
     const startDate = new Date(selectInfo.start);
     const formattedDate = startDate.toLocaleString('it-IT', {
@@ -491,17 +542,31 @@ handleDateSelect(selectInfo: any) {
    }
 
 
-  //rimozione evento 
+  //rimozione / modifica evento 
   handleEventClick(clickInfo: any) {
+   
     //const c : any = document.getElementById('a.fc-timeline-event.fc-h-event.fc-event.'+ clickInfo.calEvent.id);      
 
+    // Effettua la chiamata per visualizzare l'evento dal backend
+    this.productService.getSingleEvent(clickInfo.event.id).subscribe({
+      next: (response: any) => {
+        console.log(response);
+          this.selectedService = response.body.idServizio; // Aggiorna la select del servizio
+            this.selectedEmployee = response.body.idDipendente; // Aggiorna la select del dipendente
+            this.selectedMessage = response.body.messageEntityId.id ; // Aggiorna la select del messaggio, se esiste
 
+      },
+      error: (error) => alert(error),
+      complete: () => console.info('complete'),
+    });
+    
 
     const cardElement = document.getElementById('creaEvento');
     const spanElement = document.getElementById('creaEventoTitolo');
     const cancellaEventoBtn = document.getElementById('cancellaEventoBtn');
     const eliminaEventoBtn = document.getElementById('eliminaEventoBtn');
     const creaEventoBtn = document.getElementById('creaEventoBtn');
+    const nuovoClienteBtn = document.getElementById('nuovoClienteBtn');
 
     this.clickInfoDelete = clickInfo;
     console.log("ID dell'evento cliccato:", clickInfo.event.id);
@@ -512,11 +577,12 @@ handleDateSelect(selectInfo: any) {
         evento = this.calendarOptions.events.find(event => event.id === clickInfo.event.id);
     }
 
-    if (cardElement && spanElement && creaEventoBtn && cancellaEventoBtn && eliminaEventoBtn) {
+    if (cardElement && spanElement && creaEventoBtn && cancellaEventoBtn && eliminaEventoBtn&&nuovoClienteBtn) {
         cardElement.style.display = 'block';
         creaEventoBtn.style.display = 'none';
         cancellaEventoBtn.style.display = 'block';
         eliminaEventoBtn.style.display = 'block';
+        nuovoClienteBtn.style.display = 'none';
 
         // Titolo card
         const startDate = clickInfo.event.start;

@@ -140,7 +140,9 @@ export class ProductServiceService {
     descrizione: any,
     idDipendente: any,
     startDate: any,
-    endDate: any
+    endDate: any,
+    idMessaggio:any,
+    idServizio:any
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().append('Authorization', tokenStr);
@@ -155,7 +157,42 @@ export class ProductServiceService {
         '&startDate=' +
         startDate +
         '&endDate=' +
-        endDate,
+        endDate+
+        '&idMessaggio=' +
+        idMessaggio+
+        '&idServizio=' +
+        idServizio,
+      null,
+      { headers: headers, responseType: 'text' as 'json' } // Aggiunto observe: 'response' per ottenere l'intera risposta HTTP
+    );
+  }
+  updateEvent(
+    googleCalendarId: any,
+    descrizione: any,
+    idDipendente: any,
+    startDate: any,
+    endDate: any,
+    idMessaggio:any,
+    idServizio:any
+  ): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
+
+    return this.httpClient.post<any>(
+      'http://localhost:8080/googleCalendar/update-event?&googleCalendarId=' +
+      googleCalendarId +
+        '&descrizione=' +
+        descrizione +
+        '&idDipendente=' +
+        idDipendente +
+        '&startDate=' +
+        startDate +
+        '&endDate=' +
+        endDate+
+        '&idMessaggio=' +
+        idMessaggio+
+        '&idServizio=' +
+        idServizio,
       null,
       { headers: headers, responseType: 'text' as 'json' } // Aggiunto observe: 'response' per ottenere l'intera risposta HTTP
     );
@@ -176,62 +213,83 @@ export class ProductServiceService {
   //START DASHBOARD
   getAllEmployee(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'dashboard/getAllEmployee',
+      this.apiUrl + 'dashboard/getAllEmployee?piva='+piva,
       { headers, observe: 'response' }
     );
   }
 
   getAllCounters(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'dashboard/getAllCounter',
+      this.apiUrl + 'dashboard/getAllCounter?piva='+piva,
       { headers, observe: 'response' }
     );
   }
 
   getTagliPerDipendente(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'dashboard/getTagliPerDipendente',
+      this.apiUrl + 'dashboard/getTagliPerDipendente?piva='+piva,
       { headers, observe: 'response' }
     );
   }
   getProdottiVenduti(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'dashboard/getProdottiVenduti',
+      this.apiUrl + 'dashboard/getProdottiVenduti?piva='+piva,
       { headers, observe: 'response' }
     );
   }
 
   getServiziVenduti(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'dashboard/getServiziVenduti',
+      this.apiUrl + 'dashboard/getServiziVenduti?piva='+piva,
       { headers, observe: 'response' }
     );
   }
 
   getGuadagniMensili(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'dashboard/getGuadagnimensili',
+      this.apiUrl + 'dashboard/getGuadagnimensili?piva='+piva,
       { headers, observe: 'response' }
     );
   }
 
   //END DASHBOARD
+
+
+  //Start evento singolo 
+
+
+  getSingleEvent(  googleCalendarId: any,  ): Observable<HttpResponse<Object[]>> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+    const headers = new HttpHeaders().set('Authorization', tokenStr);
+    return this.httpClient.get<Object[]>(
+      this.apiUrl + 'userProduct/getSingleEvent?googleCalendarId=' +
+      googleCalendarId ,
+      { headers, observe: 'response' }
+    );
+  }
 }

@@ -58,12 +58,15 @@ export class AroundClientService {
       );
   }
 
-  public welcome(token: any, role: any, id: any) {
+  public welcome(token: any, role: any, id: any,piva:any,companyName:any) {
     const tokenStr = 'Bearer ' + token;
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
+    localStorage.setItem('piva', piva);
     localStorage.setItem('id', id);
+    localStorage.setItem('companyName', companyName);
+    console.log(localStorage.getItem("piva"));
     return this.httpClient.get<string>(this.apiUrl + 'products/welcome', {
       headers,
       responseType: 'text' as 'json',
@@ -79,7 +82,13 @@ export class AroundClientService {
 
   logout() {
     // remove token from local storage
+
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('piva');
+    localStorage.removeItem('id');
+    localStorage.removeItem('companyName');
+
   }
 
 

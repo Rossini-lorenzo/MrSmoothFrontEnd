@@ -10,6 +10,8 @@ styleUrls: ['./ca-home.component.css']
 })
 export class CaHomeComponent implements OnInit {
   breadcrumbs: string[] = [];
+  companyName: any = '';
+
   menuItems = MenuConfig;
   isOpen: boolean[] = [];
   selectedLink: any = null; // Proprietà per tenere traccia del link selezionato
@@ -21,6 +23,9 @@ export class CaHomeComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private service: AroundClientService) {}
 
   ngOnInit() {
+
+ this.companyName = localStorage.getItem('companyName');
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {

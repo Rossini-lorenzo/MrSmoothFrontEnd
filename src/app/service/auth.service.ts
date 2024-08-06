@@ -20,6 +20,9 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
-    // Altre operazioni di logout come pulire lo stato dell'utente
+    localStorage.removeItem('role');
+    localStorage.removeItem('piva');
+    localStorage.removeItem('id');
+    localStorage.removeItem('companyName');
   }
 }

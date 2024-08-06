@@ -39,7 +39,7 @@ model: any;
   }
 
   public accessApi(payload: any) {
-    const resp = this.service.welcome(payload.token, payload.role, payload.id);
+    const resp = this.service.welcome(payload.token, payload.role, payload.id,payload.piva,payload.companyName);
     resp.subscribe((data) => {
       this.response = data;
       if (payload.role == 'ROLE_PROMOTE') {

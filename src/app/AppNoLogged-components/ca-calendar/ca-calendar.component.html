@@ -1,3 +1,5 @@
+
+
 <div class="mt-0">
   <ng-container *ngIf="!getItem()"> </ng-container>
   <!-- Contenuto -->
@@ -6,6 +8,7 @@
     <div class="col-12">
       <ng-container *ngIf="getItem()">
         <!-- Calendario -->
+        <div class="container-fluid">
         <div class="card">
           <div class="card-header fw-bold sc-primary">
             <i class="fa-solid fa-calendar-days fa-lg me-2"></i>Agenda
@@ -20,7 +23,21 @@
                 ></full-calendar>
               </div>
               <div class="col-3">
+             
+                <div class="row">
+
+                
+              <div class="col-12 mb-2 text-center">
+
+                <button class="btn btn-secondary" id="b" style="font-size: 10px; ; line-height: 20px;">
+                  <i class="fa fa-plus" style="font-size: 10px; margin-right: 5px;"></i>
+                  <span style="font-size: 10px;">Nuova Prenotazione </span>
+                </button>
+                </div>
+                </div>
                 <div class="col-12">
+
+                 
                   <mat-calendar
                     [(selected)]="selectedDate"
                     (selectedChange)="dateSelected($event)"
@@ -33,26 +50,27 @@
                     style="display: none; font-size: 12px"
                     id="creaEvento"
                   >
-                    <div class="card-header">
-                      <div class="row align-items-center">
-                        <div class="col-10">
-                          <span id="creaEventoTitolo">Titolo della Card</span>
-                        </div>
-                        <div class="col-2 text-end">
-                          <button
-                            class="btn btn-secondary-outline close-btn"
-                            (click)="closeCard()"
-                          >
-                            &times;
-                          </button>
-                        </div>
+                  <div class="card-header" style="padding: 0px;;">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex align-items-center">
+                        <i class="fa fa-calendar" aria-hidden="true" style="margin-right: 20px;margin-left: 20px ;font-size: large;"></i>
+                        <span   id="creaEventoTitolo"></span>
                       </div>
+                      <button
+                        class="btn btn-light"
+                        style="margin-right: 5px;margin-top: 5px;margin-bottom: 5px;padding-top: 0px;padding-bottom: 0px;padding-left: 5px;padding-right: 5px;"
+                        (click)="closeCard()"
+                      >
+                        &times;
+                      </button>
                     </div>
+                  </div>
+                  
                     <div class="card-body">
                       <div class="div mb-0">
                         <!-- autocomplete.component.html -->
-                        <div class="autocomplete-container">
-                          <label for="titleInput">Cliente</label>
+                        <div class="autocomplete-container" style="position: relative;">
+                          <label for="titleInput" style="margin-bottom: 0px; font-size: 9px;">Cliente</label>
                           <input
                             type="text"
                             class="form-control"
@@ -60,8 +78,9 @@
                             name="titleInput"
                             [(ngModel)]="cliente"
                             (input)="onInputChange()"
-                            style="font-size: 12px"
+                            style="font-size: 12px; padding-right: 30px;"
                           />
+                          <i class="fa fa-plus-circle" id="nuovoClienteBtn"style="font-size: 20px; color:#28a745 ; position: absolute; right: 10px; top: 70%; transform: translateY(-50%); cursor: pointer;"></i>
                           <ul *ngIf="isOpen" class="suggestions">
                             <li
                               *ngFor="let suggestion of filteredSuggestions"
@@ -72,24 +91,29 @@
                             </li>
                           </ul>
                         </div>
+                        
 
-                        <label for="serviceSelect">Servizio</label>
+                        <label for="serviceSelect" style="margin-bottom: 0px;font-size: 9px;" >Servizio</label>
                         <select
+                        id="serviceSelect"
                           class="form-control"
                           [(ngModel)]="selectedService"
                           style="font-size: 12px"
                         >
                           <option
                             *ngFor="let service of services"
-                            [value]="service.serviceName"
+                            [value]="service.serviceId"
                           >
                             {{ service.serviceName }}
                           </option>
                         </select>
+
+                        
                       </div>
                       <div class="div">
-                        <label for="employeeSelect">Dipendente</label>
+                        <label for="employeeSelect" style="margin-bottom: 0px;font-size: 9px;">Dipendente</label>
                         <select
+                        id="employeeSelect"
                           class="form-control"
                           [(ngModel)]="selectedEmployee"
                           style="font-size: 12px"
@@ -102,52 +126,63 @@
                             {{ employee.cognomeDipendente }}
                           </option>
                         </select>
+                        <label for="serviceSelect" style="margin-bottom: 0px;font-size: 9px;">Messaggio</label>
+                        <select
+                        id="messageSelect"
+                          class="form-control"
+                          [(ngModel)]="selectedMessage"
+                          style="font-size: 12px"
+                        >
+                          <option
+                            *ngFor="let message of messages"
+                            [value]="message.idMessaggio"
+                          >
+                            {{ message.nomeMessaggio }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                     <div class="card-footer">
                       <div class="row">
-                        <div class="col-12">
-                          <div class="row">
-                            <div class="col-12 text-center">
-                              <button
-                                class="btn btn-success"
-                                id="creaEventoBtn"
-                                style="display: none; font-size: 12px"
-                                (click)="creaEvento()"
-                              >
-                                Salva <i class="fas fa-save"></i>
-                              </button>
-                            </div>
-                            <div class="col-6 text-left">
-                              <button
-                                class="btn btn-warning"
-                                id="cancellaEventoBtn"
-                                style="display: none; font-size: 12px"
-                                (click)="cancellaEvento()"
-                              >
-                                Modifica <i class="fas fa-edit"></i>
-                              </button>
-                            </div>
-
-                            <div class="col-6 text-right">
-                              <button
-                                class="btn btn-danger"
-                                id="eliminaEventoBtn"
-                                style="display: none; font-size: 12px"
-                                (click)="cancellaEvento()"
-                              >
-                                Elimina <i class="fas fa-trash"></i>
-                              </button>
-                            </div>
-                          </div>
+                        <div class="col-4 text-start">
+                          <button
+                            class="btn btn-warning"
+                            id="cancellaEventoBtn"
+                            style="display: none; font-size: 12px"
+                            (click)="cancellaEvento()"
+                          >
+                            Modifica <i class="fas fa-edit"></i>
+                          </button>
+                        </div>
+                        <div class="col-4 text-center">
+                          <button
+                            class="btn btn-success"
+                            id="creaEventoBtn"
+                            style="display: none; font-size: 12px"
+                            (click)="creaEvento()"
+                          >
+                            Salva <i class="fas fa-save"></i>
+                          </button>
+                        </div>
+                        <div class="col-4 text-end">
+                          <button
+                            class="btn btn-danger"
+                            id="eliminaEventoBtn"
+                            style="display: none; font-size: 12px"
+                            (click)="cancellaEvento()"
+                          >
+                            Elimina <i class="fas fa-trash"></i>
+                          </button>
                         </div>
                       </div>
                     </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </ng-container>
       <ng-container *ngIf="!getItem()">
