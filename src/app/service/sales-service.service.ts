@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
@@ -24,14 +24,35 @@ export class SalesServiceService {
 
   getPaginatedSalesArchive(
     page: number,
-    size: number
+    size: number,
+    date?: string,
+    customer?: string,
+    operator?: string,
+    flValidity?: string
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-
     const headers = new HttpHeaders().set('Authorization', tokenStr);
+
+    let params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+
+    if (date) {
+        params = params.set('date', date);
+    }
+    if (customer) {
+        params = params.set('customer', customer);
+    }
+    if (operator) {
+        params = params.set('operator', operator);
+    }
+    if (flValidity) {
+        params = params.set('flValidity', flValidity);
+    }
+
     return this.httpClient.get<Object[]>(
-      `${this.apiUrl}userSale/getPaginatedSalesArchive?page=${page}&size=${size}`,
-      { headers, observe: 'response' }
+      `${this.apiUrl}userSale/getPaginatedSalesArchive`,
+      { headers, observe: 'response', params: params }
     );
   }
 

@@ -60,6 +60,11 @@ const routes: Routes = [
         data: { breadcrumb: 'Negozio / Servizi' },
       },
       {
+        path: 'shop-invoices',
+        component: ScShopInvoicesComponent,
+        data: { breadcrumb: 'Negozio / Fatture negozio' },
+      },
+      {
         path: 'product-scanner',
         component: CaScanComponent,
         data: { breadcrumb: 'Magazzino / Scanner Prodotti' },
@@ -108,11 +113,6 @@ const routes: Routes = [
         path: 'staff-performance',
         component: ScStaffPerformanceComponent,
         data: { breadcrumb: 'Statistiche / Andamento personale (dipendenti)' },
-      },
-      {
-        path: 'shop-invoices',
-        component: ScShopInvoicesComponent,
-        data: { breadcrumb: 'Statistiche / Fatture negozio' },
       },
     ],
   },

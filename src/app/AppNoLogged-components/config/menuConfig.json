@@ -33,6 +33,11 @@
         "label": "Servizi",
         "url": "services-management",
         "icon": "fa-solid fa-person-booth fa-lg"
+      },
+      {
+        "label": "Fatture negozio",
+        "url": "shop-invoices",
+        "icon": "fa-solid fa-file-lines fa-lg"
       }
     ]
   },
@@ -107,11 +112,6 @@
         "label": "Andamento personale (dipendenti)",
         "url": "staff-performance",
         "icon": "fa-solid fa-users fa-lg"
-      },
-      {
-        "label": "Fatture negozio",
-        "url": "shop-invoices",
-        "icon": "fa-solid fa-file-lines fa-lg"
       }
     ]
   }
