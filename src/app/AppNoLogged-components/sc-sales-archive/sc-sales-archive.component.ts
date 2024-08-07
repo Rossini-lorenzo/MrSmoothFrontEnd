@@ -8,6 +8,7 @@ import {
   CustomerListModel,
   CustomerModel,
   EmployeeListModel,
+  SaleListModel,
 } from 'src/app/sc-models/sc-models';
 import { CustomersServiceService } from 'src/app/service/customers-service.service';
 import { EmployeesServiceService } from 'src/app/service/employees-service.service';

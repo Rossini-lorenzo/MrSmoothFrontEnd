@@ -24,6 +24,14 @@
           (click)="isFiltersVisible = !isFiltersVisible"
         >
           {{ !isFiltersVisible ? "Apri ricerca" : "Chiudi ricerca" }}
+          <i
+            [ngClass]="{
+              'fa-solid': true,
+              'fa-magnifying-glass': !isFiltersVisible,
+              'fa-xmark': isFiltersVisible,
+              'ms-1': true
+            }"
+          ></i>
         </button>
       </div>
       <div
@@ -118,6 +126,7 @@
           [disabled]="filtersForm.pristine"
         >
           Annulla
+          <i class="fa-solid fa-xmark ms-1"></i>
         </button>
         <button
           type="button"
@@ -126,6 +135,7 @@
           [disabled]="filtersForm.pristine"
         >
           Cerca
+          <i class="fa-solid fa-magnifying-glass ms-1"></i>
         </button>
       </div>
     </form>
@@ -303,6 +313,7 @@
                 (click)="getPreviousPage()"
                 [disabled]="currentPage === 1"
               >
+                <i class="fa-solid fa-arrow-left mr-1"></i>
                 Precedente
               </button>
             </li>
@@ -333,6 +344,7 @@
                 [disabled]="currentPage === totalPages"
               >
                 Successivo
+                <i class="fa-solid fa-arrow-right ms-1"></i>
               </button>
             </li>
           </ul>
