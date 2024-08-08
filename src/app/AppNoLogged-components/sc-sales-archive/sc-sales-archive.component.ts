@@ -1,9 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import {
   CustomerListModel,
   CustomerModel,
@@ -204,81 +200,18 @@ export class ScSalesArchiveComponent implements OnInit {
     return `${day}/${month}/${year}`;
   }
 
-  // getPreviousPage(): void {
-  //   if (this.currentPage > 1) {
-  //     this.currentPage--;
-  //     this.getPaginatedSalesArchive();
-  //   }
-  // }
-
-  // getNextPage(): void {
-  //   if (this.currentPage < this.totalPages) {
-  //     this.currentPage++;
-  //     this.getPaginatedSalesArchive();
-  //   }
-  // }
-
-  // getPagesData(page: number): void {
-  //   this.currentPage = page;
-  //   this.getPaginatedSalesArchive();
-  // }
-
-  getPagesData(page: number): void {
+  navigateToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
-    const date = this.filtersForm.get('date')?.value ?? null;
-    const customer = this.filtersForm.get('customer')?.value ?? null;
-    const operator = this.filtersForm.get('operator')?.value ?? null;
-    const validity = this.filtersForm.get('flValidity')?.value ?? null;
-    
-    // Trova il nome e il cognome dell'operatore dalla lista se necessario
+    const { date, customer, operator, flValidity } = this.filtersForm.value;
     const selectedOperator = this.employeeList.find(
       (emp) => emp.id === operator
     );
     const operatorName = selectedOperator
       ? `${selectedOperator.nome} ${selectedOperator.cognome}`
       : undefined;
-    
-    this.getPaginatedSalesArchive(date, customer, operatorName, validity);
+    this.getPaginatedSalesArchive(date, customer, operatorName, flValidity);
   }
-
-  getPreviousPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      const date = this.filtersForm.get('date')?.value ?? null;
-      const customer = this.filtersForm.get('customer')?.value ?? null;
-      const operator = this.filtersForm.get('operator')?.value ?? null;
-      const validity = this.filtersForm.get('flValidity')?.value ?? null;
-      
-      const selectedOperator = this.employeeList.find(
-        (emp) => emp.id === operator
-      );
-      const operatorName = selectedOperator
-        ? `${selectedOperator.nome} ${selectedOperator.cognome}`
-        : undefined;
-      
-      this.getPaginatedSalesArchive(date, customer, operatorName, validity);
-    }
-  }
-  
-  getNextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      const date = this.filtersForm.get('date')?.value ?? null;
-      const customer = this.filtersForm.get('customer')?.value ?? null;
-      const operator = this.filtersForm.get('operator')?.value ?? null;
-      const validity = this.filtersForm.get('flValidity')?.value ?? null;
-      
-      const selectedOperator = this.employeeList.find(
-        (emp) => emp.id === operator
-      );
-      const operatorName = selectedOperator
-        ? `${selectedOperator.nome} ${selectedOperator.cognome}`
-        : undefined;
-      
-      this.getPaginatedSalesArchive(date, customer, operatorName, validity);
-    }
-  }
-  
 
   customerValidator(control: AbstractControl) {
     const value = control.value?.toLowerCase();

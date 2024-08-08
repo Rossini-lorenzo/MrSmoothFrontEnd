@@ -301,23 +301,20 @@
             </ng-container>
           </tbody>
         </table>
-        <nav
-          *ngIf="!isLoading && totalPages > 0"
-          aria-label="Page navigation example"
-        >
+        <nav *ngIf="!isLoading && totalPages > 0" aria-label="Page navigation example">
           <ul class="pagination justify-content-center pt-3">
             <!-- Pulsante "Precedente" -->
             <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
               <button
                 class="page-link"
-                (click)="getPreviousPage()"
+                (click)="navigateToPage(currentPage - 1)"
                 [disabled]="currentPage === 1"
               >
                 <i class="fa-solid fa-arrow-left mr-1"></i>
                 Precedente
               </button>
             </li>
-
+        
             <!-- Numeri di pagina -->
             <li
               *ngFor="let page of pages"
@@ -326,21 +323,18 @@
             >
               <button
                 class="page-link"
-                (click)="getPagesData(page)"
-                [disabled]="totalPages === 1"
+                (click)="navigateToPage(page)"
+                [disabled]="currentPage === page"
               >
                 {{ page }}
               </button>
             </li>
-
+        
             <!-- Pulsante "Successivo" -->
-            <li
-              class="page-item"
-              [ngClass]="{ disabled: currentPage === totalPages }"
-            >
+            <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }">
               <button
                 class="page-link"
-                (click)="getNextPage()"
+                (click)="navigateToPage(currentPage + 1)"
                 [disabled]="currentPage === totalPages"
               >
                 Successivo
@@ -349,6 +343,7 @@
             </li>
           </ul>
         </nav>
+        
       </div>
     </div>
   </div>
