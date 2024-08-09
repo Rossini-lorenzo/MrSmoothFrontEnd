@@ -104,7 +104,7 @@ export class ScStaffManagementComponent implements OnInit {
       .subscribe({
         next: (response: string) => {
           this.alertMessageType = "SUCCESS";
-          this.onShowAlert(response);
+          this.onShowAlert("Dipendente aggiunto con succeso");
         },
         error: (error) => {
           this.isLoading = false;
