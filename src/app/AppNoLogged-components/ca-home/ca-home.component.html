@@ -160,7 +160,7 @@
       class="row d-flex align-items-center"
       style="background-color: white; border-bottom: 1px solid #dfdfdf"
     >
-      <div class="col-2">
+      <div class="col-3 col-xl-2">
         <!-- Logo -->
         <a class="navbar-brand" href="#">
           <img
@@ -168,7 +168,7 @@
             alt="Logo"
             width="50"
             height="50"
-            class="me-3"
+            class="me-2"
             style="height: 50px; width: 50px; border-radius: 50%"
           />
           <span class="logo_name" style="font-size: 18px">Smart Control</span>
@@ -187,7 +187,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
-      <div class="col-4">
+      <div class="col-3 col-xl-4">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs">
@@ -196,37 +196,29 @@
           </ol>
         </nav>
       </div>
-      <div class="col-2 d-flex justify-content-end align-items-center">
-      </div>
-      <div class="col-3 d-flex justify-content-end align-items-center">
-        <i class="fas fa-store" style="margin-right: 8px; "></i> <!-- Icona dello shop -->
-        
+      <!-- <div class="col-2 d-flex justify-content-end align-items-center">
+      </div> -->
+      <div class="d-flex align-items-center justify-content-end col-5">
+        <i *ngIf="shops.length > 1" class="fa-solid fa-store fa-lg me-2"></i>
+        <!-- Icona dello shop -->
         <select
+          *ngIf="shops.length > 1"
           id="serviceSelect"
-          class="form-select"
+          class="form-select me-3"
           [(ngModel)]="selectedShop"
           (ngModelChange)="onShopChange($event)"
-
-          style="font-size: 11px;width: 150px;height: 30px;margin-right: 8px;"
+          style="font-size: 14px; width: 200px; height: 30px; margin-right: 8px"
         >
-          <option
-            *ngFor="let shop of shops"
-            [value]="shop.shopId"
-          >
+          <option *ngFor="let shop of shops" [value]="shop.shopId">
             {{ shop.shopName.toUpperCase() }}
           </option>
         </select>
-      
-      
-
-
-        <span id="companyName" class="fw-bold" style="font-size: 11px; display: flex; align-items: center;">
-          <i class="fa-solid fa-user me-2" style="font-size: 16px;"></i>
+        <span id="companyName" class="fw-bold">
+          <i class="fa-solid fa-user fa-lg me-2"></i>
           {{ companyName.toUpperCase() }}
         </span>
       </div>
-      
-      
+
       <!-- 
       <div class="col-2 d-flex justify-content-center position-relative">
         <button
@@ -298,14 +290,14 @@
                 [attr.aria-labelledby]="'heading' + index"
               >
                 <div
-                *ngFor="let link of menuItem.links; let linkIndex = index"
-                class="accordion-body sc-secondary border"
-                style="cursor: pointer"
-                [class.selected]="selectedLink === link"
-                (click)="selectLink(link)"
-                (keydown.enter)="selectLink(link)"
-                tabindex="0"
-                [routerLink]="link.url"
+                  *ngFor="let link of menuItem.links; let linkIndex = index"
+                  class="accordion-body sc-secondary border"
+                  style="cursor: pointer"
+                  [class.selected]="selectedLink === link"
+                  (click)="selectLink(link)"
+                  (keydown.enter)="selectLink(link)"
+                  tabindex="0"
+                  [routerLink]="link.url"
                 >
                   <div class="row">
                     <div class="col-10">
