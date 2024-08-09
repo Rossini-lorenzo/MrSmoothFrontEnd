@@ -213,7 +213,7 @@
             *ngFor="let shop of shops"
             [value]="shop.shopId"
           >
-            {{ shop.shopName }}
+            {{ shop.shopName.toUpperCase() }}
           </option>
         </select>
       
@@ -222,7 +222,7 @@
 
         <span id="companyName" class="fw" style="font-size: 11px; display: flex; align-items: center;">
           <i class="fa-solid fa-user me-2" style="font-size: 16px;"></i>
-          {{ companyName }}
+          {{ companyName.toUpperCase() }}
         </span>
       </div>
       
