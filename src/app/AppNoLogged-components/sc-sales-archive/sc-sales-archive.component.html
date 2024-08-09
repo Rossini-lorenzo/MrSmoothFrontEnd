@@ -24,6 +24,14 @@
           (click)="isFiltersVisible = !isFiltersVisible"
         >
           {{ !isFiltersVisible ? "Apri ricerca" : "Chiudi ricerca" }}
+          <i
+            [ngClass]="{
+              'fa-solid': true,
+              'fa-magnifying-glass': !isFiltersVisible,
+              'fa-xmark': isFiltersVisible,
+              'ms-1': true
+            }"
+          ></i>
         </button>
       </div>
       <div
@@ -118,6 +126,7 @@
           [disabled]="filtersForm.pristine"
         >
           Annulla
+          <i class="fa-solid fa-xmark ms-1"></i>
         </button>
         <button
           type="button"
@@ -126,6 +135,7 @@
           [disabled]="filtersForm.pristine"
         >
           Cerca
+          <i class="fa-solid fa-magnifying-glass ms-1"></i>
         </button>
       </div>
     </form>
@@ -291,22 +301,20 @@
             </ng-container>
           </tbody>
         </table>
-        <nav
-          *ngIf="!isLoading && totalPages > 0"
-          aria-label="Page navigation example"
-        >
+        <nav *ngIf="!isLoading && totalPages > 0" aria-label="Page navigation example">
           <ul class="pagination justify-content-center pt-3">
             <!-- Pulsante "Precedente" -->
             <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
               <button
                 class="page-link"
-                (click)="getPreviousPage()"
+                (click)="navigateToPage(currentPage - 1)"
                 [disabled]="currentPage === 1"
               >
+                <i class="fa-solid fa-arrow-left mr-1"></i>
                 Precedente
               </button>
             </li>
-
+        
             <!-- Numeri di pagina -->
             <li
               *ngFor="let page of pages"
@@ -315,28 +323,27 @@
             >
               <button
                 class="page-link"
-                (click)="getPagesData(page)"
-                [disabled]="totalPages === 1"
+                (click)="navigateToPage(page)"
+                [disabled]="currentPage === page"
               >
                 {{ page }}
               </button>
             </li>
-
+        
             <!-- Pulsante "Successivo" -->
-            <li
-              class="page-item"
-              [ngClass]="{ disabled: currentPage === totalPages }"
-            >
+            <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }">
               <button
                 class="page-link"
-                (click)="getNextPage()"
+                (click)="navigateToPage(currentPage + 1)"
                 [disabled]="currentPage === totalPages"
               >
                 Successivo
+                <i class="fa-solid fa-arrow-right ms-1"></i>
               </button>
             </li>
           </ul>
         </nav>
+        
       </div>
     </div>
   </div>

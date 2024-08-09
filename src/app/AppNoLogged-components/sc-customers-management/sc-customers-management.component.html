@@ -104,6 +104,7 @@
         (click)="openModal('ADD')"
       >
         Aggiungi Cliente
+        <i class="fa-solid fa-plus ms-1"></i>
       </button>
     </div>
 
@@ -268,6 +269,7 @@
           (click)="onSubmit()"
         >
           Salva
+          <i class="fa-solid fa-save ms-1"></i>
         </button>
         <button
           *ngIf="modalActionType === 'DELETE'"
@@ -276,6 +278,7 @@
           (click)="onSubmit()"
         >
           Cancella
+          <i class="fa-solid fa-trash ms-1"></i>
         </button>
       </div>
     </app-sc-modal>

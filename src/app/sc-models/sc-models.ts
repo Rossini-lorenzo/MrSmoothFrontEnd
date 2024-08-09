@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { number, z } from 'zod';
 
 export const LoginSchema = z.object({
   username: z.string(),
@@ -66,6 +66,7 @@ export const SaleReceiptSchema = z.object({
 export const SaleReceiptListSchema = z.array(SaleReceiptSchema);
 
 export const SaleSchema = z.object({
+  id: z.number(),
   date: z.string(),
   operator: z.number(),
   customer: z.number(),
