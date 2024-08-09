@@ -14,10 +14,11 @@ export class SalesServiceService {
 
   getTodaySales(): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
 
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'userSale/getTodaySales',
+      this.apiUrl + 'userSale/getTodaySales?piva='+piva,
       { headers, observe: 'response' }
     );
   }
@@ -31,6 +32,8 @@ export class SalesServiceService {
     flValidity?: string
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
+
     const headers = new HttpHeaders().set('Authorization', tokenStr);
 
     let params = new HttpParams()
@@ -51,16 +54,18 @@ export class SalesServiceService {
     }
 
     return this.httpClient.get<Object[]>(
-      `${this.apiUrl}userSale/getPaginatedSalesArchive`,
+      `${this.apiUrl}userSale/getPaginatedSalesArchive?piva=`+piva,
       { headers, observe: 'response', params: params }
     );
   }
 
   addSale(sale: any): Observable<HttpResponse<any>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const piva = localStorage.getItem('piva');
+
     const headers = new HttpHeaders().set('Authorization', tokenStr);
 
-    return this.httpClient.post(this.apiUrl + 'userSale/newSale', sale, {
+    return this.httpClient.post(this.apiUrl + 'userSale/newSale?piva='+piva, sale, {
       headers: headers,
       observe: 'response',
       responseType: 'text' as 'json', // Necessario per evitare conflitti di tipo

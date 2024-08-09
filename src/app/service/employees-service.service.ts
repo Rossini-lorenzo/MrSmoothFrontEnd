@@ -14,11 +14,11 @@ export class EmployeesServiceService {
 
   getAllEmployeeAPI(): Observable<EmployeeListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-    const piva = localStorage.getItem('piva');
+    const shopId = localStorage.getItem('shopId');
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<EmployeeListModel>(
       this.apiUrl + 'userProduct/getAllEmployee'+
-      '?piva='+piva,
+      '?shopId='+shopId,
       { headers }
     );
   }
@@ -33,6 +33,7 @@ export class EmployeesServiceService {
     dataAssunzione: string
   ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId : any  = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -51,7 +52,7 @@ export class EmployeesServiceService {
         '&dataScadenzaContratto=' +
         dataScadenzaContratto +
         '&dataAssunzione=' +
-        dataAssunzione,
+        dataAssunzione+'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -67,7 +68,7 @@ export class EmployeesServiceService {
     dataAssunzione: string
   ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
-    let piva : any  = localStorage.getItem('piva');
+    const shopId : any  = localStorage.getItem('shopId');
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
@@ -84,7 +85,7 @@ export class EmployeesServiceService {
         dataScadenzaContratto +
         '&dataAssunzione=' +
         dataAssunzione
-        +'&piva='+piva,
+        +'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -94,11 +95,12 @@ export class EmployeesServiceService {
 
   deleteEmployee(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId : any  = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      this.apiUrl + 'userProduct/deleteEmployee?id=' + id,
+      this.apiUrl + 'userProduct/deleteEmployee?id=' + id+'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );

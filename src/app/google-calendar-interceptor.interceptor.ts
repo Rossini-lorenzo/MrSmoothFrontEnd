@@ -1,41 +1,38 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 
-@Injectable()
-export class GoogleCalendarInterceptor implements HttpInterceptor {
+export const googleCalendarInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+  const router = inject(Router);
 
-  constructor(private router: Router) {}
+  if (req.url.includes('/googleCalendar')) {
+    console.log('Intercepted request to Google Calendar:', req.url);
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Intercetta solo le richieste che vanno verso il controller di Google Calendar
-    if (req.url.startsWith('/googleCalendar')) {
-      // Puoi aggiungere logica specifica qui se necessario
-      console.log('Intercepted request to Google Calendar:', req.url);
+    return next(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // Controlla se l'errore è un errore 401 all'interno del corpo dell'errore
+        if (error.status === 500 && error.error && error.error.includes('401 Unauthorized')) {
+          console.log('Unauthorized request detected in error body. Redirecting to login.');
+          localStorage.removeItem('googleAuthCode');
+          router.navigate(['/smart-control/appointment-calendar']);
+        } else if (error.status === 401) {
+          // Se l'errore è direttamente 401, gestiscilo
+           localStorage.removeItem('googleAuthCode');
+          console.log('Unauthorized request. Redirecting to login.');
+          router.navigate(['/smart-control/appointment-calendar']);
+        } else if (error.status === 403) {
+          localStorage.removeItem('googleAuthCode');
+          console.error('Access forbidden:', error.message);
+          router.navigate(['/smart-control/appointment-calendar']);
 
-      // Esegui la richiesta senza modifiche
-      return next.handle(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.handleError(error);
-          return throwError(error);
-        })
-      );
-    }
-
-    // Passa la richiesta senza modifiche se non è diretta al controller di Google Calendar
-    return next.handle(req);
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.status === 401) {
-      // Gestisci l'errore 401, ad esempio reindirizzando l'utente al login
-      this.router.navigate(['/login']);
-    } else if (error.status === 403) {
-      // Gestisci l'errore 403 se necessario
-      console.error('Access forbidden:', error.message);
-    }
-    // Altri codici di errore possono essere gestiti qui
-  }
-}
+  return next(req);
+};

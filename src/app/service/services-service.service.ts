@@ -15,9 +15,11 @@ export class ServicesServiceService {
 
   getAllService(): Observable<ServiceListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
+
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<ServiceListModel>(
-      this.apiUrl + 'userProduct/getAllService',
+      this.apiUrl + 'userProduct/getAllService?shopId='+shopId,
       { headers }
     );
   }
@@ -28,6 +30,7 @@ export class ServicesServiceService {
     servicePrice: number,
   ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -38,7 +41,7 @@ export class ServicesServiceService {
         '&serviceName=' +
         serviceName +
         '&servicePrice=' +
-        servicePrice,
+        servicePrice+'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -49,6 +52,7 @@ export class ServicesServiceService {
     servicePrice: number,
   ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -57,7 +61,9 @@ export class ServicesServiceService {
         'userProduct/newService?serviceName=' +
         serviceName +
         '&servicePrice=' +
-        servicePrice,
+        servicePrice+
+        '&shopId='+
+        shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -65,11 +71,12 @@ export class ServicesServiceService {
 
   deleteService(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      this.apiUrl + 'userProduct/deleteService?id=' + id,
+      this.apiUrl + 'userProduct/deleteService?id=' + id+'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );

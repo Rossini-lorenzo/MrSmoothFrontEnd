@@ -54,8 +54,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { authInterceptor } from './auth.interceptor';
-
-
+import {googleCalendarInterceptor} from './google-calendar-interceptor.interceptor'
 //Interceptor per jwt
 
 
@@ -112,7 +111,7 @@ import { authInterceptor } from './auth.interceptor';
     AuthGuard,
     { provide: LOCALE_ID, useValue: 'it-IT' },
     MatDialog,
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor,googleCalendarInterceptor])),
   ],
   bootstrap: [AppComponent],
 })

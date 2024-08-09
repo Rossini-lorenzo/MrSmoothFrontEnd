@@ -15,19 +15,21 @@ export class MessagesServiceService {
 
   getAllMessage(): Observable<Message[]> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
+
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<Message[]>(
-      this.apiUrl + 'userProduct/getAllMessage',
+      this.apiUrl + 'userProduct/getAllMessage?shopId='+shopId,
       { headers }
     );
   }
-
   updateMessage(
     id: number,
     messageName: string,
     messageText: string,
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -38,7 +40,8 @@ export class MessagesServiceService {
         '&messageName=' +
         messageName +
         '&messageText=' +
-        messageText,
+        messageText  +'&shopId='+shopId,
+
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -49,6 +52,7 @@ export class MessagesServiceService {
     messageText: string,
   ): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -57,7 +61,9 @@ export class MessagesServiceService {
         'userProduct/newMessage?messageName=' +
         messageName +
         '&messageText=' +
-        messageText,
+        messageText+
+        '&shopId='+
+        shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -65,11 +71,13 @@ export class MessagesServiceService {
 
   deleteMessage(id: number): Observable<HttpResponse<Object[]>> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      this.apiUrl + 'userProduct/deleteMessage?id=' + id,
+      this.apiUrl + 'userProduct/deleteMessage?id=' + id  +'&shopId='+shopId,
+
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );

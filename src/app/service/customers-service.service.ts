@@ -14,9 +14,11 @@ export class CustomersServiceService {
 
   getAllCustomer(): Observable<CustomerListModel> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
+
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     return this.httpClient.get<CustomerListModel>(
-      this.apiUrl + 'userProduct/getAllCustomer',
+      this.apiUrl + 'userProduct/getAllCustomer?shopId='+shopId,
       { headers }
     );
   }
@@ -30,6 +32,7 @@ export class CustomersServiceService {
     dataDiNascita: string
   ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -46,7 +49,7 @@ export class CustomersServiceService {
         '&cellulare=' +
         cellulare +
         '&dataNascita=' +
-        dataDiNascita,
+        dataDiNascita+'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -60,6 +63,7 @@ export class CustomersServiceService {
     dataDiNascita: string
   ): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
@@ -74,7 +78,9 @@ export class CustomersServiceService {
         '&cellulare=' +
         cellulare +
         '&dataNascita=' +
-        dataDiNascita,
+        dataDiNascita+
+        '&shopId='+
+        shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
@@ -82,11 +88,12 @@ export class CustomersServiceService {
 
   deleteCustomer(id: number): Observable<string> {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId = localStorage.getItem('shopId');
 
     const headers = new HttpHeaders().append('Authorization', tokenStr);
 
     return this.httpClient.post<any>(
-      this.apiUrl + 'userProduct/deleteCustomer?id=' + id,
+      this.apiUrl + 'userProduct/deleteCustomer?id=' + id+'&shopId='+shopId,
       null,
       { headers: headers, responseType: 'text' as 'json' }
     );
