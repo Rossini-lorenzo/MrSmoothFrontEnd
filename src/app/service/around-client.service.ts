@@ -58,7 +58,7 @@ export class AroundClientService {
       );
   }
 
-  public welcome(token: any, role: any, id: any,piva:any,companyName:any) {
+  public welcome(token: any, role: any, id: any,piva:any,companyName:any,googleAccessToken:any) {
     const tokenStr = 'Bearer ' + token;
     const headers = new HttpHeaders().set('Authorization', tokenStr);
     localStorage.setItem('token', token);
@@ -66,6 +66,10 @@ export class AroundClientService {
     localStorage.setItem('piva', piva);
     localStorage.setItem('id', id);
     localStorage.setItem('companyName', companyName);
+    localStorage.setItem('googleAccessToken',googleAccessToken); 
+
+
+
     console.log(localStorage.getItem("piva"));
     return this.httpClient.get<string>(this.apiUrl + 'products/welcome', {
       headers,
@@ -88,6 +92,8 @@ export class AroundClientService {
     localStorage.removeItem('piva');
     localStorage.removeItem('id');
     localStorage.removeItem('companyName');
+    localStorage.removeItem('googleAccessToken'); // Rimuovi anche il token di Google
+
 
   }
 

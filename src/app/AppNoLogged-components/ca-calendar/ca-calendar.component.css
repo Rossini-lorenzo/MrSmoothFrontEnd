@@ -195,3 +195,159 @@ a.fc-timeline-event.fc-h-event.fc-event.active-event {
 
 
 
+.profile-img {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 150px; /* Dimensione fissa */
+  height: 150px; /* Dimensione fissa */
+  display: block;
+}
+
+.employee-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0rem; /* Margine inferiore per separare gli elementi */
+  white-space: nowrap; /* Impedisce al testo di andare a capo */
+  overflow: hidden; /* Nasconde il testo che esce dal contenitore */
+}
+
+.employee-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem; /* Spazio tra il cerchio colorato e il testo */
+  margin-left: 0rem; /* Spazio tra il cerchio colorato e il testo */
+}
+
+.employee-text {
+  font-size: 10px; /* Riduci la dimensione del font */
+  text-overflow: ellipsis; /* Aggiunge "..." alla fine del testo se è troppo lungo */
+  overflow: hidden; /* Nasconde il testo che esce dal contenitore */
+  white-space: nowrap; /* Impedisce al testo di andare a capo */
+}
+
+
+/* colore calendario piccolo mat */
+::ng-deep .mat-calendar-body-selected {
+  background-color: #6aaad8 !important;
+  
+}
+::ng-deep .mat-calendar-body {
+  font-size: 10px; /* Dimensione del numero del giorno */
+  
+}
+
+
+::ng-deep .mat-calendar-body-selected .mat-calendar-body-label {
+  color: white; /* Modifica il colore del testo, se necessario */
+}
+/**/
+/* Pulsante di visualizzazione settimanale */
+
+/* Pulsante attivo */
+::ng-deep .fc-button.fc-button-primary {
+  background-color: #a3d7ff !important; /* Colore di sfondo per i pulsanti normali */
+  color: white !important; /* Colore del testo per i pulsanti normali */
+  border: none !important; /* Rimuove il bordo predefinito */
+}
+
+::ng-deep .fc-button.fc-button-primary:hover {
+  background-color: #4a8cbf !important; /* Colore di sfondo al passaggio del mouse */
+}
+
+::ng-deep .fc-button.fc-button-primary:not(:disabled).fc-button-active,
+::ng-deep .fc-button.fc-button-primary:not(:disabled):active {
+  background-color: #6aaad8 !important; /* Colore di sfondo quando attivo */
+  border-color: #6aaad8 !important; /* Colore del bordo quando attivo */
+  color: white !important; /* Colore del testo quando attivo */
+}
+
+
+/* Stili generali per l'intestazione dei giorni */
+::ng-deep .custom-day-header {
+  text-align: center;
+  font-family: 'Roboto', sans-serif; /* Usa il font di Google Calendar */
+  color: #333; /* Colore del testo simile a Google Calendar */
+  padding: 5px 0;
+}
+
+/* Stile per il numero del giorno */
+::ng-deep .custom-day-header .day-number {
+  font-size: 11px; /* Dimensione del numero del giorno */
+  font-weight: bold; /* Grassetto per il numero del giorno */
+  color: #000; /* Colore del numero del giorno */
+}
+
+/* Stile per il nome del giorno */
+::ng-deep .custom-day-header .day-name {
+  font-size: 9px; /* Dimensione del nome del giorno */
+  color: #666; /* Colore del nome del giorno */
+}
+
+/* Sfondo per l'intestazione del giorno */
+::ng-deep .fc-col-header-cell {
+  background-color: #ffffff; /* Colore di sfondo simile a Google Calendar */
+  border-bottom: 1px solid #ddd; /* Linea sottile per separare le intestazioni */
+}
+
+/* Stile per il titolo del mese e anno al centro della toolbar */
+::ng-deep.fc-toolbar-title {
+  font-size: 14px !important; /* Dimensione del font */
+  font-weight: bold !important; /* Grassetto per il testo */
+  color: #333 !important; /* Colore del testo */
+  font-family: 'Roboto', sans-serif !important; /* Font, se vuoi usare Roboto */
+}
+
+/* Aggiungi ulteriore stile se necessario */
+::ng-deep.fc-toolbar-chunk {
+  font-size: 14px !important; /* Dimensione del font per i chunk della toolbar */
+  font-weight: bold !important; /* Grassetto per i chunk della toolbar */
+}
+
+::ng-deep.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0.5em;
+}
+
+
+
+  /* Stile principale del pulsante con colore verde */
+  .btn-google-create-green {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #34a853; /* Verde Google */
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px; /* Bordi arrotondati */
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Transizione per colore e ombra */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombra scura */
+  }
+
+  /* Stile per l'icona */
+  .btn-google-create-green i {
+    font-size: 16px;
+    margin-right: 8px; /* Spazio tra icona e testo */
+  }
+
+  /* Effetto hover */
+  .btn-google-create-green:hover {
+    background-color: #2c8c47; /* Verde più scuro per hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Ombra più grande */
+  }
+
+  /* Effetto clic */
+  .btn-google-create-green:active {
+    background-color: #23773a; /* Ancora più scuro quando viene cliccato */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombra più piccola */
+  }
+
+  /* Focus per accessibilità */
+  .btn-google-create-green:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 168, 83, 0.5); /* Colore di focus */
+  }

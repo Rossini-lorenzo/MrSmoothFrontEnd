@@ -24,7 +24,7 @@ export class AuthService {
     localStorage.removeItem('piva');
     localStorage.removeItem('id');
     localStorage.removeItem('companyName');
-    localStorage.removeItem('google_access_token'); // Rimuovi anche il token di Google
+    localStorage.removeItem('googleAccessToken'); // Rimuovi anche il token di Google
     localStorage.removeItem('google_refresh_token');
   }
 
