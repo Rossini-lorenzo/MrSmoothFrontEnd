@@ -42,6 +42,13 @@ export class CaHomeComponent implements OnInit {
         const responseData = response.body; // Accesso al corpo della risposta
         console.log("Response data:", responseData); // Logga i dati ricevuti
         
+        if(responseData.googleEmail!=null &&responseData.googleName!=null &&responseData.googlePicture!=null ){
+          localStorage.setItem('googleEmail',responseData.googleEmail); 
+          localStorage.setItem('googleName',responseData.googleName); 
+          localStorage.setItem('googlePicture',responseData.googlePicture); 
+        }
+
+
           for (const sh of responseData.shops) {
             const shop = {
               shopId: sh.shopId,

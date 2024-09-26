@@ -121,6 +121,11 @@ export class ProductServiceService {
 
   getAllEvent(): Observable<HttpResponse<Object[]>> {
     //const tokenStr = 'Bearer ' + localStorage.getItem('token');
+
+      
+
+      
+
     const headers = new HttpHeaders();
     return this.httpClient.get<Object[]>(
       this.apiUrl + 'googleCalendar/get-events',
@@ -134,9 +139,19 @@ export class ProductServiceService {
       { responseType: 'text' as 'json' }
     );
   }
-  putCodeAuth(code: string): Observable<HttpResponse<Object[]>> {
+
+  getGoogleUserInfo(accessToken : string): Observable<any> {
     return this.httpClient.get<Object[]>(
-      this.apiUrl + 'googleCalendar/login/google?code=' + code,
+      this.apiUrl + 'googleCalendar/getUserInfo?accessToken='+accessToken,
+      { responseType: 'text' as 'json' }
+    );
+  }
+  putCodeAuth(code: string): Observable<HttpResponse<Object[]>> {
+    let userId = localStorage.getItem('id');
+    return this.httpClient.get<Object[]>(
+      
+
+      this.apiUrl + 'googleCalendar/login/google?code=' + code+'&userId='+userId,
       { observe: 'response' }
     );
   }
@@ -153,6 +168,8 @@ export class ProductServiceService {
     const tokenStr = 'Bearer ' + localStorage.getItem('token');
     const headers = new HttpHeaders().append('Authorization', tokenStr);
     const shopId = localStorage.getItem('shopId');
+    let userId = localStorage.getItem('id');
+
     return this.httpClient.post<any>(
       'http://localhost:8080/googleCalendar/create-event?&titolo=' +
         titolo +
@@ -169,7 +186,7 @@ export class ProductServiceService {
         '&idServizio=' +
         idServizio+
         '&shopId='+
-        shopId,
+        shopId+'&userId='+userId,
       null,
       { headers: headers, responseType: 'text' as 'json' } // Aggiunto observe: 'response' per ottenere l'intera risposta HTTP
     );
