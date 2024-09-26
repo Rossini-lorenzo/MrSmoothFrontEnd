@@ -72,6 +72,12 @@ export class ScSalesArchiveComponent implements OnInit {
 
   isFiltersVisible = false;
 
+  saleToDelete = 0;
+
+  modalTitle = '';
+  modalActionType = '';
+  isOpenModal = false;
+
   isOpen: boolean;
   customerFocused = false; // Variabile per tracciare il focus
   selectedCustomerId: number;
@@ -192,6 +198,25 @@ export class ScSalesArchiveComponent implements OnInit {
     });
   }
 
+  public deleteSale(id: number): void {
+    this.isLoading = true;
+    this.salesService.deleteSale(id).subscribe({
+      next: (response: string) => {
+        // this.alertMessageType = "SUCCESS";
+        // this.onShowAlert("Vendita eliminata con succeso");
+      },
+      error: (error) => {
+        this.isLoading = false;
+        //this.alertMessageType = "ERROR";
+        console.log(error.error);
+        //this.onShowAlert(error.error);
+      },
+      complete: () => {
+        this.getPaginatedSalesArchive();
+      },
+    });
+  }
+
   convertDate(dateString: string) {
     const parts = dateString.split('-');
     const year = parts[0];
@@ -286,4 +311,84 @@ export class ScSalesArchiveComponent implements OnInit {
 
     this.getPaginatedSalesArchive();
   }
+
+  openModal(actionType: string, selectedSale?: Sale) {
+    this.modalActionType = actionType;
+    if (selectedSale) this.saleToDelete = selectedSale.id;
+    this.isOpenModal = true;
+    this.setModalTitle();
+    //this.initializeForm(selectedSale);
+  }
+
+  // initializeForm(selectedEmployee?: EmployeeModel) {
+  //   switch (this.modalActionType) {
+  //     case 'EDIT':
+  //       if (selectedEmployee) this.selectedEmployee = { ...selectedEmployee };
+  //       this.form.patchValue({
+  //         nome: this.selectedEmployee.nome,
+  //         cognome: this.selectedEmployee.cognome,
+  //         cellulare: this.selectedEmployee.cellulare,
+  //         email: this.selectedEmployee.email,
+  //         dataAssunzione: this.selectedEmployee.dataAssunzione,
+  //         dataScadenzaContratto: this.selectedEmployee.dataScadenzaContratto,
+  //       });
+  //       break;
+  //     case 'ADD':
+  //       break;
+  //     case 'DELETE':
+  //       break;
+  //     default:
+  //       console.error('Azione non supportata');
+  //   }
+  // }
+
+  setModalTitle() {
+    switch (this.modalActionType) {
+      case 'EDIT':
+        this.modalTitle = 'Modifica Vendita';
+        break;
+      case 'ADD':
+        this.modalTitle = 'Aggiungi Dipendente';
+        break;
+      case 'DELETE':
+        this.modalTitle = 'Conferma Eliminazione';
+        break;
+      default:
+        this.modalTitle = '';
+    }
+  }
+
+  performAction() {
+    // Esegui azioni in base al tipo di azione
+    switch (this.modalActionType) {
+      case 'EDIT':
+        //this.updateEmployee();
+        break;
+      case 'ADD':
+        //this.addNewEmployee();
+        break;
+      case 'DELETE':
+        this.deleteSale(this.saleToDelete);
+        break;
+      default:
+        console.error('Azione non supportata');
+    }
+    this.closeModal();
+  }
+
+  closeModal() {
+    this.isOpenModal = false;
+    //this.onReset();
+  }
+
+  // onSubmit() {
+  //   this.submitted = true;
+
+  //   if (this.modalActionType === 'EDIT' || this.modalActionType === 'ADD') {
+  //     if (this.form.invalid) {
+  //       return;
+  //     }
+  //   }
+  //   this.performAction();
+  // }
 }

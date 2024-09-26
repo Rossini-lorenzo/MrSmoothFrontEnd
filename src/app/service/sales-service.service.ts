@@ -68,4 +68,17 @@ export class SalesServiceService {
       responseType: 'text' as 'json', // Necessario per evitare conflitti di tipo
     });
   }
+
+  deleteSale(id: number): Observable<string> {
+    const tokenStr = 'Bearer ' + localStorage.getItem('token');
+    const shopId : any  = localStorage.getItem('shopId');
+
+    const headers = new HttpHeaders().append('Authorization', tokenStr);
+
+    return this.httpClient.post<any>(
+      this.apiUrl + 'userSale/deleteSale?id=' + id+'&shopId='+shopId,
+      null,
+      { headers: headers, responseType: 'text' as 'json' }
+    );
+  }
 }

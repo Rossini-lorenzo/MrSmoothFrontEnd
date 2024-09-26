@@ -138,7 +138,7 @@ export class ScStaffManagementComponent implements OnInit {
       .subscribe({
         next: (response: string) => {
           this.alertMessageType = "SUCCESS";
-          this.onShowAlert(response);
+          this.onShowAlert("Dipendente modificato con succeso");
         },
         error: (error) => {
           this.isLoading = false;
@@ -156,11 +156,12 @@ export class ScStaffManagementComponent implements OnInit {
     this.employeeService.deleteEmployee(id).subscribe({
       next: (response: string) => {
         this.alertMessageType = "SUCCESS";
-        this.onShowAlert(response);
+        this.onShowAlert("Dipendente eliminato con succeso");
       },
       error: (error) => {
         this.isLoading = false;
         this.alertMessageType = "ERROR";
+        console.log(error.error);
         this.onShowAlert(error.error);
       },
       complete: () => {
